@@ -1,28 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
+using Player.GiftBullet;
 using UnityEngine;
 
-public class PlayerThrowGift : MonoBehaviour
+namespace Player
 {
-    public GameObject bulletPrefab;
-    PlayerMovement movePlayer;
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerThrowGift : MonoBehaviour
     {
-        movePlayer = GetComponent<PlayerMovement>();
-    }
+        [SerializeField] private GameObject bulletPrefab;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        private PlayerMovement _movePlayer;
+        private GiftController _giftController;
+        // Start is called before the first frame update
+        private void Start()
         {
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-            if (movePlayer.charDirection)
-                bullet.GetComponent<GiftController>().direction = 1;
-            else
-                bullet.GetComponent<GiftController>().direction = -1;
-            bullet.transform.parent = transform.parent;
+            _movePlayer = GetComponent<PlayerMovement>();
+            _giftController = GetComponent<GiftController>();
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                if (_movePlayer.ViewDirection)
+                    _giftController.Direction = 1;
+                else
+                    _giftController.Direction = -1;
+                bullet.transform.parent = transform.parent;
+            }
         }
     }
 }
+

@@ -1,196 +1,208 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+namespace Player
 {
-    public float rotationSpeed, jumpSpeed, gravity;
-
-    Vector3 startDirection;
-    float speedY;
-    bool doubleJump;
-    bool singleJump;
-    [SerializeField]
-
-    private bool dashed;
-    float dashTimer;
-    [SerializeField]
-    float dashDelay = 1f;
-    [SerializeField]
-    float dashDuration = 0.2f;
-    [SerializeField]
-    float dashSpeedMultiplier = 3f;
-
-    public bool charDirection;
-
-    CharacterController charControl;
-
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerMovement : MonoBehaviour
     {
-        // Store starting direction of the player with respect to the axis of the level
-        charControl = GetComponent<CharacterController>();
-        startDirection = transform.position - transform.parent.position;
-        startDirection.y = 0.1f;
-        startDirection.Normalize();
+        [Header("Movement Speed")]
+        [SerializeField] private float rotationSpeed;
+        
+        [Header("Jump Force")]
+        [SerializeField] private float jumpSpeed;
+        
+        [SerializeField] private float gravity;
+        
+        [SerializeField] private float dashDelay = 1f;
+        
+        [SerializeField] private float dashDuration = 0.2f;
+        
+        [SerializeField] private float dashSpeedMultiplier = 3f;
+        
+        
 
-        speedY = 0;
-        doubleJump = false;
-        singleJump = false;
+        
+        private bool _dashed;
 
-        charDirection = true; // true = right, false = left
+        private Vector3 _startDirection;
+        
+        private float _speedY;
+        
+        private bool _doubleJump;
+        
+        private bool _singleJump;
 
-        dashTimer = dashDelay + dashDuration; // To allow first dash
+        private float _dashTimer;
 
-    }
+        private CharacterController _charControl;
+        
+        public bool ViewDirection { get; private set; }
 
-    private void Update()
-    {
-        ManageInputs();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        ManageMovement();
-        ManageOrientation();
-        ManageJump();
-    }
-
-    void ManageInputs()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        // Start is called before the first frame update
+        private void Start()
         {
-            if (!dashed && dashTimer > (dashDuration + dashDelay))
+            // Store starting direction of the player with respect to the axis of the level
+            _charControl = GetComponent<CharacterController>();
+
+            var playerTransform = transform;
+            _startDirection = playerTransform.position - playerTransform.parent.position;
+            _startDirection.y = 0.1f;
+            _startDirection.Normalize();
+
+            _speedY = 0;
+            _doubleJump = false;
+            _singleJump = false;
+
+            ViewDirection = true; // true = right, false = left
+
+            _dashTimer = dashDelay + dashDuration; // To allow first dash
+
+        }
+
+        private void Update()
+        {
+            ManageInputs();
+        }
+
+        // Update is called once per frame
+        private void FixedUpdate()
+        {
+            ManageMovement();
+            ManageOrientation();
+            ManageJump();
+        }
+
+        private void ManageInputs()
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                dashed = true;
-                dashTimer = 0.0f;
+                if (!_dashed && _dashTimer > (dashDuration + dashDelay))
+                {
+                    _dashed = true;
+                    _dashTimer = 0.0f;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                if (_singleJump && !_doubleJump)
+                {
+                    _doubleJump = true;
+                }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        private void ManageMovement()
         {
-            if (singleJump && !doubleJump)
+            // Left-right movement
+
+            Vector3 target;
+
+            var position = transform.position;
+            var angle = rotationSpeed * Time.deltaTime;
+
+            _dashTimer += Time.deltaTime;
+            if (_dashed)
             {
-                doubleJump = true;
+                if (_dashTimer > dashDuration)
+                {
+                    _dashed = false;
+
+                }
+                else
+                {
+
+                    angle *= dashSpeedMultiplier;
+
+                }
             }
+
+            var direction = position - transform.parent.position;
+            if (Input.GetKey(KeyCode.A) || (_dashed && !ViewDirection))
+            {
+                target = transform.parent.position + Quaternion.AngleAxis(angle, Vector3.up) * direction;
+                ViewDirection = false;
+                if (_charControl.Move(target - position) != CollisionFlags.None)
+                {
+
+                    transform.position = position;
+                    Physics.SyncTransforms();
+                }
+            }
+
+            if (Input.GetKey(KeyCode.D) || (_dashed && ViewDirection))
+            {
+                target = transform.parent.position + Quaternion.AngleAxis(-angle, Vector3.up) * direction;
+                ViewDirection = true;
+                if (_charControl.Move(target - position) != CollisionFlags.None)
+                {
+                    transform.position = position;
+                    Physics.SyncTransforms();
+                }
+            }
+
         }
 
-
-
-    }
-
-    void ManageMovement()
-    {
-        Vector3 position;
-
-        // Left-right movement
-
-        float angle;
-        Vector3 direction, target;
-
-        position = transform.position;
-        angle = rotationSpeed * Time.deltaTime;
-
-        dashTimer += Time.deltaTime;
-        if (dashed)
+        private void ManageOrientation()
         {
-            if (dashTimer > dashDuration)
+            // Correct orientation of player
+            // Compute current direction
+            var playerTransform = transform;
+            var currentDirection = playerTransform.position - playerTransform.parent.position;
+            currentDirection.y = 0.0f;
+            currentDirection.Normalize();
+            // Change orientation of player accordingly
+            Quaternion orientation;
+            if ((_startDirection - currentDirection).magnitude < 1e-3)
+                orientation = Quaternion.AngleAxis(0.0f, Vector3.up);
+            else if ((_startDirection + currentDirection).magnitude < 1e-3)
+                orientation = Quaternion.AngleAxis(180.0f, Vector3.up);
+            else
+                orientation = Quaternion.FromToRotation(_startDirection, currentDirection);
+
+            orientation.eulerAngles = new Vector3(0.0f, orientation.eulerAngles.y, 0.0f);
+            transform.rotation = orientation;
+
+            if (!ViewDirection) transform.Rotate(Vector3.up, 180.0f);
+
+
+        }
+
+        private void ManageJump()
+        {
+            var position =
+                // Apply up-down movement
+                transform.position;
+            if (_charControl.Move(_speedY * Time.deltaTime * Vector3.up) != CollisionFlags.None)
             {
-                dashed = false;
+                transform.position = position;
+                Physics.SyncTransforms();
+            }
+
+            if (_charControl.isGrounded)
+            {
+                _doubleJump = false;
+                _singleJump = false;
+                if (_speedY < 0.0f)
+                    _speedY = 0.0f;
+                if (!_singleJump && Input.GetKey(KeyCode.W))
+                {
+                    _speedY = jumpSpeed;
+                    _singleJump = true;
+
+                }
 
             }
             else
-            {
+                _speedY -= gravity * Time.deltaTime;
 
-                angle *= dashSpeedMultiplier;
+            if (_singleJump && _doubleJump)
+            {
+                if (_speedY < 0.0f) _speedY = 0.0f;
+                _speedY = jumpSpeed;
+                _doubleJump = false;
+                _singleJump = false;
 
             }
-        }
-
-        direction = position - transform.parent.position;
-        if (Input.GetKey(KeyCode.A) || (dashed && !charDirection))
-        {
-            target = transform.parent.position + Quaternion.AngleAxis(angle, Vector3.up) * direction;
-            charDirection = false;
-            if (charControl.Move(target - position) != CollisionFlags.None)
-            {
-
-                transform.position = position;
-                Physics.SyncTransforms();
-            }
-        }
-        if (Input.GetKey(KeyCode.D) || (dashed && charDirection))
-        {
-            target = transform.parent.position + Quaternion.AngleAxis(-angle, Vector3.up) * direction;
-            charDirection = true;
-            if (charControl.Move(target - position) != CollisionFlags.None)
-            {
-                transform.position = position;
-                Physics.SyncTransforms();
-            }
-        }
-
-    }
-
-    void ManageOrientation()
-    {
-        // Correct orientation of player
-        // Compute current direction
-        Vector3 currentDirection = transform.position - transform.parent.position;
-        currentDirection.y = 0.0f;
-        currentDirection.Normalize();
-        // Change orientation of player accordingly
-        Quaternion orientation;
-        if ((startDirection - currentDirection).magnitude < 1e-3)
-            orientation = Quaternion.AngleAxis(0.0f, Vector3.up);
-        else if ((startDirection + currentDirection).magnitude < 1e-3)
-            orientation = Quaternion.AngleAxis(180.0f, Vector3.up);
-        else
-            orientation = Quaternion.FromToRotation(startDirection, currentDirection);
-
-        orientation.eulerAngles = new Vector3(0.0f, orientation.eulerAngles.y, 0.0f); // Corregeix un bug raro
-        transform.rotation = orientation;
-
-        if (!charDirection) transform.Rotate(Vector3.up, 180.0f);
-
-
-    }
-
-    void ManageJump()
-    {
-        Vector3 position;
-        // Apply up-down movement
-        position = transform.position;
-        if (charControl.Move(speedY * Time.deltaTime * Vector3.up) != CollisionFlags.None)
-        {
-            transform.position = position;
-            Physics.SyncTransforms();
-        }
-        if (charControl.isGrounded)
-        {
-            doubleJump = false;
-            singleJump = false;
-            if (speedY < 0.0f)
-                speedY = 0.0f;
-            if (!singleJump && Input.GetKey(KeyCode.W))
-            {
-                speedY = jumpSpeed;
-                singleJump = true;
-
-            }
-
-        }
-        else
-            speedY -= gravity * Time.deltaTime;
-
-        if (singleJump && doubleJump)
-        {
-            if (speedY < 0.0f) speedY = 0.0f;
-            speedY = jumpSpeed;
-            doubleJump = false;
-            singleJump = false;
-
         }
     }
 }

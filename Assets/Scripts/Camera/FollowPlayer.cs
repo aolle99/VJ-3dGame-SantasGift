@@ -1,39 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowPlayer : MonoBehaviour
+namespace Camera
 {
-    public GameObject player;
-
-    Vector3 startDirection;
-
-    // Start is called before the first frame update
-    void Start()
+    public class FollowPlayer : MonoBehaviour
     {
-        // Store starting direction of the player with respect to the axis of the level
-        startDirection = player.transform.position - player.transform.parent.position;
-        startDirection.y = 0.0f;
-        startDirection.Normalize();
-    }
+        [SerializeField] private GameObject player;
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.position = new Vector3(transform.position.x, player.transform.position.y + 3, transform.position.z);
-        // Compute current direction
-        Vector3 currentDirection = player.transform.position - player.transform.parent.position;
-        currentDirection.y = 0.0f;
-        currentDirection.Normalize();
-        // Change orientation of the camera pivot to match the player's
-        Quaternion orientation;
-        if ((startDirection - currentDirection).magnitude < 1e-3)
-            orientation = Quaternion.AngleAxis(0.0f, Vector3.up);
-        else if ((startDirection + currentDirection).magnitude < 1e-3)
-            orientation = Quaternion.AngleAxis(180.0f, Vector3.up);
-        else
-            orientation = Quaternion.FromToRotation(startDirection, currentDirection);
-        orientation.eulerAngles = new Vector3(0.0f, orientation.eulerAngles.y, 0.0f); // Corregeix un bug raro
-        transform.parent.rotation = orientation;
+        [SerializeField]
+        private float smoothness = 5.0f; // Ajusta este valor para controlar la suavidad del seguimiento
+
+        private Vector3 _startDirection;
+        private Transform _playerTransform;
+
+        // Start is called before the first frame update
+        private void Start()
+        {
+            if (player == null)
+            {
+                Debug.LogError("Player not assigned! Please assign the player GameObject in the inspector.");
+                return;
+            }
+
+            // Store starting direction of the player with respect to the axis of the level
+            _startDirection = player.transform.position - player.transform.parent.position;
+            _startDirection.y = 0.0f;
+            _startDirection.Normalize();
+
+            _playerTransform = player.transform;
+        }
+
+        // LateUpdate is called once per frame, after Update
+        private void LateUpdate()
+        {
+            // Smoothly interpolate camera position
+            var position = transform.position;
+            var playerPosition = _playerTransform.position;
+            var targetPosition = new Vector3(position.x, playerPosition.y + 3, position.z);
+            transform.position = Vector3.Lerp(position, targetPosition, smoothness * Time.deltaTime);
+
+            // Compute current direction
+            var currentDirection = playerPosition - player.transform.parent.position;
+            currentDirection.y = 0.0f;
+            currentDirection.Normalize();
+
+            // Smoothly interpolate camera rotation
+            Quaternion targetRotation;
+            if (Mathf.Approximately(Vector3.Distance(_startDirection, currentDirection), 0.0f))
+            {
+                targetRotation = Quaternion.identity;
+            }
+            else
+            {
+                targetRotation = Quaternion.FromToRotation(_startDirection, currentDirection);
+            }
+
+            var parent = transform.parent;
+            parent.rotation = Quaternion.Slerp(parent.rotation, targetRotation, smoothness * Time.deltaTime);
+        }
     }
 }
