@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallController : MonoBehaviour
+public class SnowmanBallController : MonoBehaviour
 {
     public int direction = 1;
     public float speed = 2.0f;
