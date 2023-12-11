@@ -41,7 +41,13 @@ public class BallController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (other.gameObject.tag == "Ground")
+        {
+            print("destroy ball");
+            Destroy(gameObject);
+        }
     }
+
 
     // Update is called once per frame
     void Update()

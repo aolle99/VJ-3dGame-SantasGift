@@ -7,6 +7,7 @@ public class SnowballMovement : MonoBehaviour
 {
     public float rotationSpeed;
     private float angle = 0f;
+    private bool left = false;
     Rigidbody rb;
     // Start is called before the first frame update
     void Start()
@@ -26,15 +27,18 @@ public class SnowballMovement : MonoBehaviour
         if (collision.gameObject.tag == "House")
         {
             print("House Collision");
+            left = !left;
         }
     }
 
-    void ManageMovement()
+    private void ManageMovement()
     {
         Vector3 position, direction, target;
 
         position = transform.position;
         direction = position - transform.parent.position;
+        angle = rotationSpeed * Time.deltaTime;
+        if (left) angle *= -1;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
         target = transform.parent.position + rotation * direction;
 
@@ -43,6 +47,11 @@ public class SnowballMovement : MonoBehaviour
         // Simulate rotation based on movement direction
         rb.transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
 
-        angle = rotationSpeed * Time.deltaTime;
+        
+    }
+
+    private void changeDirection()
+    {
+        angle *= -1;
     }
 }
