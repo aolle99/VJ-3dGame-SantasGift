@@ -43,11 +43,7 @@ public class SnowballMovement : MonoBehaviour
         target = transform.parent.position + rotation * direction;
 
         rb.Move(target, rotation);
-
-        // Simulate rotation based on movement direction
-        rb.transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-
-        
+        transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);       
     }
 
     private void changeDirection()

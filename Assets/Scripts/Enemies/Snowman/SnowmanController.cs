@@ -20,7 +20,7 @@ public class SnowmanController : MonoBehaviour
         {
             Vector3 ballPosition = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
             GameObject ball = Instantiate(ballPrefab, ballPosition, Quaternion.identity);
-            ball.GetComponent<BallController>().direction = 1;
+            ball.GetComponent<SnowmanBallController>().direction = 1;
             ball.transform.parent = transform.parent;
         }
     }
