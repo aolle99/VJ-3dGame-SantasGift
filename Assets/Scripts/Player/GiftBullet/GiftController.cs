@@ -18,7 +18,7 @@ namespace Player.GiftBullet
 
         public int Direction { private get; set; }
 
-        void Start()
+        private void Start()
         {
             var position = transform.position;
             _angle = Mathf.Atan2(position.z, position.x);
@@ -27,7 +27,7 @@ namespace Player.GiftBullet
         }
 
         // Update is called once per frame
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             // move bullet in a circle
             _angle += speed * Time.deltaTime * Direction;

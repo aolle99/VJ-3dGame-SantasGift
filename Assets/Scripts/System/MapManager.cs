@@ -9,7 +9,8 @@ namespace System
         
         public bool MapZoneInner {get; private set; }
         public float Radius { get; private set; }
-        void Start()
+
+        private void Start()
         {
             if (instance == null)
             {

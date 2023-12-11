@@ -4,14 +4,15 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Movement Speed")]
+        [Header("Move")]
         [SerializeField] private float rotationSpeed;
         
-        [Header("Jump Force")]
+        [Header("Jump")]
         [SerializeField] private float jumpSpeed;
         
         [SerializeField] private float gravity;
         
+        [Header("Dash")]
         [SerializeField] private float dashDelay = 1f;
         
         [SerializeField] private float dashDuration = 0.2f;

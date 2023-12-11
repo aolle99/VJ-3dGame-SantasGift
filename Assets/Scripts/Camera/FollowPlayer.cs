@@ -7,7 +7,7 @@ namespace Camera
         [SerializeField] private GameObject player;
 
         [SerializeField]
-        private float smoothness = 5.0f; // Ajusta este valor para controlar la suavidad del seguimiento
+        private float smoothness = 3.0f; // Ajusta este valor para controlar la suavidad del seguimiento
 
         private Vector3 _startDirection;
         private Transform _playerTransform;
@@ -15,11 +15,6 @@ namespace Camera
         // Start is called before the first frame update
         private void Start()
         {
-            if (player == null)
-            {
-                Debug.LogError("Player not assigned! Please assign the player GameObject in the inspector.");
-                return;
-            }
 
             // Store starting direction of the player with respect to the axis of the level
             _startDirection = player.transform.position - player.transform.parent.position;
@@ -35,7 +30,7 @@ namespace Camera
             // Smoothly interpolate camera position
             var position = transform.position;
             var playerPosition = _playerTransform.position;
-            var targetPosition = new Vector3(position.x, playerPosition.y + 3, position.z);
+            var targetPosition = new Vector3(position.x, playerPosition.y + 5, position.z);
             transform.position = Vector3.Lerp(position, targetPosition, smoothness * Time.deltaTime);
 
             // Compute current direction
