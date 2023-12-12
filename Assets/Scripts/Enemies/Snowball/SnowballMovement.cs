@@ -4,10 +4,11 @@ namespace Enemies.Snowball
 {
     public class SnowballMovement : MonoBehaviour
     {
-        public float rotationSpeed;
+        public float rotationSpeed, movementSpeed;
         private float angle = 0f;
         private bool left = false;
         Rigidbody rb;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -32,18 +33,23 @@ namespace Enemies.Snowball
 
         private void ManageMovement()
         {
-            Vector3 position, direction, target;
-
-            position = transform.position;
-            direction = position - transform.parent.position;
-            angle = rotationSpeed * Time.deltaTime;
+            Vector3 position = transform.position;
+            Vector3 direction = position - transform.parent.position;
+            angle = movementSpeed * Time.deltaTime;
             if (left) angle *= -1;
+            
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
-            target = transform.parent.position + rotation * direction;
+            Vector3 target = transform.parent.position + rotation * direction;
+            
+            float rotationY = Mathf.Atan2(target.z, target.x) * Mathf.Rad2Deg;
+            float rotationX = Mathf.Atan2(target.z, target.x) * Mathf.Rad2Deg * rotationSpeed;
+            print("rotationSpeed: " + rotationSpeed);
 
+            // Aplicar la rotación en ambos ejes
+            rotation = Quaternion.Euler(rotationX, -rotationY, 0f);
+            
             rb.Move(target, rotation);
-            transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);       
+            
         }
-
     }
 }
