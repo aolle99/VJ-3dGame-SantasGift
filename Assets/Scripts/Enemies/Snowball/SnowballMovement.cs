@@ -1,53 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class SnowballMovement : MonoBehaviour
+namespace Enemies.Snowball
 {
-    public float rotationSpeed;
-    private float angle = 0f;
-    private bool left = false;
-    Rigidbody rb;
-    // Start is called before the first frame update
-    void Start()
+    public class SnowballMovement : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        ManageMovement();
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-
-        if (collision.gameObject.tag == "House")
+        public float rotationSpeed;
+        private float angle = 0f;
+        private bool left = false;
+        Rigidbody rb;
+        // Start is called before the first frame update
+        void Start()
         {
-            print("House Collision");
-            left = !left;
+            rb = GetComponent<Rigidbody>();
         }
-    }
 
-    private void ManageMovement()
-    {
-        Vector3 position, direction, target;
+        // Update is called once per frame
+        void FixedUpdate()
+        {
+            ManageMovement();
+        }
 
-        position = transform.position;
-        direction = position - transform.parent.position;
-        angle = rotationSpeed * Time.deltaTime;
-        if (left) angle *= -1;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
-        target = transform.parent.position + rotation * direction;
+        private void OnCollisionEnter(Collision collision)
+        {
 
-        rb.Move(target, rotation);
-        transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);       
-    }
+            if (collision.gameObject.CompareTag("House"))
+            {
+                print("House Collision");
+                left = !left;
+            }
+        }
 
-    private void changeDirection()
-    {
-        angle *= -1;
+        private void ManageMovement()
+        {
+            Vector3 position, direction, target;
+
+            position = transform.position;
+            direction = position - transform.parent.position;
+            angle = rotationSpeed * Time.deltaTime;
+            if (left) angle *= -1;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            target = transform.parent.position + rotation * direction;
+
+            rb.Move(target, rotation);
+            transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);       
+        }
+
     }
 }

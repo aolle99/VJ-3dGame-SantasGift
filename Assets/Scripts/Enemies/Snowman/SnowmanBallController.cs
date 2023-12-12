@@ -1,57 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SnowmanBallController : MonoBehaviour
+namespace Enemies.Snowman
 {
-    public int direction = 1;
-    public float speed = 2.0f;
-    float angle = 0f;
-    public float ballDuration = 1f;
-    float lifeTime = 0f;
-    void Start()
+    public class SnowmanBallController : MonoBehaviour
     {
-        angle = Mathf.Atan2(transform.position.z, transform.position.x);
-    }
-
-    void FixedUpdate()
-    {
-        // move bullet in a circle
-        angle += speed * Time.deltaTime * direction;
-
-        float radius = 12.5f;
-
-        float x = Mathf.Cos(angle) * radius;
-        float z = Mathf.Sin(angle) * radius;
-
-        transform.position = new Vector3(x, transform.position.y, z);
-
-        lifeTime += Time.deltaTime;
-
-        if (lifeTime > ballDuration)
+        public int direction = 1;
+        public float speed = 2.0f;
+        float angle = 0f;
+        public float ballDuration = 1f;
+        float lifeTime = 0f;
+        void Start()
         {
-            print("destroy ball");
-            Destroy(gameObject);
+            angle = Mathf.Atan2(transform.position.z, transform.position.x);
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Santa")
+        void FixedUpdate()
         {
-            Destroy(gameObject);
+            // move bullet in a circle
+            angle += speed * Time.deltaTime * direction;
+
+            float radius = 12.5f;
+
+            float x = Mathf.Cos(angle) * radius;
+            float z = Mathf.Sin(angle) * radius;
+
+            transform.position = new Vector3(x, transform.position.y, z);
+
+            lifeTime += Time.deltaTime;
+
+            if (lifeTime > ballDuration)
+            {
+                print("destroy ball");
+                Destroy(gameObject);
+            }
         }
-        if (other.gameObject.tag == "Ground")
+
+        private void OnTriggerEnter(Collider other)
         {
-            print("destroy ball");
-            Destroy(gameObject);
+            if (other.gameObject.CompareTag("Santa"))
+            {
+                Destroy(gameObject);
+            }
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                print("destroy ball");
+                Destroy(gameObject);
+            }
         }
-    }
 
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
         
+        }
     }
 }

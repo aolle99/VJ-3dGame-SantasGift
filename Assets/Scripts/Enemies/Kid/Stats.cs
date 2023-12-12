@@ -1,41 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Stats : MonoBehaviour
+namespace Enemies.Kid
 {
-    public bool shield;
-    public int gifts = 0;
-    public int giftsNeeded = 3;
-    // Start is called before the first frame update
-    void Start()
+    public class Stats : MonoBehaviour
     {
-        shield = true;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Gift")
+        public bool shield;
+        public int gifts = 0;
+        public int giftsNeeded = 3;
+        // Start is called before the first frame update
+        void Start()
         {
-            if(shield)
+            shield = true;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Gift"))
             {
-                shield = false;
-                print("Shield Lost");
-            }
-            else
-            {
-                gifts++;
-                if (gifts == giftsNeeded)
+                if(shield)
                 {
-                    Destroy(gameObject);
+                    shield = false;
+                    print("Shield Lost");
+                }
+                else
+                {
+                    gifts++;
+                    if (gifts == giftsNeeded)
+                    {
+                        Destroy(gameObject);
+                    }
                 }
             }
         }
-    }
     
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
      
+        }
     }
 }

@@ -2,80 +2,84 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KidMovement : MonoBehaviour
+namespace Enemies.Kid
 {
-    public float rotationSpeed, gravityScale, fallingGravityScale, jumpForce;
-    private float angle = 0f;
-    Rigidbody rb;
-
-    // Start is called before the first frame update
-    void Start()
+    public class KidMovement : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void ManageMovement()
-    {
-        Vector3 position, direction, target;
-
-        position = transform.position;
-        direction = position - transform.parent.position;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
-        target = transform.parent.position + rotation * direction;
-        
-        rb.Move(target, rotation);
-
-        angle = rotationSpeed * Time.deltaTime;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        
-        if (collision.gameObject.tag == "House")
-        {
-            print("House Collision");
-        }
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "House")
-        {
-            //print("House Trigger");
-            manageJump();
-        }
-    }
+        public float rotationSpeed, gravityScale, fallingGravityScale, jumpForce;
+        private float angle = 0f;
+        Rigidbody rb;
     
-    void manageJump()
-    {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-    }
-
-    void FixedUpdate()
-    {
-        ManageMovement();
-        ApplyGravity();
-    }
-
-    void ApplyGravity()
-    {
-        
-        if (rb.velocity.y < 0)
+        // Start is called before the first frame update
+        void Start()
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * (fallingGravityScale - 1f) * Time.deltaTime;
+            rb = GetComponent<Rigidbody>();
+        }
+    
+        // Update is called once per frame
+        void Update()
+        {
             
         }
-        else if (rb.velocity.y > 0)
+    
+        void ManageMovement()
         {
-            rb.velocity += Vector3.up * Physics.gravity.y * (gravityScale - 1f) * Time.deltaTime; 
+            Vector3 position, direction, target;
+    
+            position = transform.position;
+            Vector3 parentPosition = transform.parent.position;
+            direction = position - parentPosition;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            target = parentPosition + rotation * direction;
+            
+            rb.Move(target, rotation);
+    
+            angle = rotationSpeed * Time.deltaTime;
         }
+    
+        private void OnCollisionEnter(Collision collision)
+        {
+            
+            if (collision.gameObject.CompareTag("House"))
+            {
+                print("House Collision");
+            }
+            
+        }
+    
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("House"))
+            {
+                //print("House Trigger");
+                ManageJump();
+            }
+        }
+        
+        void ManageJump()
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    
+        void FixedUpdate()
+        {
+            ManageMovement();
+            ApplyGravity();
+        }
+    
+        void ApplyGravity()
+        {
+            if (rb.velocity.y < 0)
+            {
+                rb.velocity += Vector3.up * (Physics.gravity.y * (fallingGravityScale - 1f) * Time.deltaTime);
+                
+            }
+            else if (rb.velocity.y > 0)
+            {
+                rb.velocity += Vector3.up * (Physics.gravity.y * (gravityScale - 1f) * Time.deltaTime); 
+            }
+        }
+    
     }
 
 }
