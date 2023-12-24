@@ -7,7 +7,7 @@ namespace Camera
         [SerializeField] private GameObject player;
 
         [SerializeField]
-        private float smoothness = 3.0f; // Ajusta este valor para controlar la suavidad del seguimiento
+        private float smoothness = 5.0f; // Ajusta este valor para controlar la suavidad del seguimiento
 
         private Vector3 _startDirection;
         private Transform _playerTransform;

@@ -1,11 +1,15 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
+    [RequireComponent(typeof(CharacterController))]
     public class PlayerMovement : MonoBehaviour
     {
         [Header("Move")]
-        [SerializeField] private float rotationSpeed;
+        [SerializeField] private float maxRotationSpeed;
+        [SerializeField] private float accelerationFactor;
+        [SerializeField] private float decelerationFactor;
         
         [Header("Jump")]
         [SerializeField] private float jumpSpeed;
@@ -18,9 +22,15 @@ namespace Player
         [SerializeField] private float dashDuration = 0.2f;
         
         [SerializeField] private float dashSpeedMultiplier = 3f;
-        
-        
 
+        [Header("Objects")] 
+        //[SerializeField] private GameObject animatorObject;
+        
+        [SerializeField] private InputActionAsset playerActions;
+        
+        private float _inputMove;
+        
+        private float _moveAcceleration;
         
         private bool _dashed;
 
@@ -35,7 +45,18 @@ namespace Player
         private float _dashTimer;
 
         private CharacterController _charControl;
+
+        private Animator anim;
         
+        private InputAction _walkAction;
+        
+        private float _radio = 1.0f;
+        
+        //Animator parameters
+        
+        private static readonly int Direction = Animator.StringToHash("direction");
+        private static readonly int Speed = Animator.StringToHash("speed");
+
         public bool ViewDirection { get; private set; }
 
         // Start is called before the first frame update
@@ -45,7 +66,8 @@ namespace Player
             _charControl = GetComponent<CharacterController>();
 
             var playerTransform = transform;
-            _startDirection = playerTransform.position - playerTransform.parent.position;
+            var parent = playerTransform.parent;
+            _startDirection = playerTransform.position - parent.position;
             _startDirection.y = 0.1f;
             _startDirection.Normalize();
 
@@ -57,6 +79,23 @@ namespace Player
 
             _dashTimer = dashDelay + dashDuration; // To allow first dash
 
+            anim = GetComponentInChildren<Animator>();
+            
+            _walkAction = playerActions.FindActionMap("Player").FindAction("Walk");
+            
+            _radio = Vector3.Distance(transform.position, parent.position);
+            print(_radio);
+
+        }
+        
+        private void OnEnable()
+        {
+            playerActions.Enable();
+        }
+        
+        private void OnDisable()
+        {
+            playerActions.Disable();
         }
 
         private void Update()
@@ -74,6 +113,12 @@ namespace Player
 
         private void ManageInputs()
         {
+            _inputMove = _walkAction.ReadValue<float>();
+            
+           
+            
+            if(_inputMove != 0) ViewDirection = _inputMove > 0;
+            
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 if (!_dashed && _dashTimer > (dashDuration + dashDelay))
@@ -94,12 +139,21 @@ namespace Player
 
         private void ManageMovement()
         {
-            // Left-right movement
-
-            Vector3 target;
+            // calculate acceleration
+            if(_inputMove > 0)
+                _moveAcceleration = Mathf.Min(_moveAcceleration + accelerationFactor, maxRotationSpeed);
+            else if (_inputMove < 0)
+                _moveAcceleration = Mathf.Max(_moveAcceleration-accelerationFactor, -maxRotationSpeed);
+            else if (_moveAcceleration > 0)
+                _moveAcceleration = Mathf.Max(_moveAcceleration - decelerationFactor, 0.0f);
+            else if (_moveAcceleration < 0)
+                _moveAcceleration = Mathf.Min(_moveAcceleration + decelerationFactor, 0.0f);
+            else
+                _moveAcceleration = 0.0f;
 
             var position = transform.position;
-            var angle = rotationSpeed * Time.deltaTime;
+            
+            var angle = _moveAcceleration * Time.deltaTime;
 
             _dashTimer += Time.deltaTime;
             if (_dashed)
@@ -116,31 +170,17 @@ namespace Player
 
                 }
             }
-
+            
+            
             var direction = position - transform.parent.position;
-            if (Input.GetKey(KeyCode.A) || (_dashed && !ViewDirection))
+            direction = Quaternion.AngleAxis(-angle, Vector3.up) * direction;
+            if (_charControl.Move(direction - position) == CollisionFlags.Sides)
             {
-                target = transform.parent.position + Quaternion.AngleAxis(angle, Vector3.up) * direction;
-                ViewDirection = false;
-                if (_charControl.Move(target - position) != CollisionFlags.None)
-                {
-
-                    transform.position = position;
-                    Physics.SyncTransforms();
-                }
+                transform.position = position;
+                Physics.SyncTransforms();
+                _moveAcceleration = 0.0f;
             }
-
-            if (Input.GetKey(KeyCode.D) || (_dashed && ViewDirection))
-            {
-                target = transform.parent.position + Quaternion.AngleAxis(-angle, Vector3.up) * direction;
-                ViewDirection = true;
-                if (_charControl.Move(target - position) != CollisionFlags.None)
-                {
-                    transform.position = position;
-                    Physics.SyncTransforms();
-                }
-            }
-
+            anim.SetFloat(Speed, _moveAcceleration);
         }
 
         private void ManageOrientation()
@@ -162,6 +202,12 @@ namespace Player
 
             orientation.eulerAngles = new Vector3(0.0f, orientation.eulerAngles.y, 0.0f);
             transform.rotation = orientation;
+
+            var viewFloat = 1.0f;
+
+            if (!ViewDirection) viewFloat = -1.0f;
+            
+            anim.SetFloat(Direction, viewFloat);
 
             if (!ViewDirection) transform.Rotate(Vector3.up, 180.0f);
 
