@@ -5,14 +5,14 @@ namespace Enemies.Snowball
     public class SnowballMovement : MonoBehaviour
     {
         public float rotationSpeed, movementSpeed;
-        private float angle = 0f;
-        private bool left = false;
-        Rigidbody rb;
+        private float _angle = 0f;
+        private bool _left = false;
+        private Rigidbody _rb;
 
         // Start is called before the first frame update
         void Start()
         {
-            rb = GetComponent<Rigidbody>();
+            _rb = GetComponent<Rigidbody>();
         }
 
         // Update is called once per frame
@@ -27,7 +27,7 @@ namespace Enemies.Snowball
             if (collision.gameObject.CompareTag("House"))
             {
                 print("House Collision");
-                left = !left;
+                _left = !_left;
             }
         }
 
@@ -35,20 +35,19 @@ namespace Enemies.Snowball
         {
             Vector3 position = transform.position;
             Vector3 direction = position - transform.parent.position;
-            angle = movementSpeed * Time.deltaTime;
-            if (left) angle *= -1;
+            _angle = movementSpeed * Time.deltaTime;
+            if (_left) _angle *= -1;
             
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            Quaternion rotation = Quaternion.AngleAxis(_angle, Vector3.up);
             Vector3 target = transform.parent.position + rotation * direction;
             
             float rotationY = Mathf.Atan2(target.z, target.x) * Mathf.Rad2Deg;
             float rotationX = Mathf.Atan2(target.z, target.x) * Mathf.Rad2Deg * rotationSpeed;
-            print("rotationSpeed: " + rotationSpeed);
 
             // Aplicar la rotación en ambos ejes
             rotation = Quaternion.Euler(rotationX, -rotationY, 0f);
             
-            rb.Move(target, rotation);
+            _rb.Move(target, rotation);
             
         }
     }
