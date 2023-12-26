@@ -53,9 +53,10 @@ namespace Player
         private float _radio = 1.0f;
         
         //Animator parameters
-        
-        private static readonly int Direction = Animator.StringToHash("direction");
-        private static readonly int Speed = Animator.StringToHash("speed");
+        private static readonly int AnimSpeed = Animator.StringToHash("movSpeed");
+        private static readonly int AnimJumping = Animator.StringToHash("isJumping");
+        private static readonly int AnimDashing = Animator.StringToHash("isDashing");
+        private static readonly int AnimDoubleJumping = Animator.StringToHash("isDoubleJumping");
 
         public bool ViewDirection { get; private set; }
 
@@ -84,7 +85,6 @@ namespace Player
             _walkAction = playerActions.FindActionMap("Player").FindAction("Walk");
             
             _radio = Vector3.Distance(transform.position, parent.position);
-            print(_radio);
 
         }
         
@@ -101,6 +101,10 @@ namespace Player
         private void Update()
         {
             ManageInputs();
+            anim.SetBool(AnimJumping, _singleJump);
+            anim.SetBool(AnimDashing, _dashed);
+            anim.SetBool(AnimDoubleJumping, _doubleJump);
+            
         }
 
         // Update is called once per frame
@@ -180,7 +184,7 @@ namespace Player
                 Physics.SyncTransforms();
                 _moveAcceleration = 0.0f;
             }
-            anim.SetFloat(Speed, _moveAcceleration);
+            anim.SetFloat(AnimSpeed, _moveAcceleration);
         }
 
         private void ManageOrientation()
@@ -202,12 +206,6 @@ namespace Player
 
             orientation.eulerAngles = new Vector3(0.0f, orientation.eulerAngles.y, 0.0f);
             transform.rotation = orientation;
-
-            var viewFloat = 1.0f;
-
-            if (!ViewDirection) viewFloat = -1.0f;
-            
-            anim.SetFloat(Direction, viewFloat);
 
             if (!ViewDirection) transform.Rotate(Vector3.up, 180.0f);
 
