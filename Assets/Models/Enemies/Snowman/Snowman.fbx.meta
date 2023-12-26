@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 96c1f45fd8102744586fa2dfe9c6d7d3
+guid: bd8a1acc4cf025147b32b09a487b9c97
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
@@ -334,7 +334,7 @@ ModelImporter:
       name: Christmas_Material
     second: {fileID: 2100000, guid: c36b03b28359ee54786d9ca9bc3a8b74, type: 2}
   materials:
-    materialImportMode: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1

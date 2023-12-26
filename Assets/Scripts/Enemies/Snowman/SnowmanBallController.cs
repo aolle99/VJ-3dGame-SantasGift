@@ -6,31 +6,31 @@ namespace Enemies.Snowman
     {
         public int direction = 1;
         public float speed = 2.0f;
-        float angle = 0f;
+        float _angle = 0f;
         public float ballDuration = 1f;
-        float lifeTime = 0f;
+        float _lifeTime = 0f;
+        
         void Start()
         {
-            angle = Mathf.Atan2(transform.position.z, transform.position.x);
+            _angle = Mathf.Atan2(transform.position.z, transform.position.x);
         }
 
         void FixedUpdate()
         {
             // move bullet in a circle
-            angle += speed * Time.deltaTime * direction;
+            _angle += speed * Time.deltaTime * direction;
 
             float radius = 12.5f;
 
-            float x = Mathf.Cos(angle) * radius;
-            float z = Mathf.Sin(angle) * radius;
+            float x = Mathf.Cos(_angle) * radius;
+            float z = Mathf.Sin(_angle) * radius;
 
             transform.position = new Vector3(x, transform.position.y, z);
 
-            lifeTime += Time.deltaTime;
+            _lifeTime += Time.deltaTime;
 
-            if (lifeTime > ballDuration)
+            if (_lifeTime > ballDuration)
             {
-                print("destroy ball");
                 Destroy(gameObject);
             }
         }
@@ -43,7 +43,6 @@ namespace Enemies.Snowman
             }
             if (other.gameObject.CompareTag("Ground"))
             {
-                print("destroy ball");
                 Destroy(gameObject);
             }
         }
