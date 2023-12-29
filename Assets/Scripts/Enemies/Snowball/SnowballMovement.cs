@@ -26,7 +26,6 @@ namespace Enemies.Snowball
 
             if (collision.gameObject.CompareTag("House"))
             {
-                print("House Collision");
                 _left = !_left;
             }
         }

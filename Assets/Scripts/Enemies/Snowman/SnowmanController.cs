@@ -31,10 +31,8 @@ namespace Enemies.Snowman
             }
             else if (Math.Abs(_timer - (ballSpeed + 0.9f)) < 0.1)
             {
-                print(throwed);
                 if (!throwed)
                 {
-                    print("trowing");
                     Vector3 position = transform.position;
                     Vector3 ballPosition = new Vector3(position.x, position.y + 2, position.z);
                     GameObject ball = Instantiate(ballPrefab, ballPosition, Quaternion.identity);
