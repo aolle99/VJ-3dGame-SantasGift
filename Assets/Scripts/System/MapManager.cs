@@ -12,6 +12,7 @@ namespace System
 
         private void Start()
         {
+            Radius = 12.5f;
             if (instance == null)
             {
                 instance = this;
