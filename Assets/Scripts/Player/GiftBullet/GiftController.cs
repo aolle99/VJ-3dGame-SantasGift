@@ -6,45 +6,36 @@ namespace Player.GiftBullet
     public class GiftController : MonoBehaviour
     {
         // Start is called before the first frame update
-        [SerializeField] private float speed = 5.0f;
+        public int direction = 1;
+        public float speed = 5.0f;
+        float angle = 0f;
+        public float bulletDuration = 1f;
+        float lifeTime = 0f;
         
-        [SerializeField] private float bulletDuration = 1f;
-        
-        private float _angle;
-
-        private float _lifeTimeTimer;
-
-        private Rigidbody _rb;
-
-        public int Direction { private get; set; }
-
-        private void Start()
+        Rigidbody rb;
+        void Start()
         {
             var position = transform.position;
-            _angle = Mathf.Atan2(position.z, position.x);
-
-            _rb = GetComponent<Rigidbody>();
+            angle = Mathf.Atan2(position.z, position.x);
+            rb = GetComponent<Rigidbody>();
         }
 
         // Update is called once per frame
-        private void FixedUpdate()
+        void FixedUpdate()
         {
             // move bullet in a circle
-            _angle += speed * Time.deltaTime * Direction;
+            angle += speed * Time.deltaTime * direction;
 
-            var radius = MapManager.instance.Radius;
+            float radius = MapManager.instance.Radius;
 
-            var x = Mathf.Cos(_angle) * radius;
-            var z = Mathf.Sin(_angle) * radius;
+            float x = Mathf.Cos(angle) * radius;
+            float z = Mathf.Sin(angle) * radius;
 
-            var newPosition = new Vector3(x, transform.position.y, z);
-            var rotation = new Quaternion();
-            
-            _rb.Move(newPosition,rotation);
+            rb.position = new Vector3(x, transform.position.y, z) ;
 
-            _lifeTimeTimer += Time.deltaTime;
+            lifeTime += Time.deltaTime;
 
-            if (_lifeTimeTimer > bulletDuration)
+            if (lifeTime > bulletDuration)
             {
                 Destroy(gameObject);
             }
@@ -57,7 +48,6 @@ namespace Player.GiftBullet
                 Destroy(other.gameObject);
                 Destroy(gameObject);
             }
-
             if (other.gameObject.CompareTag("Obstacle"))
             {
                 Destroy(gameObject);
