@@ -15,6 +15,12 @@ namespace UI
             
             Label label = root.Q<Label>("GiftsLeft");
             label.text = "3";
+            
+            // if esc pressed return to main menu
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            }
         }
     }
 }

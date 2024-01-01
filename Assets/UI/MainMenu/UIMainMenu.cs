@@ -18,6 +18,20 @@ namespace UI
                 UnityEngine.SceneManagement.SceneManager.LoadScene("FirstLevel");
             };
             
+            Button instructionsButton = root.Q<Button>("Instructions");
+            //when button clicked quit
+            instructionsButton.clicked += () =>
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Instructions");
+            };
+            
+            Button creditsButton = root.Q<Button>("Credits");
+            //when button clicked quit
+            creditsButton.clicked += () =>
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Credits");
+            };
+            
             Button quitButton = root.Q<Button>("Quit");
             //when button clicked quit
             quitButton.clicked += () =>
@@ -25,6 +39,8 @@ namespace UI
                 print("quit");
                 Application.Quit();
             };
+            
+            
         }
     }
 }
