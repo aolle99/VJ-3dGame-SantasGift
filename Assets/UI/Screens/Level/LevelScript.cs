@@ -16,9 +16,10 @@ namespace UI
 
         private void OnEnable()
         {
+            root = GetComponent<UIDocument>().rootVisualElement;
             ProgressBar progressBar = root.Q<ProgressBar>("Bar");
             progressBar.value = 50;
-            progressBar.style.backgroundColor = Color.green;
+            //progressBar.style.backgroundColor = Color.green;
             
             Label label = root.Q<Label>("GiftsLeft");
             label.text = "3";
@@ -31,10 +32,16 @@ namespace UI
             };
             
             Button resumeButton = root.Q<Button>("Resume");
-            button.clicked += () =>
+            resumeButton.clicked += () =>
             {
                 VisualElement pauseMenu = root.Q<VisualElement>("PauseMenu");
                 pauseMenu.style.display = DisplayStyle.None;
+            };
+            
+            Button restartButton = root.Q<Button>("Restart");
+            restartButton.clicked += () =>
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("FirstLevel");
             };
             
         }
