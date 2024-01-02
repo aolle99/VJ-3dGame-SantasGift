@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Gift
   - Santa
+  - SlowZone
   layers:
   - Default
   - TransparentFX
