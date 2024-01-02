@@ -102,7 +102,7 @@ namespace Enemies.Boss
             else if (_throwed && !_ballThrownAnim && !_laughed)
             {
                 Vector3 position = transform.position;
-                Vector3 ballPosition = new Vector3(position.x, position.y + 3, position.z);
+                Vector3 ballPosition = new Vector3(position.x + 3, position.y + 4, position.z);
                 GameObject bosBall = Instantiate(ballPrefab, ballPosition, Quaternion.identity);
                 
                 bosBall.GetComponent<BossBallController>().direction = -1;

@@ -29,6 +29,7 @@ namespace UI
             {
                 print("clicked");
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+                Time.timeScale = 1;
             };
             
             Button resumeButton = root.Q<Button>("Resume");
@@ -36,14 +37,15 @@ namespace UI
             {
                 VisualElement pauseMenu = root.Q<VisualElement>("PauseMenu");
                 pauseMenu.style.display = DisplayStyle.None;
+                Time.timeScale = 1;
             };
             
             Button restartButton = root.Q<Button>("Restart");
             restartButton.clicked += () =>
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene("FirstLevel");
+                Time.timeScale = 1;
             };
-            
         }
 
         private void Update()
@@ -52,11 +54,7 @@ namespace UI
             {
                 VisualElement pauseMenu = root.Q<VisualElement>("PauseMenu");
                 pauseMenu.style.display = DisplayStyle.Flex;
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                VisualElement pauseMenu = root.Q<VisualElement>("PauseMenu");
-                pauseMenu.style.display = DisplayStyle.None;
+                Time.timeScale = 0;
             }
         }
     }

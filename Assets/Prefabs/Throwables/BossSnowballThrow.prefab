@@ -105,8 +105,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 1
-  speed: 4
-  ballDuration: 3
+  speed: 2
+  ballDuration: 2
 --- !u!1001 &2345569954948735958
 PrefabInstance:
   m_ObjectHideFlags: 0

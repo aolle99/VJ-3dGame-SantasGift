@@ -21,7 +21,7 @@ namespace Enemies.Boss
             // move bullet in a circle
             _angle += speed * Time.deltaTime * direction;
 
-            float radius = 70f;
+            float radius = 25f;
 
             float x = Mathf.Cos(_angle) * radius;
             float z = Mathf.Sin(_angle) * radius;
