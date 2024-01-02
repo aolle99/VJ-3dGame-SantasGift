@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,7 +9,6 @@ namespace Enemies.Kid
         [FormerlySerializedAs("rotationSpeed")] public float movementSpeed;
         public float gravityScale, jumpForce;
         private float _angle = 0f;
-        private Rigidbody _rb;
         private Animator _anim;
         private Boolean _jumping = false;
         private Boolean _canJump = true;
@@ -34,7 +31,6 @@ namespace Enemies.Kid
             _speedY = 0;
             
             _anim = GetComponentInChildren<Animator>();
-            _rb = GetComponent<Rigidbody>();
         }
     
         // Update is called once per frame
