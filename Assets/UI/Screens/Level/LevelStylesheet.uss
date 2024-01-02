@@ -1,0 +1,55 @@
+.bar {
+    width: 350px;
+    flex: auto;
+}
+
+.progress-bar {
+    width: 100%;
+    flex-direction: row;
+}
+
+.label-text {
+    font-size: 30px;
+    margin-top: 2px;
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/UI/Font/kenvector_future.ttf?fileID=12800000&guid=91a39748e58aa124ba5952608a6e0524&type=3#kenvector_future');
+    color: rgb(255, 255, 255);
+    -unity-text-outline-width: 0;
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.button {
+    background-color: rgba(188, 188, 188, 0);
+    border-left-color: rgba(149, 149, 149, 0);
+    border-right-color: rgba(149, 149, 149, 0);
+    border-top-color: rgba(149, 149, 149, 0);
+    border-bottom-color: rgba(149, 149, 149, 0);
+    margin-top: 10px;
+    font-size: 36px;
+}
+
+.button:hover {
+    -unity-font-style: bold;
+    font-size: 40px;
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/UI/Font/kenvector_future.ttf?fileID=12800000&guid=91a39748e58aa124ba5952608a6e0524&type=3#kenvector_future');
+}
+
+.example {
+}
+
+.unity-progress-bar__container {
+    height: auto;
+    max-height: none;
+}
+
+.unity-progress-bar__progress {
+    background-color: deepskyblue;
+    border-radius: 3px;
+}
+
+.unity-progress-bar__background {
+    background-color: white;
+    border-radius: 5px;
+    height: auto;
+}
