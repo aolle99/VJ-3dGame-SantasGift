@@ -1,4 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+
+[System.Serializable]
+public class ConfiguracionFase
+{
+    public Vector3 startPoint;
+    public float radious;
+    public float innerRadious;
+    public GameObject faseObject;
+    public GameObject nextFaseObject;
+}
 
 namespace System
 {
@@ -9,10 +21,50 @@ namespace System
         
         public bool MapZoneInner {get; private set; }
         public float Radius { get; private set; }
+        
+        [Header("Configuración de Fases")]
+        [SerializeField]
+        private int numeroDeFases;
+        
+        [SerializeField]
+        private int faseActual;
+
+        [Header("Configuración de Fases")]
+        [SerializeField]
+        private List<ConfiguracionFase> configuracionFases = new List<ConfiguracionFase>();
+        
+        [Header("Jugador")]
+        [SerializeField]
+        private GameObject player;
+        
+        [Header("Particulas")]
+        [SerializeField]
+        private ParticleSystem teleport_particles;
+        
+
+
+        private void OnValidate()
+        {
+            numeroDeFases = Mathf.Max(0, numeroDeFases);
+
+            // Ajustar automáticamente la longitud de la lista
+            while (configuracionFases.Count < numeroDeFases)
+            {
+                configuracionFases.Add(new ConfiguracionFase());
+            }
+
+            while (configuracionFases.Count > numeroDeFases)
+            {
+                configuracionFases.RemoveAt(configuracionFases.Count - 1);
+            }
+        }
 
         private void Start()
         {
-            Radius = 12.5f;
+            MapZoneInner = false;
+            faseActual = 0;
+            Radius = configuracionFases[faseActual].radious;
+            player.transform.position = configuracionFases[faseActual].startPoint;
             if (instance == null)
             {
                 instance = this;
@@ -30,13 +82,12 @@ namespace System
             MapZoneInner = !MapZoneInner;
             if (MapZoneInner)
             {
-                Radius = 7.5f;
+                Radius = configuracionFases[faseActual].innerRadious;
             }
             else
             {
-                Radius = 12.5f;
+                Radius = configuracionFases[faseActual].radious;
             }
-
         }
     }
 }
