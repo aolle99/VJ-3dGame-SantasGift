@@ -2,6 +2,9 @@
 
 public class GameStateManager
 {
+    [SerializeField] private int _maxGifts;
+    [SerializeField] private int _redGifts;
+    [SerializeField] private int _blueGifts;
     private static GameStateManager _instance;
 
     public static GameStateManager Instance
@@ -33,5 +36,35 @@ public class GameStateManager
         
         CurrentGameState = newGameState;
         OnGameStateChange?.Invoke(newGameState);
+    }
+    
+    public void AddRedGift()
+    {
+        _redGifts++;
+    }
+    
+    public void AddBlueGift()
+    {
+        _blueGifts++;
+    }
+    
+    public void RemoveRedGift()
+    {
+        _redGifts--;
+    }
+    
+    public void RemoveBlueGift()
+    {
+        _blueGifts--;
+    }
+    
+    public int GetRedGifts()
+    {
+        return _redGifts;
+    }
+    
+    public int GetBlueGifts()
+    {
+        return _blueGifts;
     }
 }

@@ -12,7 +12,6 @@ namespace Player
         private float _currentHealth;
         private float _maxHealth;
         [SerializeField]private HealthBar healthBar;
-        // Start is called before the first frame update
         void Start()
         {
             _maxHealth = 100f;
@@ -20,16 +19,13 @@ namespace Player
             healthBar.UpdeateHealthBar(_maxHealth, _currentHealth);
         }
 
-        private void OnMouseDown()
-        {
-            _currentHealth -= 10f;
-            healthBar.UpdeateHealthBar(_maxHealth, _currentHealth);
-        }
-
-        // Update is called once per frame
         void Update()
         {
-
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                _currentHealth -= 10f;
+                healthBar.UpdeateHealthBar(_maxHealth, _currentHealth);
+            }
         }
     }
 }
