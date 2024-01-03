@@ -1,4 +1,5 @@
 using Player.GiftBullet;
+using UI;
 using UnityEngine;
 
 namespace Player
@@ -7,12 +8,14 @@ namespace Player
     {
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private float relativeVerticalPosition = 2f;
+        private LevelScript _levelScript;
 
         private PlayerMovement _movePlayer;
         // Start is called before the first frame update
         private void Start()
         {
             _movePlayer = GetComponent<PlayerMovement>();
+            _levelScript = GameObject.Find("UIFirstLevel").GetComponent<LevelScript>();
         }
 
         // Update is called once per frame

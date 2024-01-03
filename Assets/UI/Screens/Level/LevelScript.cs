@@ -23,28 +23,10 @@ namespace UI
             
             VisualElement ammunition2 = root.Q<VisualElement>("Ammunition2");
             ammunition2.style.color = _redNotSelected;
-        }
-
-        private void OnEnable()
-        {
-            root = GetComponent<UIDocument>().rootVisualElement;
             
-            // Set progress bar
             ProgressBar progressBar = root.Q<ProgressBar>("Bar");
             progressBar.value = GameStateManager.Instance.GetTotalGifts();
             progressBar.highValue = GameStateManager.Instance.GetMaxBlueGifts() + GameStateManager.Instance.GetMaxRedGifts();
-            Label label = root.Q<Label>("GiftsLeft");
-            label.text = progressBar.value.ToString();
-            
-            // Set ammunition numbers
-            Label numAmmunition1 = root.Q<Label>("NumAmmunition1");
-            numAmmunition1.text = GameStateManager.Instance.GetBlueGifts().ToString();
-            
-            Label numAmmunition2 = root.Q<Label>("NumAmmunition2");
-            numAmmunition2.text = GameStateManager.Instance.GetRedGifts().ToString();
-            
-            // Manage pause menu
-            ManageMainMenu();
         }
 
         private void Update()
@@ -80,6 +62,20 @@ namespace UI
                     ammunition2.style.backgroundColor = new StyleColor(red);
                 }
             }
+            
+            // Update ammunition numbers
+            Label numAmmunition1 = root.Q<Label>("NumAmmunition1");
+            numAmmunition1.text = GameStateManager.Instance.GetBlueGifts().ToString();
+            
+            Label numAmmunition2 = root.Q<Label>("NumAmmunition2");
+            numAmmunition2.text = GameStateManager.Instance.GetRedGifts().ToString();
+            
+            ProgressBar progressBar = root.Q<ProgressBar>("Bar");
+            progressBar.value = GameStateManager.Instance.GetTotalGifts();
+            Label label = root.Q<Label>("GiftsLeft");
+            label.text = progressBar.value.ToString();
+            
+            ManageMainMenu();
         }
 
         private void ManageMainMenu()
@@ -105,6 +101,11 @@ namespace UI
                 UnityEngine.SceneManagement.SceneManager.LoadScene("FirstLevel");
                 Time.timeScale = 1;
             };
+        }
+
+        public void UpdateNumGifts()
+        {
+            
         }
     }
 }
