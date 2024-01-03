@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
-public class GameStateManager
+public class GameStateManager : MonoBehaviour
 {
-    [SerializeField] private int _maxGifts;
-    [SerializeField] private int _redGifts;
-    [SerializeField] private int _blueGifts;
+    [SerializeField] private int maxRedGifts = 10;
+    [SerializeField] private int maxBlueGifts = 10;
+    [SerializeField] private int redGifts = 10;
+    [SerializeField] private int blueGifts = 10;
+    [SerializeField] private bool ammunitionSelected = true;
     private static GameStateManager _instance;
 
     public static GameStateManager Instance
     {
         get
         {
-            if (_instance == null)
+            if (_instance is null)
             {
-                _instance = new GameStateManager();
+                _instance = FindObjectOfType<GameStateManager>();
             }
 
             return _instance;
@@ -38,33 +41,58 @@ public class GameStateManager
         OnGameStateChange?.Invoke(newGameState);
     }
     
-    public void AddRedGift()
+    public void AddRedGift(int numGifts)
     {
-        _redGifts++;
+        redGifts += numGifts;
     }
     
-    public void AddBlueGift()
+    public void AddBlueGift(int numGifts)
     {
-        _blueGifts++;
+        blueGifts += numGifts;
     }
     
     public void RemoveRedGift()
     {
-        _redGifts--;
+        redGifts--;
     }
     
     public void RemoveBlueGift()
     {
-        _blueGifts--;
+        blueGifts--;
     }
     
     public int GetRedGifts()
     {
-        return _redGifts;
+        return redGifts;
     }
     
     public int GetBlueGifts()
     {
-        return _blueGifts;
+        return blueGifts;
+    }
+    
+    public int GetMaxRedGifts()
+    {
+        return maxRedGifts;
+    }
+    
+    public int GetMaxBlueGifts()
+    {
+        return maxBlueGifts;
+    }
+    
+    public int GetTotalGifts()
+    {
+        return redGifts + blueGifts;
+    }
+    
+    public bool GetAmmunitionSelected()
+    {
+        return ammunitionSelected;
+    }
+
+    public void ChangeAmmunition()
+    {
+        ammunitionSelected = !ammunitionSelected;
     }
 }
