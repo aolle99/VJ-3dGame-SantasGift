@@ -205,7 +205,8 @@ namespace Player
                 Physics.SyncTransforms();
                 _moveAcceleration = 0.0f;
             }
-            anim.SetFloat(AnimSpeed, _moveAcceleration);
+            anim.SetFloat(AnimSpeed, _moveAcceleration/5);
+            
         }
 
 

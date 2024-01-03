@@ -96,16 +96,21 @@ namespace System
             player.transform.position = configuracionFases[faseActual].startPoint;
             
             Invoke(nameof(ActivatePlayerMovement), 0.3f);
-            teleport_particles.Play();
+            //teleport_particles.Play();
         }
 
         private void MovePlayerBetweenRadius()
         {
             var playerPos = player.transform.position;
-            playerPos = playerPos.normalized * Radius;
+            var oldRadius = MapZoneInner ? configuracionFases[faseActual].radious : configuracionFases[faseActual].innerRadious;
+            
+            var newX = playerPos.x * Radius / oldRadius;
+            var newZ = playerPos.z * Radius / oldRadius;
+            
+            var targetPos = new Vector3(newX, playerPos.y, newZ);
             
             playerMovement.enabled = false;
-            player.transform.position = playerPos;
+            player.transform.position = targetPos;
             
             Invoke(nameof(ActivatePlayerMovement), 0.3f);
         }

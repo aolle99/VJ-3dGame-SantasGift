@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Environment.InteractionSystem
@@ -6,6 +7,8 @@ namespace Environment.InteractionSystem
     public class Bridge : MonoBehaviour, IInteractable
     {
         [SerializeField] private string prompt;
+        
+        private MapManager _mapManager;
         
         public string InteractionPrompt => prompt;
         
@@ -19,7 +22,9 @@ namespace Environment.InteractionSystem
 
         public bool Interact(Interactor interactor)
         {
-            Debug.Log("Interacted with bridge");
+            _mapManager = MapManager.instance;
+            _mapManager.ChangeMapZone();
+            Destroy(_interactionPromptUI);
             return true;
         }
     }

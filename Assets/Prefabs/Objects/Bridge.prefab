@@ -5031,7 +5031,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3396234435969003770}
   - component: {fileID: 3754018925288040890}
-  - component: {fileID: 624528852621247009}
   - component: {fileID: 753363366684196381}
   m_Layer: 7
   m_Name: Bridge
@@ -5079,20 +5078,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.895387, y: 3.989872, z: 3.71002}
   m_Center: {x: 0.5726106, y: 1.494936, z: 0.3153622}
---- !u!114 &624528852621247009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4650458869465091542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a05f6a27cb944d18d6717f050a928c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prompt: Press E to finish Level
-  _interactionPromptUI: {fileID: 4406126064097851068}
 --- !u!114 &753363366684196381
 MonoBehaviour:
   m_ObjectHideFlags: 0
