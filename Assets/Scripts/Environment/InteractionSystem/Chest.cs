@@ -18,19 +18,17 @@ namespace Environment.InteractionSystem
             set => _interactionPromptUI = value;
         }
         
-        private GameStateManager _gameStateManager;
+        private GiftStateManager _giftStateManager;
         
-        
-
         public void Start()
         {
-            _gameStateManager = GameStateManager.Instance;
+            _giftStateManager = GiftStateManager.Instance;
         }
 
         public bool Interact(Interactor interactor)
         {
             Debug.Log("Chest opened");
-            _gameStateManager.AddRandomGifts();
+            _giftStateManager.AddRandomGifts();
             Destroy(_interactionPromptUI);
             Destroy(gameObject);
             return true;
