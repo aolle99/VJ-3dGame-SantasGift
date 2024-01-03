@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ namespace Player
         [SerializeField] private float maxRotationSpeed;
         [SerializeField] private float accelerationFactor;
         [SerializeField] private float decelerationFactor;
+        [SerializeField] private float slowFactor = 0.1f;
         
         [Header("Jump")]
         [SerializeField] private float jumpSpeed;
@@ -51,6 +53,8 @@ namespace Player
         private InputAction _walkAction;
         
         private float _radio = 1.0f;
+        
+        private bool _isSlow = false;
         
         //Animator parameters
         private static readonly int AnimSpeed = Animator.StringToHash("movSpeed");
@@ -174,6 +178,13 @@ namespace Player
 
                 }
             }
+            else
+            {
+                if (_isSlow)
+                {
+                    angle *= slowFactor;
+                }
+            }
             
             
             var direction = position - transform.parent.position;
@@ -247,6 +258,22 @@ namespace Player
                 _doubleJump = false;
                 _singleJump = false;
 
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("SlowZone"))
+            {
+                _isSlow = true;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag("SlowZone"))
+            {
+                _isSlow = false;
             }
         }
     }

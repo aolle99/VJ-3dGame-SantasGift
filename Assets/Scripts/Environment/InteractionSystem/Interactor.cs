@@ -20,7 +20,7 @@ namespace Environment.InteractionSystem
         [SerializeField] private int numFound;
         
         
-        private IInteractable _interactable;
+        private IInteractable _interactable = null;
 
         private void Update()
         {
@@ -44,12 +44,14 @@ namespace Environment.InteractionSystem
             }
             else
             {
-                var interactionPromptUI = _interactable.InteractionPromptUI;
-                if (interactionPromptUI.IsDisplayed)
+                if (_interactable != null)
                 {
-                    interactionPromptUI.Close();
+                    var interactionPromptUI = _interactable.InteractionPromptUI;
+                    if (interactionPromptUI.IsDisplayed)
+                    {
+                        interactionPromptUI.Close();
+                    }
                 }
-                    
             }
         }
 
