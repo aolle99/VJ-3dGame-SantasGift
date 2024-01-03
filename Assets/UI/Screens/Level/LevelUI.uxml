@@ -24,6 +24,9 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; position: absolute; width: 60px; height: 40px; top: 18px; left: 1733px;">
+            <ui:Label tabindex="-1" text="FPS: 501" parse-escape-sequences="true" display-tooltip-when-elided="true" name="FPS" class="label-text" style="height: 38px; width: 71px;" />
+        </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="PauseMenu" style="flex-grow: 1; width: 100%; height: 100%; overflow: visible; position: absolute; align-items: center; justify-content: center; display: none; background-color: rgba(0, 0, 0, 0.4);">
         <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: 700px; height: auto; max-height: 800px; background-image: url(&apos;project://database/Assets/UI/Images/Green_Clear_Christmas_Ball_PNG_Clipart.png?fileID=2800000&amp;guid=c839cbaca52cbde4892a95eaf136e5c0&amp;type=3#Green_Clear_Christmas_Ball_PNG_Clipart&apos;); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-background-image-tint-color: rgb(255, 255, 255); -unity-text-align: upper-center; justify-content: center;">

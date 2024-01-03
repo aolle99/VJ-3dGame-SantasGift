@@ -14,13 +14,11 @@ namespace Enemies.Boss
         private float _timer = 0f;
         private bool _laughed = false;
         private bool _throwed = false;
-        private bool _regenerate = true;
         private int _animNum = -1;
         private float _timeBetweenAnim = 5.0f;
         public GameObject ballPrefab;
         private static readonly int Laugh = Animator.StringToHash("laugh");
         private static readonly int Throw = Animator.StringToHash("throw_ball");
-        private static readonly int Regenerate = Animator.StringToHash("regenerate");
 
         public bool ViewDirection { get; private set; }
         
