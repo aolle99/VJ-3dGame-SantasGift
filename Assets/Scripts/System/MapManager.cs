@@ -61,20 +61,30 @@ namespace System
 
         private void Start()
         {
-            MapZoneInner = false;
-            faseActual = 0;
-            Radius = configuracionFases[faseActual].radious;
-            player.transform.position = configuracionFases[faseActual].startPoint;
             if (instance == null)
             {
                 instance = this;
-                DontDestroyOnLoad(this);
+                //DontDestroyOnLoad(this);
             }
             else
             {
                 Destroy(gameObject);
             }
-
+            
+            MapZoneInner = false;
+            faseActual = 0;
+            Radius = configuracionFases[faseActual].radious;
+            teleport_particles.Play();
+        }
+        
+        public void NextPhase()
+        {
+            if (faseActual < numeroDeFases - 1)
+            {
+                faseActual++;
+                player.transform.position = configuracionFases[faseActual].startPoint;
+                teleport_particles.Play();
+            }
         }
 
         public void ChangeMapZone()
