@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -36,6 +37,7 @@ namespace System
         [Header("Jugador")]
         [SerializeField]
         private GameObject player;
+        private PlayerMovement playerMovement;
         
         [Header("Particulas")]
         [SerializeField]
@@ -72,9 +74,10 @@ namespace System
             }
             
             MapZoneInner = false;
-            faseActual = 0;
             Radius = configuracionFases[faseActual].radious;
-            teleport_particles.Play();
+            playerMovement = player.GetComponent<PlayerMovement>();
+            
+            MovePlayerToStartPoint();
         }
         
         public void NextPhase()
@@ -82,9 +85,29 @@ namespace System
             if (faseActual < numeroDeFases - 1)
             {
                 faseActual++;
-                player.transform.position = configuracionFases[faseActual].startPoint;
-                teleport_particles.Play();
+                
+                MovePlayerToStartPoint();
             }
+        }
+
+        private void MovePlayerToStartPoint()
+        {
+            playerMovement.enabled = false;
+            player.transform.position = configuracionFases[faseActual].startPoint;
+            
+            Invoke(nameof(ActivatePlayerMovement), 0.3f);
+            teleport_particles.Play();
+        }
+
+        private void MovePlayerBetweenRadius()
+        {
+            var playerPos = player.transform.position;
+            playerPos = playerPos.normalized * Radius;
+            
+            playerMovement.enabled = false;
+            player.transform.position = playerPos;
+            
+            Invoke(nameof(ActivatePlayerMovement), 0.3f);
         }
 
         public void ChangeMapZone()
@@ -98,6 +121,12 @@ namespace System
             {
                 Radius = configuracionFases[faseActual].radious;
             }
+            MovePlayerBetweenRadius();
+        }
+        
+        private void ActivatePlayerMovement()
+        {
+            playerMovement.enabled = true;
         }
     }
 }
