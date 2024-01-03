@@ -14,11 +14,13 @@ namespace Enemies.Boss
         private float _timer = 0f;
         private bool _laughed = false;
         private bool _throwed = false;
-        private bool _ballThrownAnim = false;
+        private bool _regenerate = true;
+        private int _animNum = -1;
         private float _timeBetweenAnim = 5.0f;
         public GameObject ballPrefab;
         private static readonly int Laugh = Animator.StringToHash("laugh");
         private static readonly int Throw = Animator.StringToHash("throw_ball");
+        private static readonly int Regenerate = Animator.StringToHash("regenerate");
 
         public bool ViewDirection { get; private set; }
         
@@ -86,36 +88,36 @@ namespace Enemies.Boss
         
         private void ManageAnimations()
         {
-            if (!_laughed && !_throwed)
+            _animNum++;
+            if (_animNum == 0)
             {
                 _anim.SetBool(Laugh, true);
                 _laughed = true;
-            }
-            else if(_laughed && !_throwed)
-            {
-                _anim.SetBool(Laugh, false);
-                _anim.SetBool(Throw, true);
-                _laughed = false;
-                _throwed = true;
-                _timeBetweenAnim = 0.8f;
             } 
-            else if (_throwed && !_ballThrownAnim && !_laughed)
+            else if (_animNum == 1)
+            {
+                _anim.SetBool(Throw, true);
+                _anim.SetBool(Laugh, false);
+                _throwed = true;
+                _laughed = false;
+                _timeBetweenAnim = 0.8f;
+            }
+            else if(_animNum == 2)
             {
                 Vector3 position = transform.position;
                 Vector3 ballPosition = new Vector3(position.x + 3, position.y + 4, position.z);
                 GameObject bosBall = Instantiate(ballPrefab, ballPosition, Quaternion.identity);
                 
                 bosBall.GetComponent<BossBallController>().direction = -1;
-                _timeBetweenAnim = 2.0f;
-                _ballThrownAnim = true;
+                _timeBetweenAnim = 1.0f;
             }
-            else if(_throwed && !_laughed && _ballThrownAnim)
-            {
-                _anim.SetBool(Throw, false);
+            else if(_animNum == 3){
                 _throwed = false;
-                _ballThrownAnim = false;
+                _anim.SetBool(Throw, false);
                 _timeBetweenAnim = 5.0f;
+                _animNum = -1;
             }
+            
             _timer = 0f;
         }
     }
