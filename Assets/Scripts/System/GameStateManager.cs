@@ -13,11 +13,16 @@ namespace System
 
     public class GameStateManager : MonoBehaviour
     {
-        [SerializeField] private int maxRedGifts = 10;
-        [SerializeField] private int maxBlueGifts = 10;
-        [SerializeField] private int redGifts = 10;
-        [SerializeField] private int blueGifts = 10;
+        [Header("Gifts")]
+        [SerializeField] private int maxRedGifts = 50;
+        [SerializeField] private int maxBlueGifts = 50;
+        [SerializeField] private int minAddGifts = 15;
+        [SerializeField] private int maxAddGifts = 30;
+        [SerializeField] private int redGifts = 0;
+        [SerializeField] private int blueGifts = 0;
         [SerializeField] private bool ammunitionSelected = true;
+        
+        
         private static GameStateManager _instance;
     
         public static GameStateManager Instance
@@ -50,15 +55,25 @@ namespace System
             CurrentGameState = newGameState;
             OnGameStateChange?.Invoke(newGameState);
         }
+
+        public void AddRandomGifts()
+        {
+            int gifts = UnityEngine.Random.Range(minAddGifts, maxAddGifts);
+            int red = UnityEngine.Random.Range(0, gifts);
+            int blue = gifts - red;
+            
+            AddRedGift(red);
+            AddBlueGift(blue);
+        }
         
         public void AddRedGift(int numGifts)
         {
-            redGifts += numGifts;
+            redGifts = Mathf.Min(maxRedGifts,redGifts + numGifts);
         }
         
         public void AddBlueGift(int numGifts)
         {
-            blueGifts += numGifts;
+            blueGifts +=  Mathf.Min(maxRedGifts,blueGifts + numGifts);
         }
         
         public void RemoveRedGift()

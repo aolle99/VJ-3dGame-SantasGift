@@ -9,6 +9,8 @@ TagManager:
   - Gift
   - Santa
   - SlowZone
+  - Obstacle
+  - Enemy
   layers:
   - Default
   - TransparentFX

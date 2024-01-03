@@ -38,7 +38,10 @@ namespace Environment.InteractionSystem
                     
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        _interactable.Interact(this);
+                        if (_interactable.Interact(this))
+                        {
+                            _interactable = null;
+                        }
                     }
                 }
             }

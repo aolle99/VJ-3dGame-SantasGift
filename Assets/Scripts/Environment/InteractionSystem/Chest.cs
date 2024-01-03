@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+
 
 namespace Environment.InteractionSystem
 {
@@ -15,10 +17,22 @@ namespace Environment.InteractionSystem
             get => _interactionPromptUI;
             set => _interactionPromptUI = value;
         }
+        
+        private GameStateManager _gameStateManager;
+        
+        
+
+        public void Start()
+        {
+            _gameStateManager = GameStateManager.Instance;
+        }
 
         public bool Interact(Interactor interactor)
         {
-            Debug.Log("Interacted with chest");
+            Debug.Log("Chest opened");
+            _gameStateManager.AddRandomGifts();
+            Destroy(_interactionPromptUI);
+            Destroy(gameObject);
             return true;
         }
     }
