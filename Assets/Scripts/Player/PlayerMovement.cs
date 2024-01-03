@@ -73,11 +73,6 @@ namespace Player
         private void OnEnable()
         {
             playerActions.Enable();
-            var playerTransform = transform;
-            var parentPosition = playerTransform.parent.position;
-            _startDirection = playerTransform.position - parentPosition;
-            _startDirection.y = 0.1f;
-            _startDirection.Normalize();
 
             _speedY = 0;
             _doubleJump = false;
@@ -90,6 +85,8 @@ namespace Player
             anim = GetComponentInChildren<Animator>();
             
             _walkAction = playerActions.FindActionMap("Player").FindAction("Walk");
+            
+            _isSlow = false;
             
         }
         
@@ -111,7 +108,6 @@ namespace Player
         private void FixedUpdate()
         {
             ManageMovement();
-            ManageOrientation();
             ManageJump();
         }
 
@@ -157,7 +153,13 @@ namespace Player
 
             var position = transform.position;
             
-            var angle = _moveAcceleration * Time.deltaTime;
+            var actualRadius = Mathf.Sqrt(position.x * position.x + position.z * position.z);
+            
+            
+            var wantedRadius = 70.0f;
+            
+            
+            var angle = _moveAcceleration * Time.deltaTime * wantedRadius / actualRadius;
 
             _dashTimer += Time.deltaTime;
             if (_dashed)
@@ -169,7 +171,17 @@ namespace Player
                 }
                 else
                 {
-
+                    if (_moveAcceleration == 0.0f)
+                    {
+                        if (ViewDirection)
+                        {
+                            angle = 1.0f * Time.deltaTime;
+                        }
+                        else
+                        {
+                            angle = -1.0f * Time.deltaTime;
+                        }
+                    }
                     angle *= dashSpeedMultiplier;
 
                 }
@@ -183,8 +195,10 @@ namespace Player
             }
             
             
+
             var direction = position - transform.parent.position;
             direction = Quaternion.AngleAxis(-angle, Vector3.up) * direction;
+            
             if (_charControl.Move(direction - position) == CollisionFlags.Sides)
             {
                 transform.position = position;
@@ -194,30 +208,6 @@ namespace Player
             anim.SetFloat(AnimSpeed, _moveAcceleration);
         }
 
-        private void ManageOrientation()
-        {
-            // Correct orientation of player
-            // Compute current direction
-            var playerTransform = transform;
-            var currentDirection = playerTransform.position - playerTransform.parent.position;
-            currentDirection.y = 0.0f;
-            currentDirection.Normalize();
-            // Change orientation of player accordingly
-            Quaternion orientation;
-            if ((_startDirection - currentDirection).magnitude < 1e-3)
-                orientation = Quaternion.AngleAxis(0.0f, Vector3.up);
-            else if ((_startDirection + currentDirection).magnitude < 1e-3)
-                orientation = Quaternion.AngleAxis(180.0f, Vector3.up);
-            else
-                orientation = Quaternion.FromToRotation(_startDirection, currentDirection);
-
-            orientation.eulerAngles = new Vector3(0.0f, orientation.eulerAngles.y, 0.0f);
-            transform.rotation = orientation;
-
-            if (!ViewDirection) transform.Rotate(Vector3.up, 180.0f);
-
-
-        }
 
         private void ManageJump()
         {
