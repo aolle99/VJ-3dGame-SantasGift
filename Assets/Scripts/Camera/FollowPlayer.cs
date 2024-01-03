@@ -5,52 +5,48 @@ namespace Camera
     public class FollowPlayer : MonoBehaviour
     {
         [SerializeField] private GameObject player;
-
+        
+        [SerializeField] private float distanceFromPlayer = 10.0f; // Distancia constante desde el jugador
+        
         [SerializeField]
-        private float smoothness = 5.0f; // Ajusta este valor para controlar la suavidad del seguimiento
+        private float heightOffset = 5.0f; // Ajusta este valor para controlar la altura de la cámara
 
         private Vector3 _startDirection;
         private Transform _playerTransform;
-
-        // Start is called before the first frame update
+        private Transform _parentTransform;
+        
         private void Start()
         {
-
-            // Store starting direction of the player with respect to the axis of the level
-            _startDirection = player.transform.position - player.transform.parent.position;
-            _startDirection.y = 0.0f;
-            _startDirection.Normalize();
-
             _playerTransform = player.transform;
         }
 
-        // LateUpdate is called once per frame, after Update
         private void LateUpdate()
         {
-            // Smoothly interpolate camera position
-            var position = transform.position;
-            var playerPosition = _playerTransform.position;
-            var targetPosition = new Vector3(position.x, playerPosition.y + 5, position.z);
-            transform.position = Vector3.Lerp(position, targetPosition, smoothness * Time.deltaTime);
+            // Obtén la posición actual del jugador
+            Vector3 playerPosition = _playerTransform.position;
+            Vector3 parentPosition = _playerTransform.parent.position;
+            Vector3 directionToPlayer = playerPosition - parentPosition;
+            // Calcula la nueva posición de la cámara en coordenadas polares
+            float angle = Mathf.Atan2(directionToPlayer.z, directionToPlayer.x);
+            
+            angle = Mathf.Rad2Deg * angle;
+            float x = Mathf.Cos(angle * Mathf.Deg2Rad) * distanceFromPlayer;
+            float z = Mathf.Sin(angle * Mathf.Deg2Rad) * distanceFromPlayer;
+            
+            
 
-            // Compute current direction
-            var currentDirection = playerPosition - player.transform.parent.position;
-            currentDirection.y = 0.0f;
-            currentDirection.Normalize();
+            // Aplica el offset en altura
+            Vector3 targetPosition = new Vector3(playerPosition.x + x, playerPosition.y + heightOffset, playerPosition.z + z);
 
-            // Smoothly interpolate camera rotation
-            Quaternion targetRotation;
-            if (Mathf.Approximately(Vector3.Distance(_startDirection, currentDirection), 0.0f))
-            {
-                targetRotation = Quaternion.identity;
-            }
-            else
-            {
-                targetRotation = Quaternion.FromToRotation(_startDirection, currentDirection);
-            }
+            // Actualiza la posición de la cámara
+            transform.position = targetPosition;
+            
+            var targetRotation =  new Vector3(parentPosition.x, playerPosition.y + heightOffset, parentPosition.z);
 
-            var parent = transform.parent;
-            parent.rotation = Quaternion.Slerp(parent.rotation, targetRotation, smoothness * Time.deltaTime);
+            // Haz que la cámara siempre mire al jugador
+            
+            transform.LookAt(targetRotation);
         }
+        
     }
 }

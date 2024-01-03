@@ -52,8 +52,6 @@ namespace Player
         
         private InputAction _walkAction;
         
-        private float _radio = 1.0f;
-        
         private bool _isSlow = false;
         
         //Animator parameters
@@ -70,9 +68,14 @@ namespace Player
             // Store starting direction of the player with respect to the axis of the level
             _charControl = GetComponent<CharacterController>();
 
+        }
+        
+        private void OnEnable()
+        {
+            playerActions.Enable();
             var playerTransform = transform;
-            var parent = playerTransform.parent;
-            _startDirection = playerTransform.position - parent.position;
+            var parentPosition = playerTransform.parent.position;
+            _startDirection = playerTransform.position - parentPosition;
             _startDirection.y = 0.1f;
             _startDirection.Normalize();
 
@@ -88,13 +91,6 @@ namespace Player
             
             _walkAction = playerActions.FindActionMap("Player").FindAction("Walk");
             
-            _radio = Vector3.Distance(transform.position, parent.position);
-
-        }
-        
-        private void OnEnable()
-        {
-            playerActions.Enable();
         }
         
         private void OnDisable()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -36,6 +37,7 @@ namespace System
         [Header("Jugador")]
         [SerializeField]
         private GameObject player;
+        private PlayerMovement playerMovement;
         
         [Header("Particulas")]
         [SerializeField]
@@ -61,20 +63,51 @@ namespace System
 
         private void Start()
         {
-            MapZoneInner = false;
-            faseActual = 0;
-            Radius = configuracionFases[faseActual].radious;
-            player.transform.position = configuracionFases[faseActual].startPoint;
             if (instance == null)
             {
                 instance = this;
-                DontDestroyOnLoad(this);
+                //DontDestroyOnLoad(this);
             }
             else
             {
                 Destroy(gameObject);
             }
+            
+            MapZoneInner = false;
+            Radius = configuracionFases[faseActual].radious;
+            playerMovement = player.GetComponent<PlayerMovement>();
+            
+            MovePlayerToStartPoint();
+        }
+        
+        public void NextPhase()
+        {
+            if (faseActual < numeroDeFases - 1)
+            {
+                faseActual++;
+                
+                MovePlayerToStartPoint();
+            }
+        }
 
+        private void MovePlayerToStartPoint()
+        {
+            playerMovement.enabled = false;
+            player.transform.position = configuracionFases[faseActual].startPoint;
+            
+            Invoke(nameof(ActivatePlayerMovement), 0.3f);
+            teleport_particles.Play();
+        }
+
+        private void MovePlayerBetweenRadius()
+        {
+            var playerPos = player.transform.position;
+            playerPos = playerPos.normalized * Radius;
+            
+            playerMovement.enabled = false;
+            player.transform.position = playerPos;
+            
+            Invoke(nameof(ActivatePlayerMovement), 0.3f);
         }
 
         public void ChangeMapZone()
@@ -88,6 +121,12 @@ namespace System
             {
                 Radius = configuracionFases[faseActual].radious;
             }
+            MovePlayerBetweenRadius();
+        }
+        
+        private void ActivatePlayerMovement()
+        {
+            playerMovement.enabled = true;
         }
     }
 }
