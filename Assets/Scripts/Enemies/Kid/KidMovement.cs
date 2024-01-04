@@ -6,17 +6,23 @@ namespace Enemies.Kid
 {
     public class KidMovement : MonoBehaviour
     {
-        [FormerlySerializedAs("rotationSpeed")] public float movementSpeed;
+        public float movementSpeed;
         public float gravityScale, jumpForce;
         private float _angle = 0f;
         private Animator _anim;
         private Boolean _jumping = false;
         private Boolean _canJump = true;
+        private Boolean _objDetected = false;
         private CharacterController _charControl;
         private Vector3 _startDirection;
         private float _speedY;
+        public Transform centerPoint; // Center point for the circular raycast
+        public LayerMask layerMask; // Layers to include in the raycast
+        public int numberOfRays = 36; // Number of rays to cast
+        public float maxRayLength = 5f;
         
         private static readonly int Jump = Animator.StringToHash("jump");
+        private static readonly int Steal = Animator.StringToHash("steal");
         
         public bool ViewDirection { get; private set; }
 
@@ -24,38 +30,65 @@ namespace Enemies.Kid
         void Start()
         {
             _charControl = GetComponent<CharacterController>();
-            var playerTransform = transform;
-            var parent = playerTransform.parent;
-            _startDirection = playerTransform.position - parent.position;
+            var kidTransform = transform;
+            var parent = kidTransform.parent;
+            _startDirection = kidTransform.position - parent.position;
             ViewDirection = false;
             _speedY = 0;
             
             _anim = GetComponentInChildren<Animator>();
         }
-    
-        // Update is called once per frame
-        void Update()
+
+        private void OnCollisionEnter(Collision other)
         {
-            //if(_anim.GetBool(Jump)) print(_anim.GetBool(Jump));
-        }
-        
-        private void OnTriggerEnter(Collider other)
-        {
-            Vector3 sideDirection = Vector3.forward;
-            Vector3 directionToOther = other.transform.position - transform.position;
-            directionToOther.Normalize();
-            if (other.gameObject.CompareTag("Obstacle"))
+            print("Collision detected");
+            if (other.gameObject.CompareTag("Santa"))
             {
-                print("house");
-                _jumping = true;
+                print("Santa detected");
+                _anim.SetBool(Steal, true);
             }
         }
-        
+
         void FixedUpdate()
         {
             ManageMovement();
             ManageOrientation();
             ManageJump(); 
+            DetectObjecteNearBy();
+        }
+
+        void DetectObjecteNearBy()
+        {
+            var kidPosition = transform.position;
+            float radius = Mathf.Sqrt(kidPosition.x * kidPosition.x + kidPosition.z * kidPosition.z);
+            
+            for (int i = 0; i < numberOfRays; i++)
+            {
+                //float angle = (i * 360f / numberOfRays) * Mathf.Deg2Rad; // Calculate angle in radians
+                //Vector3 direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)); // Create direction vector
+                float angle = (i * 90f / numberOfRays) - (90f / 2f); // Calculate angle in degrees
+                Vector3 direction = Quaternion.Euler(0f, angle, 0f) * transform.forward; // Create direction vector
+
+                // Calculate ray origin and direction
+                Vector3 rayOrigin = centerPoint.position;
+                Vector3 rayDirection = direction * radius;
+
+                RaycastHit hit;
+                if (Physics.Raycast(rayOrigin, rayDirection, out hit, maxRayLength, layerMask) && !_objDetected)
+                {
+                    if (hit.collider.gameObject.CompareTag("Obstacle"))
+                    {
+                        _jumping = true;
+                        _objDetected = true;
+                    }
+                    
+                    if(hit.collider.gameObject.CompareTag("Santa"))
+                    {
+                        _anim.SetBool(Steal, true);
+                        _objDetected = true;
+                    }
+                }
+            }
         }
         
         void ManageMovement()
@@ -114,7 +147,11 @@ namespace Enemies.Kid
                     _anim.SetBool(Jump, true);
                 }
             }
-            else _speedY -= gravityScale * Time.deltaTime;
+            else
+            {
+                _speedY -= gravityScale * Time.deltaTime;
+                _jumping = false;
+            }
         }
     }
 }
