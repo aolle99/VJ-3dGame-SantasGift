@@ -44,7 +44,7 @@ namespace Environment
             _fading = false;
             _timer = 0.0f;
             
-            _transparentShader = Shader.Find("Transparent/Diffuse");
+            _transparentShader = Shader.Find("TransparentDiffuse");
         }
         
         private void Update()
