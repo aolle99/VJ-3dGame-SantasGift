@@ -2,9 +2,9 @@
 using Enemies.LifeControllers;
 using UnityEngine;
 
-namespace Enemies.Boss
+namespace Enemies.Kid
 {
-    public class BossController : MonoBehaviour
+    public class KidController : MonoBehaviour
     {
         private float _currentHealth;
         private float _maxHealth;
@@ -18,9 +18,10 @@ namespace Enemies.Boss
         {
             healthBar = GetComponentInChildren<HealthBar>();
             shield = GetComponentInChildren<Shield>();
-            _maxHealth = 100f;
+            //print(shield);
+            _maxHealth = 50f;
             _currentHealth = _maxHealth;
-            _maxShield = 50f;
+            _maxShield = 30f;
             _currentShield = _maxShield;
             healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             shield.UpdateShield(_maxShield, _currentShield);
@@ -32,10 +33,11 @@ namespace Enemies.Boss
             if (other.CompareTag("Gift"))
             {
                 UpdateLifeBar();
+                print("gift detected");
             }
         }
 
-        private void UpdateLifeBar()
+        public void UpdateLifeBar()
         {
             GiftType amunitionSelected = _giftStateManager.GetAmmunitionSelected();
             GiftType shieldColor = shield.GetShieldColor();
