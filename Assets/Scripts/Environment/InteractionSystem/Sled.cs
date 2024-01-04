@@ -18,7 +18,6 @@ namespace Environment.InteractionSystem
 
         public bool Interact(Interactor interactor)
         {
-            Debug.Log("Interacted with Sled");
             return true;
         }
     }

@@ -39,28 +39,25 @@ namespace Screens
                 Time.timeScale = 0;
             }
             
-            if(Input.GetKeyDown(KeyCode.X))
-            {
-                _giftStateManager.ChangeAmmunition();
-                VisualElement ammunition1 = root.Q<VisualElement>("Ammunition1");
-                VisualElement ammunition2 = root.Q<VisualElement>("Ammunition2");
+            
+            VisualElement ammunition1 = root.Q<VisualElement>("Ammunition1");
+            VisualElement ammunition2 = root.Q<VisualElement>("Ammunition2");
 
-                if (_giftStateManager.GetAmmunitionSelected() == GiftType.Blue)
-                {
-                    Color blue, lightRed;
-                    ColorUtility.TryParseHtmlString("#8D555850", out lightRed);
-                    ColorUtility.TryParseHtmlString("#4A6584", out blue);
-                    ammunition1.style.backgroundColor = new StyleColor(blue);
-                    ammunition2.style.backgroundColor = new StyleColor(lightRed);
-                } 
-                else
-                {
-                    Color lightBlue, red;
-                    ColorUtility.TryParseHtmlString("#8D5558", out red);
-                    ColorUtility.TryParseHtmlString("#4A658450", out lightBlue);
-                    ammunition1.style.backgroundColor = new StyleColor(lightBlue);
-                    ammunition2.style.backgroundColor = new StyleColor(red);
-                }
+            if (_giftStateManager.GetAmmunitionSelected() == GiftType.Blue)
+            {
+                Color blue, lightRed;
+                ColorUtility.TryParseHtmlString("#8D555850", out lightRed);
+                ColorUtility.TryParseHtmlString("#4A6584", out blue);
+                ammunition1.style.backgroundColor = new StyleColor(blue);
+                ammunition2.style.backgroundColor = new StyleColor(lightRed);
+            } 
+            else
+            {
+                Color lightBlue, red;
+                ColorUtility.TryParseHtmlString("#8D5558", out red);
+                ColorUtility.TryParseHtmlString("#4A658450", out lightBlue);
+                ammunition1.style.backgroundColor = new StyleColor(lightBlue);
+                ammunition2.style.backgroundColor = new StyleColor(red);
             }
             
             // Update ammunition numbers

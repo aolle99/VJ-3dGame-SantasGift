@@ -134,7 +134,7 @@ namespace System
             return true;
         }
         
-        private void refillFullGifts()
+        public void refillFullGifts()
         {
             redGifts = maxRedGifts;
             blueGifts = maxBlueGifts;

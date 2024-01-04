@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Player.GiftBullet;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -12,10 +13,12 @@ namespace Player
         [SerializeField] private float relativeVerticalPosition = 2f;
         [SerializeField] private float timeBetweenThrowsBlue = 0.6f;
         [SerializeField] private float timeBetweenThrowsRed = 1.2f;
+        [SerializeField] private float wheelThreshold = 3f;
         private GiftStateManager _giftStateManager;
         private PlayerMovement _movePlayer;
         private bool _canThrow = true;
         private float _coldDownTimer;
+        private float _accumulatedScroll;
         
         private Animator anim;
         
@@ -27,21 +30,10 @@ namespace Player
             _giftStateManager = GiftStateManager.Instance;
             anim = GetComponentInChildren<Animator>();
         }
-
-        private void Update()
+        
+        public void OnThrow(InputAction.CallbackContext context)
         {
-            if (!_canThrow)
-            {
-                _coldDownTimer += Time.deltaTime;
-                var timeBetweenThrows = _giftStateManager.GetAmmunitionSelected() == GiftType.Blue ? timeBetweenThrowsBlue : timeBetweenThrowsRed;
-                if (_coldDownTimer >= timeBetweenThrows)
-                {
-                    _canThrow = true;
-                    _coldDownTimer = 0;
-                }
-            }
-            
-            if (Input.GetKeyDown(KeyCode.Mouse0) && _canThrow)
+            if (context.started)
             {
                 anim.SetBool(AnimThrow, true);
                 GiftType ammunitionSelected = _giftStateManager.GetAmmunitionSelected();
@@ -63,7 +55,38 @@ namespace Player
                 
                 // If there is ammunition, the player can shoot
                 StartCoroutine(ThrowGiftCoroutine(prefab, ammunitionSelected));
-                
+            }
+        }
+        
+        public void OnChangeGun(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                _accumulatedScroll += context.ReadValue<float>()/120;
+                if (_accumulatedScroll >= wheelThreshold)
+                {
+                    _accumulatedScroll = 0;
+                    _giftStateManager.ChangeAmmunition();
+                }
+                else if (_accumulatedScroll <= -wheelThreshold)
+                {
+                    _accumulatedScroll = 0;
+                    _giftStateManager.ChangeAmmunition();
+                }
+            }
+        }
+
+        private void Update()
+        {
+            if (!_canThrow)
+            {
+                _coldDownTimer += Time.deltaTime;
+                var timeBetweenThrows = _giftStateManager.GetAmmunitionSelected() == GiftType.Blue ? timeBetweenThrowsBlue : timeBetweenThrowsRed;
+                if (_coldDownTimer >= timeBetweenThrows)
+                {
+                    _canThrow = true;
+                    _coldDownTimer = 0;
+                }
             }
         }
         IEnumerator ThrowGiftCoroutine(GameObject prefab, GiftType ammunitionSelected)
