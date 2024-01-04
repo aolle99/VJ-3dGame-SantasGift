@@ -6,7 +6,7 @@ namespace Enemies.Boss
 {
     public class BossMovement : MonoBehaviour
     {
-        [FormerlySerializedAs("rotationSpeed")] public float movementSpeed;
+        public float movementSpeed;
         private CharacterController _charControl;
         private Vector3 _startDirection;
         private Animator _anim;

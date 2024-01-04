@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 137991694810047302}
   - component: {fileID: 1923035088183133541}
   - component: {fileID: 687669124172497992}
+  - component: {fileID: 4911267270482318792}
   m_Layer: 3
   m_Name: Kid
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,9 +99,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50af3255482ca0549a56b47816fac0b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 25
+  movementSpeed: 8
   gravityScale: 15
   jumpForce: 12
+  centerPoint: {fileID: 847726359772676734}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  numberOfRays: 36
+  maxRayLength: 2
 --- !u!143 &687669124172497992
 CharacterController:
   m_ObjectHideFlags: 0
@@ -114,7 +121,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -127,6 +134,18 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4911267270482318792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5573810182615693913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36956e416b3c416fba8e863aac08c904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4771504755781745329
 PrefabInstance:
   m_ObjectHideFlags: 0
