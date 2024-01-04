@@ -35,6 +35,7 @@ Material:
     - _DstBlend: 10
     - _Glossiness: 0.5
     - _Mode: 3
+    - _SrcBlend: 1
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0.6985294, g: 0.82535493, b: 1, a: 0.24705882}
