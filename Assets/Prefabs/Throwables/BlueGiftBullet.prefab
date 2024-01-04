@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6967883178174339729}
   m_Layer: 0
   m_Name: BlueGiftBullet
-  m_TagString: Untagged
+  m_TagString: Gift
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
