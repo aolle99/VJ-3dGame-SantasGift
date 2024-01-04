@@ -133,6 +133,21 @@ namespace System
         {
             playerMovement.enabled = true;
         }
+        
+        public float GetFaseRadius()
+        {
+            return configuracionFases[faseActual].radious;
+        }
+        
+        public float GetFaseInnerRadius()
+        {
+            return configuracionFases[faseActual].innerRadious;
+        }
+        
+        public float GetCurrentFaseRadius()
+        {
+            return MapZoneInner ? configuracionFases[faseActual].innerRadious : configuracionFases[faseActual].radious;
+        }
     }
 }
 

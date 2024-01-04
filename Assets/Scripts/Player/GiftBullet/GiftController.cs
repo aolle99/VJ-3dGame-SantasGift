@@ -27,6 +27,7 @@ namespace Player.GiftBullet
         private Vector2 startPosition;
         private Vector2 centerPosition;
         private float startAngle;
+        private float radius;
         
         Rigidbody rb;
         void Start()
@@ -40,7 +41,7 @@ namespace Player.GiftBullet
             
             startAngle = calculateAngle();
             
-            
+            radius = MapManager.instance.GetCurrentFaseRadius();
         }
 
         private void Update()
@@ -65,9 +66,7 @@ namespace Player.GiftBullet
         {
             // move bullet in a circle
             angle += speed * Time.deltaTime * direction;
-
-            float radius = MapManager.instance.Radius;
-
+            
             float x = Mathf.Cos(angle) * radius;
             float z = Mathf.Sin(angle) * radius;
 
