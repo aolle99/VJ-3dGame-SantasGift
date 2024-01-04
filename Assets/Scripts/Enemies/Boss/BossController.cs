@@ -1,4 +1,5 @@
-﻿using Enemies.Boss.LifeControllers;
+﻿using System;
+using Enemies.LifeControllers;
 using UnityEngine;
 
 namespace Enemies.Boss
@@ -11,6 +12,7 @@ namespace Enemies.Boss
         private float _maxShield;
         [SerializeField]private HealthBar healthBar;
         [SerializeField]private Shield shield;
+        private GiftStateManager _giftStateManager;
         
         void Start()
         {
@@ -22,22 +24,34 @@ namespace Enemies.Boss
             _currentShield = _maxShield;
             healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             shield.UpdateShield(_maxShield, _currentShield);
+            _giftStateManager = GiftStateManager.Instance;
         }
 
-        void Update()
+        private void OnTriggerEnter(Collider other)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (other.CompareTag("Gift"))
             {
-                if (_currentShield > 0f)
+                UpdateLifeBar();
+            }
+        }
+
+        private void UpdateLifeBar()
+        {
+            GiftType amunitionSelected = _giftStateManager.GetAmmunitionSelected();
+            GiftType shieldColor = shield.GetShieldColor();
+            
+            if (_currentShield > 0f)
+            {
+                if (amunitionSelected == shieldColor)
                 {
                     _currentShield -= 5f;
                     shield.UpdateShield(_maxShield, _currentShield);
                 }
-                else if (_currentHealth > 0f)
-                {
-                    _currentHealth -= 5f;
-                    healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
-                }
+            }
+            else if (_currentHealth > 0f)
+            {
+                _currentHealth -= 5f;
+                healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             }
         }
     }

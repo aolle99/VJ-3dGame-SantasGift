@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Enemies.Boss.LifeControllers
+namespace Enemies.LifeControllers
 {
     public class HealthBar : MonoBehaviour
     {
