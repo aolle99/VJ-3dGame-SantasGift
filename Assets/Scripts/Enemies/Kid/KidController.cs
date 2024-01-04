@@ -18,7 +18,6 @@ namespace Enemies.Kid
         {
             healthBar = GetComponentInChildren<HealthBar>();
             shield = GetComponentInChildren<Shield>();
-            //print(shield);
             _maxHealth = 50f;
             _currentHealth = _maxHealth;
             _maxShield = 30f;
@@ -33,7 +32,6 @@ namespace Enemies.Kid
             if (other.CompareTag("Gift"))
             {
                 UpdateLifeBar();
-                print("gift detected");
             }
         }
 
