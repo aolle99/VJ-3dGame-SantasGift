@@ -128,7 +128,7 @@ namespace Player
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
             {
                 if (_singleJump && !_doubleJump)
                 {

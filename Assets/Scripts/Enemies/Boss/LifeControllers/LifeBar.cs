@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Enemies.Boss
+namespace Enemies.Boss.LifeControllers
 {
     public class LifeBar : MonoBehaviour
     {

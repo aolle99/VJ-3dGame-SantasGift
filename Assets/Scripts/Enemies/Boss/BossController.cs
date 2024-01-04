@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Enemies.Boss.LifeControllers;
+using UnityEngine;
 
 namespace Enemies.Boss
 {
@@ -13,6 +14,8 @@ namespace Enemies.Boss
         
         void Start()
         {
+            healthBar = GetComponentInChildren<HealthBar>();
+            shield = GetComponentInChildren<Shield>();
             _maxHealth = 100f;
             _currentHealth = _maxHealth;
             _maxShield = 50f;
