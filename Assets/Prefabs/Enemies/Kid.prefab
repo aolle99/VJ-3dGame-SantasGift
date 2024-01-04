@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 5743414263903725567}
   - component: {fileID: 5342002983131636460}
   - component: {fileID: 2043335587006571976}
-  - component: {fileID: 4831490018888329871}
+  - component: {fileID: 866880873288651742}
   m_Layer: 3
   m_Name: ShieldCanvas
   m_TagString: Untagged
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4831490018888329871
+--- !u!114 &866880873288651742
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a52a3221324e71b296eaaaeba9609d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shieldSprite: {fileID: 0}
+  shieldSprite: {fileID: 1064778591162433199}
 --- !u!1 &5008767662197445678
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +200,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5919790335278776551}
-  - component: {fileID: 2101713453805969731}
+  - component: {fileID: 9145125125085114126}
   m_Layer: 3
   m_Name: LifeEnemy
   m_TagString: Untagged
@@ -225,7 +225,7 @@ Transform:
   - {fileID: 118183567398642957}
   m_Father: {fileID: 847726359772676734}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2101713453805969731
+--- !u!114 &9145125125085114126
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -548,8 +548,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde192a6e3142a6985f3c5a00caf565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 1252561519067466172}
-  shield: {fileID: 4831490018888329871}
+  healthBar: {fileID: 6551555191350883782}
+  shield: {fileID: 866880873288651742}
 --- !u!1 &8387570809754064741
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +562,7 @@ GameObject:
   - component: {fileID: 3644666778702029975}
   - component: {fileID: 8461361775334341305}
   - component: {fileID: 5148320194632192661}
-  - component: {fileID: 1252561519067466172}
+  - component: {fileID: 6551555191350883782}
   m_Layer: 3
   m_Name: HealthbarCanvas
   m_TagString: Untagged
@@ -653,7 +653,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1252561519067466172
+--- !u!114 &6551555191350883782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c8b219de5645f390b33d3c937b21ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBarSprite: {fileID: 0}
+  healthBarSprite: {fileID: 912068958499587105}
 --- !u!1001 &4771504755781745329
 PrefabInstance:
   m_ObjectHideFlags: 0
