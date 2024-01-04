@@ -27,7 +27,6 @@ namespace Environment.InteractionSystem
 
         public bool Interact(Interactor interactor)
         {
-            Debug.Log("Chest opened");
             _giftStateManager.AddRandomGifts();
             Destroy(_interactionPromptUI);
             Destroy(gameObject);

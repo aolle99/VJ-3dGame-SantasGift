@@ -30,6 +30,8 @@ namespace Player
         
         [SerializeField] private InputActionAsset playerActions;
         
+        private PlayerInput _playerInput;
+        
         private float _inputMove;
         
         private float _moveAcceleration;
@@ -40,7 +42,12 @@ namespace Player
         
         private float _speedY;
         
+        private bool _inputJump = false;
+        
+        
         private bool _doubleJump;
+        
+        private bool _doubleJumped;
         
         private bool _singleJump;
 
@@ -50,9 +57,9 @@ namespace Player
 
         private Animator anim;
         
-        private InputAction _walkAction;
-        
         private bool _isSlow = false;
+        
+
         
         //Animator parameters
         private static readonly int AnimSpeed = Animator.StringToHash("movSpeed");
@@ -67,12 +74,14 @@ namespace Player
         {
             // Store starting direction of the player with respect to the axis of the level
             _charControl = GetComponent<CharacterController>();
+            _playerInput = GetComponent<PlayerInput>();
 
         }
         
         private void OnEnable()
         {
             playerActions.Enable();
+
 
             _speedY = 0;
             _doubleJump = false;
@@ -83,8 +92,6 @@ namespace Player
             _dashTimer = dashDelay + dashDuration; // To allow first dash
 
             anim = GetComponentInChildren<Animator>();
-            
-            _walkAction = playerActions.FindActionMap("Player").FindAction("Walk");
             
             _isSlow = false;
             
@@ -97,7 +104,10 @@ namespace Player
 
         private void Update()
         {
-            ManageInputs();
+            _inputMove = _playerInput.actions["Walk"].ReadValue<float>();
+            
+            if(_inputMove != 0) ViewDirection = _inputMove > 0;
+            
             anim.SetBool(AnimJumping, _singleJump);
             anim.SetBool(AnimDashing, _dashed);
             anim.SetBool(AnimDoubleJumping, _doubleJump);
@@ -110,29 +120,26 @@ namespace Player
             ManageMovement();
             ManageJump();
         }
-
-        private void ManageInputs()
+        public void OnJump(InputAction.CallbackContext context)
         {
-            _inputMove = _walkAction.ReadValue<float>();
-            
-           
-            
-            if(_inputMove != 0) ViewDirection = _inputMove > 0;
-            
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (context.started)
+            {
+                if(!_singleJump) _inputJump = true;
+                else if (_singleJump && !_doubleJump)
+                {
+                    _doubleJump = true;
+                }
+            }
+        }
+        
+        public void OnDash(InputAction.CallbackContext context)
+        {
+            if (context.started)
             {
                 if (!_dashed && _dashTimer > (dashDuration + dashDelay))
                 {
                     _dashed = true;
                     _dashTimer = 0.0f;
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                if (_singleJump && !_doubleJump)
-                {
-                    _doubleJump = true;
                 }
             }
         }
@@ -175,11 +182,11 @@ namespace Player
                     {
                         if (ViewDirection)
                         {
-                            angle = 1.0f * Time.deltaTime;
+                            angle = 20.0f * Time.deltaTime;
                         }
                         else
                         {
-                            angle = -1.0f * Time.deltaTime;
+                            angle = -20.0f * Time.deltaTime;
                         }
                     }
                     angle *= dashSpeedMultiplier;
@@ -205,7 +212,12 @@ namespace Player
                 Physics.SyncTransforms();
                 _moveAcceleration = 0.0f;
             }
-            anim.SetFloat(AnimSpeed, Mathf.Abs(_moveAcceleration/5));
+            var animMoveAcceleration = _moveAcceleration;
+            if (_isSlow)
+            {
+                animMoveAcceleration *= slowFactor;
+            }
+            anim.SetFloat(AnimSpeed, Mathf.Abs(animMoveAcceleration/5));
             
         }
 
@@ -225,26 +237,27 @@ namespace Player
             {
                 _doubleJump = false;
                 _singleJump = false;
+                _doubleJumped = false;
                 if (_speedY < 0.0f)
                     _speedY = 0.0f;
-                if (!_singleJump && Input.GetKey(KeyCode.W))
+                if (_inputJump)
                 {
                     _speedY = jumpSpeed;
                     _singleJump = true;
-
+                    _inputJump = false;
                 }
-
             }
             else
+            {
                 _speedY -= gravity * Time.deltaTime;
-
-            if (_singleJump && _doubleJump)
+            }
+            
+            if (_singleJump && _doubleJump && !_doubleJumped)
             {
                 if (_speedY < 0.0f) _speedY = 0.0f;
                 _speedY = jumpSpeed;
                 _doubleJump = false;
-                _singleJump = false;
-
+                _doubleJumped = true;
             }
         }
 

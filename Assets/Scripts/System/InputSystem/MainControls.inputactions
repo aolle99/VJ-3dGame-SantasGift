@@ -1,8 +1,8 @@
 {
-    "name": "New Controls",
+    "name": "MainControls",
     "maps": [
         {
-            "name": "Player",
+            "name": "PlayerControl",
             "id": "451f51b4-7c4b-4e5b-bfdf-2a0507d3b814",
             "actions": [
                 {
@@ -35,7 +35,34 @@
                 {
                     "name": "Shoot",
                     "type": "Button",
-                    "id": "1616c4cb-825f-4299-9c75-12caf09a6aa7",
+                    "id": "c7d5b07c-2322-45b8-8422-c5ff24e5ff41",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeGiftType",
+                    "type": "Value",
+                    "id": "ad3c03df-6c7c-40bd-a8b5-cc26dce2bdc0",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Max Ammo",
+                    "type": "Button",
+                    "id": "e10be031-e3fc-41f0-9b89-df2630e68432",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Invencible",
+                    "type": "Button",
+                    "id": "d1e6b4e6-d76c-461d-ad4e-f0ffc344a8fe",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -100,12 +127,45 @@
                 },
                 {
                     "name": "",
-                    "id": "3192bae3-4eae-49c0-98bc-0cff8f614904",
+                    "id": "06196d4e-4d6c-4707-aa97-39d3b42dc93d",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45002d07-c9da-4990-85fb-3a1eddb155d7",
+                    "path": "<Keyboard>/#(G)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Invencible",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7cd05c07-b19f-41e2-bb24-e0c050559ecf",
+                    "path": "<Keyboard>/#(M)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Max Ammo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04faf2c1-d75b-4c7a-ac2a-d06e88a2e1e3",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeGiftType",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
