@@ -57,7 +57,7 @@ namespace System
         
         public void AddBlueGift(int numGifts)
         {
-            blueGifts +=  Mathf.Min(maxRedGifts,blueGifts + numGifts);
+            blueGifts +=  Mathf.Min(maxBlueGifts,blueGifts + numGifts);
         }
         
         public void RemoveRedGift()
@@ -110,6 +110,34 @@ namespace System
             {
                 ammunitionSelected = GiftType.Blue;
             }
+        }
+        
+        public bool removeRandomGift(int gifts)
+        {
+            if (GetTotalGifts() <= 0)
+            {
+                return false;
+            }
+            
+            int random = UnityEngine.Random.Range(0, gifts);
+            int substractRedGifts = Mathf.Min(random, redGifts);
+            int substractBlueGifts = Mathf.Min(random - substractRedGifts, blueGifts);
+            
+            redGifts -= substractRedGifts;
+            blueGifts -= substractBlueGifts;
+
+            if (GetTotalGifts() <= 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        
+        private void refillFullGifts()
+        {
+            redGifts = maxRedGifts;
+            blueGifts = maxBlueGifts;
         }
     }
 }
