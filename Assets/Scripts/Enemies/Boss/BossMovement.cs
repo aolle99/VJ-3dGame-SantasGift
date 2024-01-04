@@ -41,7 +41,6 @@ namespace Enemies.Boss
         void FixedUpdate()
         {
             ManageMovement();
-            ManageOrientation();
             if (Math.Abs(_timer - _timeBetweenAnim) < 0.05) ManageAnimations();
         }
         
@@ -61,28 +60,6 @@ namespace Enemies.Boss
             }
             
         }
-        
-        private void ManageOrientation()
-        {
-            var playerTransform = transform;
-            var currentDirection = playerTransform.position - playerTransform.parent.position;
-            currentDirection.y = 0.0f;
-            currentDirection.Normalize();
-             
-            Quaternion orientation;
-            if ((_startDirection - currentDirection).magnitude < 1e-3)
-                orientation = Quaternion.AngleAxis(0.0f, Vector3.up);
-            else if ((_startDirection + currentDirection).magnitude < 1e-3)
-                orientation = Quaternion.AngleAxis(180.0f, Vector3.up);
-            else
-                orientation = Quaternion.FromToRotation(_startDirection, currentDirection);
-
-            orientation.eulerAngles = new Vector3(0.0f, orientation.eulerAngles.y, 0.0f);
-            transform.rotation = orientation;
-
-            //if (!ViewDirection) transform.Rotate(Vector3.up, 180.0f);
-        }
-        
         
         private void ManageAnimations()
         {

@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/UI/Screens/Level/LevelStylesheet.uss?fileID=7433441132597879392&amp;guid=37acc0777a78a214c819958e613087ff&amp;type=3#LevelStylesheet" />
     <ui:VisualElement name="Container" style="flex-grow: 1; max-width: none; max-height: none; width: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%;">
         <ui:VisualElement name="ProgressBar" class="progress-bar" style="flex-direction: row; max-height: none; height: 90px; align-self: center; align-items: center; justify-content: flex-start;">
-            <ui:VisualElement name="LifeIcon" class="life-icon" style="margin-right: 4px; margin-bottom: 4px; background-image: url(&apos;project://database/Assets/UI/Images/bag.png?fileID=2800000&amp;guid=ca4dfa810ba7101469635600e02f59d1&amp;type=3#bag&apos;); max-width: 80px; max-height: none; width: 80px; height: 80px;" />
+            <ui:VisualElement name="LifeIcon" class="life-icon" style="margin-right: 4px; margin-bottom: 4px; background-image: url(&apos;project://database/Assets/UI/Images/image-removebg-preview.png?fileID=2800000&amp;guid=81ae8ce1b0694bd499cf8f794561c60d&amp;type=3#image-removebg-preview&apos;); max-width: 80px; max-height: none; width: 80px; height: 80px;" />
             <ui:ProgressBar value="22" focusable="false" usage-hints="None" name="Bar" class="bar" style="margin-left: 4px; width: auto; max-width: 400px; -unity-background-image-tint-color: rgba(56, 56, 56, 0); height: auto; background-image: none; -unity-background-scale-mode: stretch-to-fill;" />
             <ui:Label tabindex="-1" text="100" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GiftsLeft" class="label-text" style="font-size: 50px;" />
         </ui:VisualElement>

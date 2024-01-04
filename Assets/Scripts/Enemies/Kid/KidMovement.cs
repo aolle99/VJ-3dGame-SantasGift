@@ -44,9 +44,7 @@ namespace Enemies.Kid
             Vector3 sideDirection = Vector3.forward;
             Vector3 directionToOther = other.transform.position - transform.position;
             directionToOther.Normalize();
-            print("collider");
-            print(other.gameObject.CompareTag("House"));
-            if (other.gameObject.CompareTag("House"))
+            if (other.gameObject.CompareTag("Obstacle"))
             {
                 print("house");
                 _jumping = true;
