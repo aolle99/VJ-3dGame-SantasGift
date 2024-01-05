@@ -2159,6 +2159,7 @@ MonoBehaviour:
     innerRadious: 0
     faseObject: {fileID: 1100664937}
     nextFaseObject: {fileID: 0}
+    objectives: 0
   player: {fileID: 1774961761}
   teleport_particles: {fileID: 1769242737}
 --- !u!1001 &632291859
@@ -26539,7 +26540,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2092163941
 Transform:
   m_ObjectHideFlags: 0
