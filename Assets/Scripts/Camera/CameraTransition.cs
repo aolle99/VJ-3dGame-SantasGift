@@ -42,7 +42,6 @@ namespace Camera
         {
             inTransition = true;
             float startTime = Time.time;
-            Debug.Log("FadeOut");
             while (Time.time - startTime < transitionDuration)
             {
                 alpha = Mathf.Lerp(1f, 0f, (Time.time - startTime) / transitionDuration);

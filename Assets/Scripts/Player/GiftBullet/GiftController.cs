@@ -18,6 +18,7 @@ namespace Player.GiftBullet
         [SerializeField] private float bulletDuration = 1f;
         [SerializeField] private int bulletAngleDistance = 180;
         [SerializeField] private float damage = 1f;
+        [SerializeField] private GameObject hitEffect;
         
         private float lifeTime = 0f;
         private float _startAngle;
@@ -41,7 +42,7 @@ namespace Player.GiftBullet
             
             startAngle = calculateAngle();
             
-            radius = MapManager.instance.GetCurrentFaseRadius();
+            
         }
 
         private void Update()
@@ -55,6 +56,7 @@ namespace Player.GiftBullet
                 // Verificar si el ángulo supera el umbral
                 if (acumulatedAngle  > bulletAngleDistance)
                 {
+                    callParticleExplosion();
                     Destroy(gameObject);
                 }
             }
@@ -66,6 +68,7 @@ namespace Player.GiftBullet
         {
             // move bullet in a circle
             angle += speed * Time.deltaTime * direction;
+            radius = MapManager.instance.GetCurrentFaseRadius();
             
             float x = Mathf.Cos(angle) * radius;
             float z = Mathf.Sin(angle) * radius;
@@ -78,6 +81,7 @@ namespace Player.GiftBullet
 
                 if (lifeTime > bulletDuration)
                 {
+                    callParticleExplosion();
                     Destroy(gameObject);
                 }
             }
@@ -100,11 +104,13 @@ namespace Player.GiftBullet
         {
             if (other.gameObject.CompareTag("Enemy"))
             {
+                callParticleExplosion();
                 // Call the enemy hit method
                 Destroy(gameObject);
             }
             if (other.gameObject.CompareTag("Obstacle"))
             {
+                callParticleExplosion();
                 Destroy(gameObject);
             }
         }
@@ -123,6 +129,12 @@ namespace Player.GiftBullet
             float ladoB = Vector2.Distance(currentPosition, centerPosition);
                 
             return Mathf.Acos((Mathf.Pow(ladoA, 2) + Mathf.Pow(ladoB, 2) - Mathf.Pow(ladoC, 2)) / (2 * ladoA * ladoB));
+        }
+
+        private void callParticleExplosion()
+        {
+            var particle = Instantiate(hitEffect, transform.position, Quaternion.identity);
+            Destroy(particle, 1f);
         }
     }
 }
