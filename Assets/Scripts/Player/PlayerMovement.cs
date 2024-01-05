@@ -59,7 +59,7 @@ namespace Player
         
         private bool _isSlow = false;
         
-
+        private PlayerController _playerController;
         
         //Animator parameters
         private static readonly int AnimSpeed = Animator.StringToHash("movSpeed");
@@ -67,7 +67,7 @@ namespace Player
         private static readonly int AnimDashing = Animator.StringToHash("isDashing");
         private static readonly int AnimDoubleJumping = Animator.StringToHash("isDoubleJumping");
 
-        public bool ViewDirection { get; private set; }
+        public bool ViewDirection { get; private set; } = true;
 
         // Start is called before the first frame update
         private void Start()
@@ -75,7 +75,10 @@ namespace Player
             // Store starting direction of the player with respect to the axis of the level
             _charControl = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
-
+            
+            _playerController = GetComponent<PlayerController>();
+            
+            ViewDirection = true;
         }
         
         private void OnEnable()
@@ -124,10 +127,15 @@ namespace Player
         {
             if (context.started)
             {
-                if(!_singleJump) _inputJump = true;
-                else if (_singleJump && !_doubleJump)
+                if (!_singleJump)
+                {
+                    _inputJump = true;
+                    AudioManager.instance.PlaySound("Jump");
+                }
+                else if (_singleJump && !_doubleJump && !_doubleJumped)
                 {
                     _doubleJump = true;
+                    AudioManager.instance.PlaySound("DoubleJump");
                 }
             }
         }
@@ -138,6 +146,7 @@ namespace Player
             {
                 if (!_dashed && _dashTimer > (dashDuration + dashDelay))
                 {
+                    AudioManager.instance.PlaySound("Dash");
                     _dashed = true;
                     _dashTimer = 0.0f;
                 }
@@ -171,13 +180,15 @@ namespace Player
             _dashTimer += Time.deltaTime;
             if (_dashed)
             {
-                if (_dashTimer > dashDuration)
+                if (_dashTimer >= dashDuration)
                 {
+                    _playerController.SetImortal(false);
                     _dashed = false;
 
                 }
                 else
                 {
+                    _playerController.SetImortal(true);
                     if (_moveAcceleration == 0.0f)
                     {
                         if (ViewDirection)

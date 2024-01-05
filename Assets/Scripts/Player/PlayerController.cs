@@ -9,6 +9,7 @@ namespace Player
     {
         private bool _isDead = false;
         private bool _isInvincible = false;
+        private bool _godMode = false;
         private GiftStateManager _giftStateManager;
         private ParticleSystem _inmortalParticles;
         private ParticleSystem _maxAmmoParticles;
@@ -31,7 +32,9 @@ namespace Player
         {
             if (context.started)
             {
-                _isInvincible = !_isInvincible;
+                AudioManager.instance.PlaySound("GodMode");
+                _godMode = !_godMode;
+                _isInvincible = _godMode;
                 if (_isInvincible)
                 {
                     _inmortalParticles.Play();
@@ -45,6 +48,8 @@ namespace Player
         
         public void SetImortal(bool isImortal)
         {
+            if(_godMode) return;
+            
             _isInvincible = isImortal;
             if (_isInvincible)
             {
@@ -60,6 +65,7 @@ namespace Player
         {
             if (context.started)
             {
+                AudioManager.instance.PlaySound("ReloadAmmo");
                 _maxAmmoParticles.Play();
                 _giftStateManager.refillFullGifts();
             }
@@ -76,7 +82,8 @@ namespace Player
             {
                 return false;
             }
-
+            
+            AudioManager.instance.PlaySound("Damage");
             _isDead = _giftStateManager.removeRandomGift((int) damage);
             
             _damageBlueParticles.Play();
