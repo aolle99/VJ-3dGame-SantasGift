@@ -11,6 +11,7 @@ public class ConfiguracionFase
     public float innerRadious;
     public GameObject faseObject;
     public GameObject nextFaseObject;
+    public int objectives;
 }
 
 namespace System
@@ -42,6 +43,8 @@ namespace System
         [Header("Particulas")]
         [SerializeField]
         private ParticleSystem teleport_particles;
+
+        private int _currentPhaseObjectives;
         
 
 
@@ -76,8 +79,19 @@ namespace System
             MapZoneInner = false;
             Radius = configuracionFases[faseActual].radious;
             playerMovement = player.GetComponent<PlayerMovement>();
-            
+            DesactivateAllFases();
+            ConfigurePhase();
             MovePlayerToStartPoint();
+            
+
+        }
+        
+        private void DesactivateAllFases()
+        {
+            foreach (var fase in configuracionFases)
+            {
+                fase.faseObject.SetActive(false);
+            }
         }
         
         public void NextPhase()
@@ -86,8 +100,20 @@ namespace System
             {
                 faseActual++;
                 
+                ConfigurePhase();
                 MovePlayerToStartPoint();
             }
+        }
+        
+        private void ConfigurePhase()
+        {
+            configuracionFases[faseActual].faseObject.SetActive(true);
+            MapZoneInner = false;
+            if( configuracionFases[faseActual].objectives > 0)
+                configuracionFases[faseActual].nextFaseObject.SetActive(false);
+            else configuracionFases[faseActual].nextFaseObject.SetActive(true);
+            
+            Radius = configuracionFases[faseActual].radious;
         }
 
         private void MovePlayerToStartPoint()
@@ -147,6 +173,15 @@ namespace System
         public float GetCurrentFaseRadius()
         {
             return MapZoneInner ? configuracionFases[faseActual].innerRadious : configuracionFases[faseActual].radious;
+        }
+        
+        public void AddObjective()
+        {
+            _currentPhaseObjectives++;
+            if (_currentPhaseObjectives >= configuracionFases[faseActual].objectives)
+            {
+                configuracionFases[faseActual].nextFaseObject.SetActive(true);
+            }
         }
     }
 }
