@@ -1,4 +1,5 @@
 using System;
+using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -25,13 +26,13 @@ namespace Enemies.Kid
         private float _timerRunAway = 0f;
         private GiftStateManager _giftStateManager;
         private KidController _kidController;
+        [SerializeField] private int damageCaused = 3;
+        [SerializeField] private PlayerController playerController;
         
         private static readonly int Jump = Animator.StringToHash("jump");
         private static readonly int Steal = Animator.StringToHash("steal");
         private static readonly int Walk = Animator.StringToHash("walk");
         
-        
-
         // Start is called before the first frame update
         void Start()
         {
@@ -50,7 +51,6 @@ namespace Enemies.Kid
         void FixedUpdate()
         {
             ManageMovement();
-            ManageOrientation();
             ManageJump(); 
             DetectObjecteNearBy();
             ManageStealAnimation();
@@ -126,6 +126,7 @@ namespace Enemies.Kid
                     if(hit.collider.gameObject.CompareTag("Santa") && !_anim.GetBool(Steal))
                     {
                         _anim.SetBool(Steal, true);
+                        playerController.damagePlayer(damageCaused);
                     }
                 }
             }
@@ -150,27 +151,6 @@ namespace Enemies.Kid
                 transform.position = position;
                 Physics.SyncTransforms();
             }
-        }
-        
-        private void ManageOrientation()
-        {
-            var playerTransform = transform;
-            var currentDirection = playerTransform.position - playerTransform.parent.position;
-            currentDirection.y = 0.0f;
-            currentDirection.Normalize();
-             
-            Quaternion orientation;
-            if ((_startDirection - currentDirection).magnitude < 1e-3)
-                orientation = Quaternion.AngleAxis(0.0f, Vector3.up);
-            else if ((_startDirection + currentDirection).magnitude < 1e-3)
-                orientation = Quaternion.AngleAxis(180.0f, Vector3.up);
-            else
-                orientation = Quaternion.FromToRotation(_startDirection, currentDirection);
-
-            orientation.eulerAngles = new Vector3(0.0f, orientation.eulerAngles.y, 0.0f);
-            transform.rotation = orientation;
-
-            if (!ViewDirection) transform.Rotate(Vector3.up, 180.0f);
         }
         
         void ManageJump()
