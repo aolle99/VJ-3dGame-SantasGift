@@ -32,6 +32,7 @@ namespace Player
         {
             if (context.started)
             {
+                AudioManager.instance.PlaySound("GodMode");
                 _godMode = !_godMode;
                 _isInvincible = _godMode;
                 if (_isInvincible)
@@ -64,6 +65,7 @@ namespace Player
         {
             if (context.started)
             {
+                AudioManager.instance.PlaySound("ReloadAmmo");
                 _maxAmmoParticles.Play();
                 _giftStateManager.refillFullGifts();
             }
@@ -80,7 +82,8 @@ namespace Player
             {
                 return false;
             }
-
+            
+            AudioManager.instance.PlaySound("Damage");
             _isDead = _giftStateManager.removeRandomGift((int) damage);
             
             _damageBlueParticles.Play();

@@ -31,6 +31,7 @@ namespace Environment.InteractionSystem
 
         public bool Interact(Interactor interactor)
         {
+            AudioManager.instance.PlaySound("GetGifts");
             if (randomGifts)
             {
                 _giftStateManager.AddRandomGifts();

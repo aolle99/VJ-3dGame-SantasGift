@@ -127,10 +127,15 @@ namespace Player
         {
             if (context.started)
             {
-                if(!_singleJump) _inputJump = true;
+                if (!_singleJump)
+                {
+                    _inputJump = true;
+                    AudioManager.instance.PlaySound("Jump");
+                }
                 else if (_singleJump && !_doubleJump && !_doubleJumped)
                 {
                     _doubleJump = true;
+                    AudioManager.instance.PlaySound("DoubleJump");
                 }
             }
         }
@@ -141,6 +146,7 @@ namespace Player
             {
                 if (!_dashed && _dashTimer > (dashDuration + dashDelay))
                 {
+                    AudioManager.instance.PlaySound("Dash");
                     _dashed = true;
                     _dashTimer = 0.0f;
                 }

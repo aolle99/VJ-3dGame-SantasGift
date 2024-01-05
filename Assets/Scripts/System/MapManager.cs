@@ -222,6 +222,7 @@ namespace System
         
         private IEnumerator SantaInAnimation()
         {
+            AudioManager.instance.PlaySound("TeleportIn");
             _santaModel.SetActive(false);
             teleport_particles.Play();
             yield return new WaitForSeconds(2f);
@@ -237,6 +238,7 @@ namespace System
         
         private IEnumerator SantaOutAnimation()
         {
+            AudioManager.instance.PlaySound("TeleportOut");
             teleport_particles.Play();
             yield return new WaitForSeconds(1f);
             _santaModel.SetActive(false);
@@ -249,6 +251,7 @@ namespace System
         
         private IEnumerator SantaOutInAnimation()
         {
+            AudioManager.instance.PlaySound("TeleportOut");
             teleport_particles.Play();
             yield return new WaitForSeconds(2f);
             _santaModel.SetActive(false);
@@ -257,6 +260,7 @@ namespace System
             yield return new WaitForSeconds(1f);
             
             MovePlayerToStartPoint();
+            AudioManager.instance.PlaySound("TeleportIn");
             teleport_particles.Play();
             yield return new WaitForSeconds(2f);
             _santaModel.SetActive(true);

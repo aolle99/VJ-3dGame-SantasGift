@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Screens
@@ -14,6 +15,7 @@ namespace Screens
             button.clicked += () =>
             {
                 print("clicked");
+                AudioManager.instance.PlaySound("StartGame");
                 UnityEngine.SceneManagement.SceneManager.LoadScene("FirstLevel");
             };
             

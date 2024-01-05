@@ -22,6 +22,7 @@ namespace Environment.InteractionSystem
 
         public bool Interact(Interactor interactor)
         {
+            AudioManager.instance.PlaySound("ChangeZone");
             _mapManager = MapManager.instance;
             _mapManager.ChangeMapZone();
             Destroy(_interactionPromptUI);

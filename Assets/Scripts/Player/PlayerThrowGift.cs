@@ -35,6 +35,7 @@ namespace Player
         {
             if (context.started)
             {
+                AudioManager.instance.PlaySound("Throw");
                 anim.SetBool(AnimThrow, true);
                 GiftType ammunitionSelected = _giftStateManager.GetAmmunitionSelected();
                 // If there is no ammunition, the player cannot shoot
@@ -65,11 +66,13 @@ namespace Player
                 _accumulatedScroll += context.ReadValue<float>()/120;
                 if (_accumulatedScroll >= wheelThreshold)
                 {
+                    AudioManager.instance.PlaySound("ChangeWeapon");
                     _accumulatedScroll = 0;
                     _giftStateManager.ChangeAmmunition();
                 }
                 else if (_accumulatedScroll <= -wheelThreshold)
                 {
+                    AudioManager.instance.PlaySound("ChangeWeapon");
                     _accumulatedScroll = 0;
                     _giftStateManager.ChangeAmmunition();
                 }
