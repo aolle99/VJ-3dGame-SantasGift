@@ -61,15 +61,13 @@ namespace Player
         
         private PlayerController _playerController;
         
-
-        
         //Animator parameters
         private static readonly int AnimSpeed = Animator.StringToHash("movSpeed");
         private static readonly int AnimJumping = Animator.StringToHash("isJumping");
         private static readonly int AnimDashing = Animator.StringToHash("isDashing");
         private static readonly int AnimDoubleJumping = Animator.StringToHash("isDoubleJumping");
 
-        public bool ViewDirection { get; private set; }
+        public bool ViewDirection { get; private set; } = true;
 
         // Start is called before the first frame update
         private void Start()
@@ -79,7 +77,8 @@ namespace Player
             _playerInput = GetComponent<PlayerInput>();
             
             _playerController = GetComponent<PlayerController>();
-
+            
+            ViewDirection = true;
         }
         
         private void OnEnable()
@@ -129,7 +128,7 @@ namespace Player
             if (context.started)
             {
                 if(!_singleJump) _inputJump = true;
-                else if (_singleJump && !_doubleJump)
+                else if (_singleJump && !_doubleJump && !_doubleJumped)
                 {
                     _doubleJump = true;
                 }

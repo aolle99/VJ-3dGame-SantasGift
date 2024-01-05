@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
@@ -43,6 +44,8 @@ namespace System
         [Header("Particulas")]
         [SerializeField]
         private ParticleSystem teleport_particles;
+        
+        private GameObject _santaModel;
 
         private int _currentPhaseObjectives;
         
@@ -76,16 +79,41 @@ namespace System
                 Destroy(gameObject);
             }
             
+            _santaModel = player.transform.Find("Santa").gameObject;
+            
             MapZoneInner = false;
             Radius = configuracionFases[faseActual].radious;
             playerMovement = player.GetComponent<PlayerMovement>();
             DesactivateAllFases();
             ConfigurePhase();
             MovePlayerToStartPoint();
+            SantaIn();
             
-
+            Invoke(nameof(ActivatePlayerMovement), 3f);
         }
-        
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.N))
+                NextPhase();
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                faseActual = 0;
+                NextPhase();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                faseActual = 1;
+                NextPhase();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                faseActual = 2;
+                NextPhase();
+            }
+                
+        }
+
         private void DesactivateAllFases()
         {
             foreach (var fase in configuracionFases)
@@ -99,9 +127,9 @@ namespace System
             if (faseActual < numeroDeFases - 1)
             {
                 faseActual++;
-                
+                DesactivatePlayerMovement();
                 ConfigurePhase();
-                MovePlayerToStartPoint();
+                SantaOutIn();
             }
         }
         
@@ -120,8 +148,6 @@ namespace System
         {
             playerMovement.enabled = false;
             player.transform.position = configuracionFases[faseActual].startPoint;
-            
-            Invoke(nameof(ActivatePlayerMovement), 0.3f);
             //teleport_particles.Play();
         }
 
@@ -135,10 +161,10 @@ namespace System
             
             var targetPos = new Vector3(newX, playerPos.y, newZ);
             
-            playerMovement.enabled = false;
+            DesactivatePlayerMovement();
             player.transform.position = targetPos;
             
-            Invoke(nameof(ActivatePlayerMovement), 0.3f);
+            Invoke(nameof(ActivatePlayerMovement),0.7f);
         }
 
         public void ChangeMapZone()
@@ -153,6 +179,11 @@ namespace System
                 Radius = configuracionFases[faseActual].radious;
             }
             MovePlayerBetweenRadius();
+        }
+        
+        private void DesactivatePlayerMovement()
+        {
+            playerMovement.enabled = false;
         }
         
         private void ActivatePlayerMovement()
@@ -183,6 +214,59 @@ namespace System
                 configuracionFases[faseActual].nextFaseObject.SetActive(true);
             }
         }
+        
+        private void SantaIn()
+        {
+            StartCoroutine(SantaInAnimation());
+        }
+        
+        private IEnumerator SantaInAnimation()
+        {
+            _santaModel.SetActive(false);
+            teleport_particles.Play();
+            yield return new WaitForSeconds(2f);
+            _santaModel.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            teleport_particles.Stop();
+        }
+        
+        private void SantaOut()
+        {
+            StartCoroutine(SantaOutAnimation());
+        }
+        
+        private IEnumerator SantaOutAnimation()
+        {
+            teleport_particles.Play();
+            yield return new WaitForSeconds(1f);
+            _santaModel.SetActive(false);
+        }
+        
+        private void SantaOutIn()
+        {
+            StartCoroutine(SantaOutInAnimation());
+        }
+        
+        private IEnumerator SantaOutInAnimation()
+        {
+            teleport_particles.Play();
+            yield return new WaitForSeconds(2f);
+            _santaModel.SetActive(false);
+            teleport_particles.Stop();
+            
+            yield return new WaitForSeconds(1f);
+            
+            MovePlayerToStartPoint();
+            teleport_particles.Play();
+            yield return new WaitForSeconds(2f);
+            _santaModel.SetActive(true);
+            
+            yield return new WaitForSeconds(1f);
+            teleport_particles.Stop();
+            
+            ActivatePlayerMovement();
+        }
+        
     }
 }
 

@@ -73,7 +73,9 @@ namespace Player.GiftBullet
             float x = Mathf.Cos(angle) * radius;
             float z = Mathf.Sin(angle) * radius;
 
-            rb.position = new Vector3(x, transform.position.y, z) ;
+            rb.position = new Vector3(x, transform.position.y, z);
+            
+            rb.angularVelocity = new Vector3(0, 5f, 0);
 
             if (lifeTimeType == LifeTimeType.Time)
             {
