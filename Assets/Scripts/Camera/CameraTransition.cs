@@ -8,6 +8,7 @@ namespace Camera
     public class CameraTransition : MonoBehaviour
     {
         [SerializeField] private float transitionDuration = 1.0f;
+        [SerializeField] private bool startFadeOut = true;
         private bool inTransition = false;
         private float alpha = 0f;
 
@@ -19,7 +20,10 @@ namespace Camera
 
         private void Start()
         {
-            StartFadeOut();
+            if (startFadeOut)
+            {
+                StartFadeOut();
+            }
         }
         
         public void StartFadeOut()

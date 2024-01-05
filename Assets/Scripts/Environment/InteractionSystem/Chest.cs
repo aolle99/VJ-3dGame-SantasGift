@@ -7,6 +7,10 @@ namespace Environment.InteractionSystem
     public class Chest : MonoBehaviour, IInteractable
     {
         [SerializeField] private string prompt;
+        [SerializeField] private bool randomGifts = true;
+        [SerializeField] private int redGifts = 0;
+        [SerializeField] private int blueGifts = 0;
+        
         
         public string InteractionPrompt => prompt;
         
@@ -27,7 +31,16 @@ namespace Environment.InteractionSystem
 
         public bool Interact(Interactor interactor)
         {
-            _giftStateManager.AddRandomGifts();
+            if (randomGifts)
+            {
+                _giftStateManager.AddRandomGifts();
+            }
+            else
+            {
+                _giftStateManager.AddRedGift(redGifts);
+                _giftStateManager.AddBlueGift(blueGifts);
+            }
+            
             Destroy(_interactionPromptUI);
             Destroy(gameObject);
             return true;

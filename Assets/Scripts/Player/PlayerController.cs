@@ -9,6 +9,7 @@ namespace Player
     {
         private bool _isDead = false;
         private bool _isInvincible = false;
+        private bool _godMode = false;
         private GiftStateManager _giftStateManager;
         private ParticleSystem _inmortalParticles;
         private ParticleSystem _maxAmmoParticles;
@@ -31,7 +32,8 @@ namespace Player
         {
             if (context.started)
             {
-                _isInvincible = !_isInvincible;
+                _godMode = !_godMode;
+                _isInvincible = _godMode;
                 if (_isInvincible)
                 {
                     _inmortalParticles.Play();
@@ -45,6 +47,8 @@ namespace Player
         
         public void SetImortal(bool isImortal)
         {
+            if(_godMode) return;
+            
             _isInvincible = isImortal;
             if (_isInvincible)
             {

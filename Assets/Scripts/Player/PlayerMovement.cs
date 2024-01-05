@@ -59,6 +59,8 @@ namespace Player
         
         private bool _isSlow = false;
         
+        private PlayerController _playerController;
+        
 
         
         //Animator parameters
@@ -75,6 +77,8 @@ namespace Player
             // Store starting direction of the player with respect to the axis of the level
             _charControl = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
+            
+            _playerController = GetComponent<PlayerController>();
 
         }
         
@@ -171,13 +175,15 @@ namespace Player
             _dashTimer += Time.deltaTime;
             if (_dashed)
             {
-                if (_dashTimer > dashDuration)
+                if (_dashTimer >= dashDuration)
                 {
+                    _playerController.SetImortal(false);
                     _dashed = false;
 
                 }
                 else
                 {
+                    _playerController.SetImortal(true);
                     if (_moveAcceleration == 0.0f)
                     {
                         if (ViewDirection)
