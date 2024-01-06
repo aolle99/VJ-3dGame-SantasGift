@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Camera;
 using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -48,7 +49,8 @@ namespace System
         private GameObject _santaModel;
 
         private int _currentPhaseObjectives;
-        
+
+        [SerializeField ]private CameraTransition _playerCamera;
 
 
         private void OnValidate()
@@ -84,12 +86,8 @@ namespace System
             MapZoneInner = false;
             Radius = configuracionFases[faseActual].radious;
             playerMovement = player.GetComponent<PlayerMovement>();
-            DesactivateAllFases();
-            ConfigurePhase();
-            MovePlayerToStartPoint();
-            SantaIn();
-            
-            Invoke(nameof(ActivatePlayerMovement), 3f);
+            Invoke(nameof(FadeIn), 2.5f);
+            Invoke(nameof(SpawnPlayer), 4f);
         }
 
         private void Update()
@@ -112,6 +110,21 @@ namespace System
                 NextPhase();
             }
                 
+        }
+
+        private void FadeIn()
+        {
+            _playerCamera.StartFadeIn();
+        }
+
+        private void SpawnPlayer()
+        {
+            _playerCamera.StartFadeOut();
+            DesactivateAllFases();
+            ConfigurePhase();
+            MovePlayerToStartPoint();
+            SantaIn();
+            Invoke(nameof(ActivatePlayerMovement), 3f);
         }
 
         private void DesactivateAllFases()
