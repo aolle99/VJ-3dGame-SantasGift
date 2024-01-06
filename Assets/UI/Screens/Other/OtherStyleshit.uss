@@ -5,6 +5,7 @@
     -unity-font: url('project://database/Assets/UI/Font/kenvector_future.ttf?fileID=12800000&guid=91a39748e58aa124ba5952608a6e0524&type=3#kenvector_future');
     font-size: 30px;
     margin-bottom: 5px;
+    color: rgb(255, 255, 255);
 }
 
 .button:hover {
