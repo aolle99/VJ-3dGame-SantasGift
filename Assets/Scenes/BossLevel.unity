@@ -2702,6 +2702,192 @@ Transform:
   - {fileID: 1610382189}
   m_Father: {fileID: 331696726}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &767281485
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 767281488}
+  - component: {fileID: 767281487}
+  - component: {fileID: 767281486}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &767281486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767281485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f23fad9e508f4b46ad132ec38b9f2b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalVolume: 1
+  musicVolume: 1
+  sfxVolume: 1
+  mainMenuMusic: {fileID: 8300000, guid: f526e070f0872fc41bf672be1661707d, type: 3}
+  gameplayMusic: {fileID: 8300000, guid: c74d80b5f6c61134b9802218b917f014, type: 3}
+  victoryMusic: {fileID: 8300000, guid: 1407b8cc07f9a1844a1e97c597ec065a, type: 3}
+  gameOverMusic: {fileID: 8300000, guid: a99310719d7d08046b6947dfb1e768a0, type: 3}
+  bossMusic: {fileID: 8300000, guid: 6f314df2c6ec7f0408a13266fe2822b1, type: 3}
+  audioClipsList:
+  - effectName: Button
+    audioClip: {fileID: 8300000, guid: fc83eed961343c144a642da65d791a70, type: 3}
+  - effectName: Damage
+    audioClip: {fileID: 8300000, guid: 5d0c7154b2a37c74a923bd627216cd92, type: 3}
+  - effectName: DoubleJump
+    audioClip: {fileID: 8300000, guid: 2d85520fee889dc4f9a9f0d6e3ab24cb, type: 3}
+  - effectName: GetGifts
+    audioClip: {fileID: 8300000, guid: 790326e5e7f754d42be79b7c80a55eb9, type: 3}
+  - effectName: GodMode
+    audioClip: {fileID: 8300000, guid: 6be972f8b162e694daeb0d4bb397e205, type: 3}
+  - effectName: NoAmmo
+    audioClip: {fileID: 8300000, guid: 10fd25c3b5818be49b2465534b8fae37, type: 3}
+  - effectName: ChangeZone
+    audioClip: {fileID: 8300000, guid: e9e944fb8f2bebb43bf3a1ea101a1489, type: 3}
+  - effectName: ObjectiveCompleted
+    audioClip: {fileID: 8300000, guid: ef5b667739af71d4ab35db17cd49ad9d, type: 3}
+  - effectName: ReloadAmmo
+    audioClip: {fileID: 8300000, guid: 7207b3e7a5aec4f42b5840fa30062628, type: 3}
+  - effectName: Jump
+    audioClip: {fileID: 8300000, guid: 77829d811af1792498e7bb91025492a5, type: 3}
+  - effectName: StartGame
+    audioClip: {fileID: 8300000, guid: 63749aeb336eef34da609c700e9ca078, type: 3}
+  - effectName: Teleport
+    audioClip: {fileID: 8300000, guid: e71059dc112666c4f856addc7ae47c95, type: 3}
+  - effectName: TeleportIn
+    audioClip: {fileID: 8300000, guid: aa1681db7fb5e6546819b6c4b40bbbf1, type: 3}
+  - effectName: TeleportOut
+    audioClip: {fileID: 8300000, guid: ffe063327f4c940469012cae69138805, type: 3}
+  - effectName: Throw
+    audioClip: {fileID: 8300000, guid: 3e22ae282d3528d43969def10e320fd6, type: 3}
+  - effectName: Walk
+    audioClip: {fileID: 8300000, guid: b6ad162d4b7c03441a9a9a0fe5514303, type: 3}
+  - effectName: Dash
+    audioClip: {fileID: 8300000, guid: bf8cf138e9e620443a188adf0894e63b, type: 3}
+  - effectName: ChangeWeapon
+    audioClip: {fileID: 8300000, guid: 139f7fadee0c84d47a8d587ef57b7e61, type: 3}
+--- !u!82 &767281487
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767281485}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: f526e070f0872fc41bf672be1661707d, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &767281488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767281485}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 45.905933, y: 18.3, z: -29.221226}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &853237711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31843,3 +32029,4 @@ SceneRoots:
   - {fileID: 1894635888}
   - {fileID: 577684388}
   - {fileID: 1715073941}
+  - {fileID: 767281488}
