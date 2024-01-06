@@ -53,10 +53,16 @@ namespace Enemies.Snowball
             else if (_currentHealth > 0f)
             {
                 _currentHealth -= damageCaused;
-                healthBar.UpdateHealthBar(_maxHealth, damageCaused);
+                healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
                 var actualSize = transform.localScale;
-                var reduceSize = _maxHealth / _currentHealth;
+                var reduceSize = 0.1f ;
+                print("actualSize: " + actualSize);
+                print("reduceSize: " + reduceSize);
                 transform.localScale = new Vector3(actualSize.x - reduceSize, actualSize.y - reduceSize, actualSize.z - reduceSize);
+            }
+            else
+            {
+                Destroy(gameObject);
             }
         }
     }
