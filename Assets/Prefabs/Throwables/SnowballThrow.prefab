@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 6813175961307027881}
   - component: {fileID: 4729925566663940474}
   - component: {fileID: 3145921742528280869}
+  - component: {fileID: 6459875381689593875}
   m_Layer: 0
   m_Name: SnowballThrow
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,9 +78,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681d72b7a9dfb834688341a6b45d5160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.8
+  lifeTimeType: 1
+  bulletDuration: 1
+  bulletAngleDistance: 360
+  damageCaused: 3
+  playerController: {fileID: 0}
   direction: 1
-  speed: 4
-  ballDuration: 3
 --- !u!54 &3145921742528280869
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -107,6 +112,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6459875381689593875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5755172351946641741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b855a34ea22401a907f293bc6a8bd0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
 --- !u!1001 &2345569954948735958
 PrefabInstance:
   m_ObjectHideFlags: 0

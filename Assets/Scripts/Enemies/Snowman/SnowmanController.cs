@@ -1,4 +1,5 @@
 using System;
+using Enemies.LifeControllers;
 using UnityEngine;
 
 namespace Enemies.Snowman
@@ -14,9 +15,28 @@ namespace Enemies.Snowman
         [SerializeField] private bool throwed;
         private static readonly int Throw = Animator.StringToHash("throw_ball");
         
+        private float _currentHealth;
+        private float _maxHealth;
+        private float _currentShield;
+        private float _maxShield;
+        private float _radius;
+        [SerializeField]private HealthBar healthBar;
+        [SerializeField]private Shield shield;
+        [SerializeField]private SnowmanOrientation snowmanOrientation;
+        private GiftStateManager _giftStateManager;
+        
         void Start()
         {
             _anim = GetComponentInChildren<Animator>();
+            healthBar = GetComponentInChildren<HealthBar>();
+            shield = GetComponentInChildren<Shield>();
+            _maxHealth = 100f;
+            _currentHealth = _maxHealth;
+            _maxShield = 50f;
+            _currentShield = _maxShield;
+            healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
+            shield.UpdateShield(_maxShield, _currentShield);
+            _giftStateManager = GiftStateManager.Instance;
         }
 
         // Update is called once per frame
@@ -37,7 +57,7 @@ namespace Enemies.Snowman
                     Vector3 ballPosition = new Vector3(position.x, position.y + 2, position.z);
                     GameObject ball = Instantiate(ballPrefab, ballPosition, Quaternion.identity);
                 
-                    ball.GetComponent<SnowmanBallController>().direction = 1;
+                    ball.GetComponent<SnowmanBallController>().direction = snowmanOrientation.GetDirection();
                     ball.transform.parent = transform.parent;
                     throwed = true;
                 }
@@ -47,6 +67,38 @@ namespace Enemies.Snowman
                 _anim.SetBool(Throw, false);
                 _timer = 0f;
                 throwed = false;
+            }
+        }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Gift"))
+            {
+                UpdateLifeBar();
+            }
+        }
+
+        private void UpdateLifeBar()
+        {
+            GiftType amunitionSelected = _giftStateManager.GetAmmunitionSelected();
+            GiftType shieldColor = shield.GetShieldColor();
+            
+            if (_currentShield > 0f)
+            {
+                if (amunitionSelected == shieldColor)
+                {
+                    _currentShield -= 5f;
+                    shield.UpdateShield(_maxShield, _currentShield);
+                }
+            }
+            else if (_currentHealth > 0f)
+            {
+                _currentHealth -= 5f;
+                healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
+            }
+            else
+            {
+                Destroy(gameObject);
             }
         }
     }

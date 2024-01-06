@@ -120,8 +120,8 @@ namespace System
             }
             
             int random = UnityEngine.Random.Range(0, gifts);
-            int substractRedGifts = Mathf.Min(random, redGifts);
-            int substractBlueGifts = Mathf.Min(random - substractRedGifts, blueGifts);
+            int substractRedGifts = random;
+            int substractBlueGifts = gifts - substractRedGifts;
             
             redGifts -= substractRedGifts;
             blueGifts -= substractBlueGifts;

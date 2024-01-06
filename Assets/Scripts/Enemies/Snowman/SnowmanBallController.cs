@@ -1,57 +1,120 @@
+using System;
+using Player;
 using UnityEngine;
 
 namespace Enemies.Snowman
 {
+    enum LifeTimeType
+    {
+        Time,
+        Distance
+    }
     public class SnowmanBallController : MonoBehaviour
     {
-        public int direction = 1;
-        public float speed = 2.0f;
-        float _angle = 0f;
-        public float ballDuration = 1f;
-        float _lifeTime = 0f;
+        [SerializeField]private float speed = 20.0f;
+        [SerializeField] private LifeTimeType lifeTimeType = LifeTimeType.Time;
+        [SerializeField] private float bulletDuration = 1f;
+        [SerializeField] private int bulletAngleDistance = 180;
+        [SerializeField] private float damageCaused = 3f;
+        //[SerializeField] private GameObject hitEffect;
+        [SerializeField] private PlayerController playerController;
+        
+        private float lifeTime = 0f;
+        public float direction = 1f;
+        private float _angle = 0f;
+        private float acumulatedAngle = 0f;
+        private Vector2 startPosition;
+        private Vector2 centerPosition;
+        private float startAngle;
+        private float radius;
+        
+        Rigidbody rb;
         
         void Start()
         {
-            _angle = Mathf.Atan2(transform.position.z, transform.position.x);
+            var position = transform.position;
+            _angle = Mathf.Atan2(position.z, position.x);
+            
+            rb = GetComponent<Rigidbody>();
+            
+            startPosition = new Vector2(position.x, position.z);
+            
+            startAngle = calculateAngle();
+            
+            playerController = GameObject.FindWithTag("Santa").GetComponent<PlayerController>();
+        }
+        
+        private void Update()
+        {
+            if (lifeTimeType == LifeTimeType.Distance)
+            {
+                float newAngle = calculateAngle();
+                acumulatedAngle += Mathf.Abs(newAngle - startAngle) * Mathf.Rad2Deg;
+                startAngle = newAngle;
+                
+                // Verificar si el ángulo supera el umbral
+                if (acumulatedAngle  > bulletAngleDistance)
+                {
+                    callParticleExplosion();
+                    Destroy(gameObject);
+                }
+            }
         }
 
         void FixedUpdate()
         {
             // move bullet in a circle
             _angle += speed * Time.deltaTime * direction;
-
-            float radius = 12.5f;
+            radius = Mathf.Sqrt(transform.position.x * transform.position.x + transform.position.z * transform.position.z);
 
             float x = Mathf.Cos(_angle) * radius;
             float z = Mathf.Sin(_angle) * radius;
 
-            transform.position = new Vector3(x, transform.position.y, z);
+            rb.position = new Vector3(x, transform.position.y, z);
+            
+            rb.angularVelocity = new Vector3(0, 5f, 0);
 
-            _lifeTime += Time.deltaTime;
-
-            if (_lifeTime > ballDuration)
+            if (lifeTimeType == LifeTimeType.Time)
             {
-                Destroy(gameObject);
+                lifeTime += Time.deltaTime;
+
+                if (lifeTime > bulletDuration)
+                {
+                    callParticleExplosion();
+                    Destroy(gameObject);
+                }
             }
         }
-
+        
+        private float calculateAngle()
+        {
+            // Calcular el ángulo acumulado
+            var currentPosition = new Vector2(transform.position.x, transform.position.z);
+            float ladoC = Vector2.Distance(startPosition, currentPosition);
+            float ladoA = Vector2.Distance(startPosition, centerPosition);
+            float ladoB = Vector2.Distance(currentPosition, centerPosition);
+                
+            return Mathf.Acos((Mathf.Pow(ladoA, 2) + Mathf.Pow(ladoB, 2) - Mathf.Pow(ladoC, 2)) / (2 * ladoA * ladoB));
+        }
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Santa"))
             {
+                playerController.damagePlayer(damageCaused);
                 Destroy(gameObject);
+                callParticleExplosion();
             }
-            if (other.gameObject.CompareTag("Ground"))
+            if (other.gameObject.CompareTag("Obstacle"))
             {
+                callParticleExplosion();
                 Destroy(gameObject);
             }
         }
-
-
-        // Update is called once per frame
-        void Update()
-        {
         
+        private void callParticleExplosion()
+        {
+            //var particle = Instantiate(hitEffect, transform.position, Quaternion.identity);
+            //Destroy(particle, 1f);
         }
     }
 }

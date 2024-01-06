@@ -191,6 +191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldSprite: {fileID: 1064778591162433199}
+  giftType: 0
+  randomColor: 1
 --- !u!1 &5008767662197445678
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &847726359772676734
 Transform:
   m_ObjectHideFlags: 0
@@ -498,6 +500,8 @@ MonoBehaviour:
     m_Bits: 4294967295
   numberOfRays: 36
   maxRayLength: 2
+  damageCaused: 3
+  playerController: {fileID: 0}
 --- !u!143 &687669124172497992
 CharacterController:
   m_ObjectHideFlags: 0
