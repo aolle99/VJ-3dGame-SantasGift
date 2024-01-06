@@ -1,3 +1,5 @@
+using System;
+using Player;
 using UnityEngine;
 
 namespace Enemies.Snowball
@@ -8,10 +10,16 @@ namespace Enemies.Snowball
         private float _angle = 0f;
         private bool _left = false;
         private Rigidbody _rb;
+        private float initialSnowballRadius;
+        [SerializeField] private PlayerController playerController;
+        [SerializeField]private float damageCaused = 5f;
 
         // Start is called before the first frame update
         void Start()
         {
+            var position = transform.position;
+            initialSnowballRadius = Mathf.Sqrt(position.z * position.z + position.x * position.x);
+            print(initialSnowballRadius);
             _rb = GetComponent<Rigidbody>();
         }
 
@@ -19,14 +27,35 @@ namespace Enemies.Snowball
         void FixedUpdate()
         {
             ManageMovement();
+            ValidateRadius();
+        }
+
+        void ValidateRadius()
+        {
+            var snowballPos = transform.position;
+            var snowballRadius = Mathf.Sqrt(snowballPos.z * snowballPos.z + snowballPos.x * snowballPos.x);
+
+            if (Math.Abs(initialSnowballRadius - snowballRadius) > 0.05)
+            {
+                var newX = snowballPos.x * initialSnowballRadius / snowballRadius;
+                var newZ = snowballPos.z * initialSnowballRadius / snowballRadius;
+                
+                var targetPos = new Vector3(newX, snowballPos.y, newZ);
+                transform.position = targetPos;
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
         {
 
-            if (collision.gameObject.CompareTag("House"))
+            if (collision.gameObject.CompareTag("Obstacle"))
             {
                 _left = !_left;
+            }
+            if(collision.gameObject.CompareTag("Santa"))
+            {
+                _left = !_left;
+                playerController.damagePlayer(damageCaused);
             }
         }
 
