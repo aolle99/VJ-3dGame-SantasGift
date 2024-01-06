@@ -100,6 +100,7 @@ namespace Enemies.Snowman
         {
             if (other.gameObject.CompareTag("Santa"))
             {
+                print("santa");
                 playerController.damagePlayer(damageCaused);
                 Destroy(gameObject);
                 callParticleExplosion();
