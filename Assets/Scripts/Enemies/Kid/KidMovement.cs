@@ -120,11 +120,13 @@ namespace Enemies.Kid
                 {
                     if (hit.collider.gameObject.CompareTag("Obstacle") && !_jumping)
                     {
+                        //print("obstacle detected");
                         _jumping = true;
                     }
                     
                     if(hit.collider.gameObject.CompareTag("Santa") && !_anim.GetBool(Steal))
                     {
+                        print("santa detected");
                         _anim.SetBool(Steal, true);
                         playerController.damagePlayer(damageCaused);
                     }
@@ -156,10 +158,20 @@ namespace Enemies.Kid
         void ManageJump()
         {
             var position = transform.position;
-            if (_charControl.Move(_speedY * Time.deltaTime * Vector3.up) != CollisionFlags.None)
+            Vector3 verticalMovement = new Vector3(0, _speedY, 0) * Time.deltaTime;
+            //print("verticalMovement: " + verticalMovement);
+            print(_speedY);
+
+            // Apply the movement to the CharacterController
+            var collisions = _charControl.Move(verticalMovement);
+            if (collisions != CollisionFlags.None) 
             {
-                transform.position = position;
-                Physics.SyncTransforms();
+                if (collisions == CollisionFlags.Above) // If the character hits the ceiling or the floor don't jump
+                {
+                    transform.position = position;
+                    print(collisions);
+                    Physics.SyncTransforms();
+                }
             }
             
             if (_charControl.isGrounded)
@@ -173,12 +185,16 @@ namespace Enemies.Kid
                     _canJump = false;
                     _jumping = false;
                     _anim.SetBool(Jump, true);
+                    //print("jump");
                 }
+                //print("grounded");
             }
             else
             {
                 _speedY -= gravityScale * Time.deltaTime;
                 _jumping = false;
+                //print("not grounded");
+                
             }
         }
     }

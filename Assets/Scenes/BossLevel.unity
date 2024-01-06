@@ -2719,7 +2719,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &767281486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8998,11 +8998,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59f2bc5d18944889c171800dba5a0ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameras:
-  - {fileID: 277218112}
-  - {fileID: 1315913140}
-  - {fileID: 1139354540}
-  switchKey: 99
 --- !u!1 &1315913136
 GameObject:
   m_ObjectHideFlags: 0
@@ -15925,6 +15920,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d1e6b4e6-d76c-461d-ad4e-f0ffc344a8fe
     m_ActionName: PlayerControl/Invencible[/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e2c89a26-4343-4d85-bf7e-e2464e6e771f
+    m_ActionName: PlayerControl/Interact[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerControl
@@ -16061,7 +16060,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1774961761}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5ef34dcf87a3dd43be1bc6a26362907, type: 3}
   m_Name: 
@@ -26136,6 +26135,10 @@ PrefabInstance:
     - target: {fileID: 847726359772676734, guid: bb96f9564acdb264a9782a13d24cee3d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923035088183133541, guid: bb96f9564acdb264a9782a13d24cee3d, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 1923035088183133541, guid: bb96f9564acdb264a9782a13d24cee3d, type: 3}
       propertyPath: playerController
