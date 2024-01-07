@@ -1,6 +1,8 @@
 using System;
+using Camera;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
 namespace Player
@@ -15,6 +17,8 @@ namespace Player
         private ParticleSystem _maxAmmoParticles;
         private ParticleSystem _damageBlueParticles;
         private ParticleSystem _damageRedParticles;
+
+        private CameraTransition _cameraTransition;
         
         private void Start()
         {
@@ -25,6 +29,7 @@ namespace Player
             _maxAmmoParticles = transform.Find("MaxAmmoEffect").GetComponent<ParticleSystem>();
             _damageBlueParticles = transform.Find("DamageBlueEffect").GetComponent<ParticleSystem>();
             _damageRedParticles = transform.Find("DamageRedEffect").GetComponent<ParticleSystem>();
+            _cameraTransition = CameraTransition.Instance;
             
         }
         
@@ -73,7 +78,11 @@ namespace Player
 
         private void Update()
         {
-            
+            if (GiftStateManager.Instance.GetTotalGifts() <= 0 && !_isDead)
+            {
+                _isDead = true;
+                playerdead();
+            }
         }
 
         public bool damagePlayer(float damage)
@@ -84,7 +93,6 @@ namespace Player
             }
             
             AudioManager.instance.PlaySound("Damage");
-            print(damage);
             _isDead = _giftStateManager.removeRandomGift((int) damage);
             
             _damageBlueParticles.Play();
@@ -97,7 +105,16 @@ namespace Player
 
         private void playerdead()
         {
-            
+            if (_cameraTransition)
+            {
+                _cameraTransition.StartFadeIn();
+            }
+            Invoke(nameof(LoadNextScene), 1.5f);
+        }
+        
+        public void LoadNextScene()
+        {
+            SceneManager.LoadScene("GameOver");
         }
 
     }
