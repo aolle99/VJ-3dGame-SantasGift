@@ -24,10 +24,10 @@ EditorBuildSettings:
     path: Assets/Scenes/GameOver.unity
     guid: d30e32eeff20a9843962ba87ff5c079c
   - enabled: 1
-    path: Assets/Scenes/BossLevel.unity
-    guid: 5e4e211c4f84d0d409512b8a2b5ab256
-  - enabled: 1
     path: Assets/Scenes/SecondLevel.unity
     guid: f17eeaeaced2a6f4e9c275ecd06c61ea
+  - enabled: 1
+    path: Assets/Scenes/BossLevel.unity
+    guid: 5e4e211c4f84d0d409512b8a2b5ab256
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 23409261743d4304b8ed6f3a2eef2a95, type: 2}
