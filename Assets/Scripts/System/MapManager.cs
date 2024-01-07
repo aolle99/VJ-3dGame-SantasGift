@@ -51,8 +51,21 @@ namespace System
         private int _currentPhaseObjectives;
 
         [SerializeField ]private CameraTransition _playerCamera;
-
-
+        
+        private static MapManager _instance;
+        public static MapManager Instance
+        {
+            get
+            {
+                if (_instance is null)
+                {
+                    _instance = FindObjectOfType<MapManager>();
+                }
+    
+                return _instance;
+            }
+        }
+        
         private void OnValidate()
         {
             numeroDeFases = Mathf.Max(0, numeroDeFases);
@@ -226,6 +239,16 @@ namespace System
             {
                 configuracionFases[faseActual].nextFaseObject.SetActive(true);
             }
+        }
+        
+        public int GetTotalPhaseObjectives()
+        {
+            return configuracionFases[faseActual].objectives;
+        }
+        
+        public int GetCurrentPhaseObjectives()
+        {
+            return _currentPhaseObjectives;
         }
         
         private void SantaIn()

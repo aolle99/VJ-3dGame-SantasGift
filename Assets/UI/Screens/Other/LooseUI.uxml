@@ -7,7 +7,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: 100%; height: initial; align-items: center; justify-content: flex-end; margin-bottom: 80px;">
                 <ui:Button text="Play Again" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlayAgain" class="button" style="background-color: rgb(56, 97, 130);" />
-                <ui:Button text="return to main menu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ReturnMM" class="button" style="background-color: rgb(56, 97, 130);" />
+                <ui:Button text="return to main menu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MainMenu" class="button" style="background-color: rgb(56, 97, 130);" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

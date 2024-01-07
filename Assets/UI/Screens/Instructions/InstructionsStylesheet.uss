@@ -5,7 +5,7 @@
     -unity-font: url('project://database/Assets/UI/Font/kenvector_future.ttf?fileID=12800000&guid=91a39748e58aa124ba5952608a6e0524&type=3#kenvector_future');
     -unity-font-definition: initial;
     font-size: 30px;
-    background-image: url('project://database/Assets/UI/PNG/blue_button13.png?fileID=2800000&guid=451c68b900bb2c74586d657667baa3a3&type=3#blue_button13');
+    background-image: url('project://database/Assets/UI/Images/blue_button13.png?fileID=2800000&guid=451c68b900bb2c74586d657667baa3a3&type=3#blue_button13');
 }
 
 .button:hover {
@@ -15,6 +15,27 @@
 .control_text {
     -unity-font: url('project://database/Assets/UI/Font/kenvector_future.ttf?fileID=12800000&guid=91a39748e58aa124ba5952608a6e0524&type=3#kenvector_future');
     -unity-font-definition: initial;
-    font-size: 40px;
+    font-size: 30px;
     margin-left: 20px;
+}
+
+.objectives_box {
+    flex-grow: 1;
+    flex-direction: row;
+    height: 15%;
+    width: 100%;
+    align-items: center;
+}
+
+.control_image {
+    flex-grow: 1;
+    height: 100%;
+    width: 75px;
+    background-image: none;
+    max-width: none;
+    align-self: flex-end;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+    max-height: 75px;
 }

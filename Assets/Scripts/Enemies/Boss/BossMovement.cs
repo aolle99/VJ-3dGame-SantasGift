@@ -53,9 +53,8 @@ namespace Enemies.Boss
         
         void DetectObjecteNearBy()
         {
-            var kidPosition = transform.position;
-            float radius = Mathf.Sqrt(kidPosition.x * kidPosition.x + kidPosition.z * kidPosition.z);
-            
+            var bossPosition = transform.position;
+            float radius = Mathf.Sqrt(bossPosition.x * bossPosition.x + bossPosition.z * bossPosition.z);
             
             for (int i = 0; i < numberOfRays; i++)
             {
@@ -71,7 +70,6 @@ namespace Enemies.Boss
                 {
                     if (hit.collider.gameObject.CompareTag("Obstacle"))
                     {
-                        print("Boss hit obstacle");
                         _left = !_left;
                         ViewDirection = !ViewDirection;
                         _objectDetected = true;
@@ -80,7 +78,6 @@ namespace Enemies.Boss
                     
                     if(hit.collider.gameObject.CompareTag("Santa"))
                     {
-                        print("Santa hit by boss");
                         playerController.damagePlayer(damageCaused);
                         _objectDetected = true;
                         _timeBetweenActions += Time.deltaTime;
@@ -91,7 +88,6 @@ namespace Enemies.Boss
             if (_objectDetected) _timeBetweenActions += Time.deltaTime;
             if (Math.Abs(_timeBetweenActions - 1.0f) < 0.05)
             {
-                print("here");
                 _timeBetweenActions = 0.0f;
                 _objectDetected = false;
             }

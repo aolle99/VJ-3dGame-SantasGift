@@ -147,6 +147,17 @@
                 },
                 {
                     "name": "",
+                    "id": "f1e5680d-4ef6-4fe6-94f3-fce408e5c136",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "45002d07-c9da-4990-85fb-3a1eddb155d7",
                     "path": "<Keyboard>/#(G)",
                     "interactions": "",
@@ -173,6 +184,17 @@
                     "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
+                    "groups": "",
+                    "action": "ChangeGiftType",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "08860b03-c63f-4f12-a13a-71701d29f278",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "Scale(factor=120)",
                     "groups": "",
                     "action": "ChangeGiftType",
                     "isComposite": false,

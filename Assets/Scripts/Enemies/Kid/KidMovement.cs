@@ -158,9 +158,10 @@ namespace Enemies.Kid
         void ManageJump()
         {
             var position = transform.position;
+            //print(position);
             Vector3 verticalMovement = new Vector3(0, _speedY, 0) * Time.deltaTime;
             //print("verticalMovement: " + verticalMovement);
-            print(_speedY);
+            //print(_speedY);
 
             // Apply the movement to the CharacterController
             var collisions = _charControl.Move(verticalMovement);
@@ -169,10 +170,13 @@ namespace Enemies.Kid
                 if (collisions == CollisionFlags.Above) // If the character hits the ceiling or the floor don't jump
                 {
                     transform.position = position;
-                    print(collisions);
                     Physics.SyncTransforms();
                 }
             }
+            RaycastHit hit;
+            //bool isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, 0.5f);
+            
+            //print(isGrounded  + ", " + _charControl.isGrounded);
             
             if (_charControl.isGrounded)
             {
@@ -181,11 +185,12 @@ namespace Enemies.Kid
                 if (_speedY < 0.0f) _speedY = 0.0f;
                 if(_canJump && _jumping)
                 {
+                    print("jump");
                     _speedY = jumpForce;
                     _canJump = false;
                     _jumping = false;
                     _anim.SetBool(Jump, true);
-                    //print("jump");
+                    
                 }
                 //print("grounded");
             }

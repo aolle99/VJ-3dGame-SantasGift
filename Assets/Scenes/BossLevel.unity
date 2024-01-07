@@ -1013,7 +1013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 847726359772676734, guid: bb96f9564acdb264a9782a13d24cee3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 847726359772676734, guid: bb96f9564acdb264a9782a13d24cee3d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1048,12 +1048,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1923035088183133541, guid: bb96f9564acdb264a9782a13d24cee3d, type: 3}
+      propertyPath: maxRayLength
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1923035088183133541, guid: bb96f9564acdb264a9782a13d24cee3d, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1067128238}
     - target: {fileID: 5573810182615693913, guid: bb96f9564acdb264a9782a13d24cee3d, type: 3}
       propertyPath: m_Name
       value: Kid
+      objectReference: {fileID: 0}
+    - target: {fileID: 5573810182615693913, guid: bb96f9564acdb264a9782a13d24cee3d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12054,7 +12062,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &880025595
 Transform:
   m_ObjectHideFlags: 0
@@ -12120,7 +12128,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   numberOfRays: 36
-  maxRayLength: 1
+  maxRayLength: 2
 --- !u!143 &880025599
 CharacterController:
   m_ObjectHideFlags: 0
@@ -34764,7 +34772,7 @@ MonoBehaviour:
     objectives: 1
   player: {fileID: 1067128228}
   teleport_particles: {fileID: 1773200939}
-  _playerCamera: {fileID: 0}
+  _playerCamera: {fileID: 1722330607}
 --- !u!4 &1922247136
 Transform:
   m_ObjectHideFlags: 0

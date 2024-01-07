@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Victory.unity
+    guid: 7056dd4cfb434294b9a3b3bfaae59afc
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 52292699bed5a3640adbeeeb58b488ce
   - enabled: 1
@@ -17,5 +20,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 04ce768badac3bf4a9800076dda1ea61
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: d30e32eeff20a9843962ba87ff5c079c
+  - enabled: 1
+    path: Assets/Scenes/BossLevel.unity
+    guid: 5e4e211c4f84d0d409512b8a2b5ab256
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 23409261743d4304b8ed6f3a2eef2a95, type: 2}
