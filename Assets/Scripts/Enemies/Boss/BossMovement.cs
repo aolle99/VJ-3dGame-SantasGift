@@ -126,6 +126,7 @@ namespace Enemies.Boss
             if (_animNum == 0)
             {
                 _anim.SetBool(Laugh, true);
+                AudioManager.instance.PlaySound("EvilLaugh");
                 _laughed = true;
             } 
             else if (_animNum == 1)
