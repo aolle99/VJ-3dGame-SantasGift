@@ -6,20 +6,23 @@ namespace Enemies.Snowman
 {
     public class SnowmanOrientation : MonoBehaviour
     {
-        [SerializeField] private GameObject player;
-        private Vector3 _initialPosition;
         private Vector2 centerPosition;
+        public Transform centerPoint; // Center point for the circular raycast
+        public LayerMask layerMask; // Layers to include in the raycast
+        public int numberOfRays = 36; // Number of rays to cast
+        public float maxRayLength = 20f;
+        private Boolean _viewDirection = false;
+        private float _timeChangeDirection = 0f;
         
         public void Start()
         {
-            _initialPosition = transform.position;
-            player = GetComponentInParent<PlayerController>().gameObject;
             Orientate();
         }
 
         public void Update()
         {
             Orientate();
+            _timeChangeDirection += Time.deltaTime;
         }
 
         public void Orientate()
@@ -39,78 +42,25 @@ namespace Enemies.Snowman
                 // Gira el objeto 90 grados alrededor del eje Y
                 transform.Rotate(Vector3.up, 90.0f);
 
-                // Invierte la dirección si es necesario
-                if (CheckPositionPlayer())
-                {
-                    transform.Rotate(Vector3.up, 180.0f);
-                }
+            }
+            // Invierte la dirección si es necesario
+            if (_timeChangeDirection > 5f)
+            {
+                _timeChangeDirection = 0f;
+                _viewDirection = !_viewDirection;
+                
+            }
+
+            if (!_viewDirection)
+            {
+                transform.Rotate(Vector3.up, 180.0f);
             }
         }
-
-        private Boolean CheckPositionPlayer()
-        {
-            //print(calculateAngle());
-            //return true;
-
-            Vector3 positionA = _initialPosition;
-            Vector3 positionB = player.transform.position;
-            var radius = Mathf.Sqrt(positionA.x * positionA.x + positionA.z * positionA.z);
-            /*
-            float angleClockwise = Mathf.Atan2(positionB.z - positionA.z, positionB.x - positionA.x) * Mathf.Rad2Deg;
-            if (angleClockwise < 0)
-                angleClockwise += 360f;
-
-            float angleAntiClockwise = 360f - angleClockwise;
-
-            // Calculate arc lengths
-            float arcLengthClockwise = (angleClockwise / 360f) * 2 * Mathf.PI * radius;
-            float arcLengthAntiClockwise = (angleAntiClockwise / 360f) * 2 * Mathf.PI * radius;
-
-            print("Distance Clockwise: " + arcLengthClockwise);
-            print("Distance AntiClockwise: " + arcLengthAntiClockwise);
-            return true;
-            */
-
-            // Calculate the angle between the objects
-            Vector3 directionToPlayer = positionA - positionB;
-            //print("angle: " + angle);
-            float angle = Vector3.SignedAngle(transform.forward, directionToPlayer, Vector3.up);
-            angle = (angle + 360f) % 360f;
-
-            // Calculate the distances in both directions
-            float distanceClockwise = CalculateDistance(angle, radius);
-            float distanceAntiClockwise = CalculateDistance(360f - angle, radius);
-            //print("distanceClockwise: " + distanceClockwise + ", distanceAntiClockwise: " + distanceAntiClockwise);
-            return distanceAntiClockwise > distanceClockwise;
-        }
         
-        private float calculateAngle()
-        {
-            var playerPos = player.transform.position;
-            // Calcular el ángulo acumulado
-            var currentPosition = new Vector2(transform.position.x, transform.position.z);
-            float ladoC = Vector2.Distance(playerPos, currentPosition);
-            float ladoA = Vector2.Distance(playerPos, centerPosition);
-            float ladoB = Vector2.Distance(currentPosition, centerPosition);
-                
-            return Mathf.Acos((Mathf.Pow(ladoA, 2) + Mathf.Pow(ladoB, 2) - Mathf.Pow(ladoC, 2)) / (2 * ladoA * ladoB));
-        }
-        
-        private float CalculateDistance(float angle, float radius)
-        {
-            // Convert angle to radians
-            float radians = angle * Mathf.Deg2Rad;
-
-            // Calculate distance along the circumference
-            float distance = radians * radius;
-
-            return distance;
-        }
-
         public int GetDirection()
         {
-            if(CheckPositionPlayer()) return -1;
-            return 1;
+            if(_viewDirection) return 1;
+            return -1;
         }
     }
 }

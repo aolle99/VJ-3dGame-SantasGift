@@ -57,7 +57,6 @@ namespace Enemies.Snowman
                     Vector3 position = transform.position;
                     Vector3 ballPosition = new Vector3(position.x, position.y + 2, position.z);
                     GameObject ball = Instantiate(ballPrefab, ballPosition, Quaternion.identity);
-                
                     ball.GetComponent<SnowmanBallController>().direction = snowmanOrientation.GetDirection();
                     ball.transform.parent = transform.parent;
                     throwed = true;
