@@ -98,7 +98,7 @@ namespace System
             // Lógica para detener el sonido al cargar una escena específica
             if (scene.name == "MainMenu" || scene.name == "Credits" || scene.name == "Instructions")
             {
-                if (_audioSource.clip != mainMenuMusic)
+                if (!_audioSource.clip || _audioSource.clip != mainMenuMusic)
                 {
                     _audioSource.clip = mainMenuMusic;
                     _audioSource.Play();
@@ -106,7 +106,7 @@ namespace System
             }
             else if (scene.name == "FirstLevel" || scene.name == "SecondLevel")
             {
-                if (_audioSource.clip != gameplayMusic)
+                if (!_audioSource.clip || _audioSource.clip != gameplayMusic)
                 {
                     _audioSource.clip = gameplayMusic;
                     _audioSource.Play();
@@ -114,7 +114,7 @@ namespace System
             }
             else if (scene.name == "Boss")
             {
-                if (_audioSource.clip != bossMusic)
+                if (!_audioSource.clip || _audioSource.clip != bossMusic)
                 {
                     _audioSource.clip = bossMusic;
                     _audioSource.Play();

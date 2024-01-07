@@ -50,7 +50,7 @@ namespace System
 
         private int _currentPhaseObjectives;
 
-        [SerializeField ]private CameraTransition _playerCamera;
+        [SerializeField ] private CameraTransition _playerCamera;
         
         private static MapManager _instance;
         public static MapManager Instance

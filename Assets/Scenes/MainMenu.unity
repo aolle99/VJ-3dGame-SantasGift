@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalVolume: 1
-  musicVolume: 1
+  musicVolume: 0.07
   sfxVolume: 1
   mainMenuMusic: {fileID: 8300000, guid: f526e070f0872fc41bf672be1661707d, type: 3}
   gameplayMusic: {fileID: 8300000, guid: c74d80b5f6c61134b9802218b917f014, type: 3}

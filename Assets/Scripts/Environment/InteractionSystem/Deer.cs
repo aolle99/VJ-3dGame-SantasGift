@@ -11,6 +11,10 @@ namespace Environment.InteractionSystem
         public string InteractionPrompt => prompt;
         
         [SerializeField] private InteractionPromptUI _interactionPromptUI;
+        [SerializeField] private bool giveGifts;
+        [SerializeField] private int blueGifts;
+        [SerializeField] private int redGifts;
+
         private float timer;
         
         private bool _isInteracted;
@@ -44,6 +48,12 @@ namespace Environment.InteractionSystem
 
         public bool Interact(Interactor interactor)
         {
+            if (giveGifts)
+            {
+                var giftStateManager = GiftStateManager.Instance;
+                giftStateManager.AddRedGift(redGifts);
+                giftStateManager.AddBlueGift(blueGifts);
+            }
             _mapManager = MapManager.instance;
             _mapManager.NextPhase();
             Destroy(_interactionPromptUI);
