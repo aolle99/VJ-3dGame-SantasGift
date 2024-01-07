@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Camera;
 using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -48,9 +49,23 @@ namespace System
         private GameObject _santaModel;
 
         private int _currentPhaseObjectives;
+
+        [SerializeField ]private CameraTransition _playerCamera;
         
-
-
+        private static MapManager _instance;
+        public static MapManager Instance
+        {
+            get
+            {
+                if (_instance is null)
+                {
+                    _instance = FindObjectOfType<MapManager>();
+                }
+    
+                return _instance;
+            }
+        }
+        
         private void OnValidate()
         {
             numeroDeFases = Mathf.Max(0, numeroDeFases);
@@ -84,12 +99,8 @@ namespace System
             MapZoneInner = false;
             Radius = configuracionFases[faseActual].radious;
             playerMovement = player.GetComponent<PlayerMovement>();
-            DesactivateAllFases();
-            ConfigurePhase();
-            MovePlayerToStartPoint();
-            SantaIn();
-            
-            Invoke(nameof(ActivatePlayerMovement), 3f);
+            Invoke(nameof(FadeIn), 2.5f);
+            Invoke(nameof(SpawnPlayer), 4f);
         }
 
         private void Update()
@@ -112,6 +123,21 @@ namespace System
                 NextPhase();
             }
                 
+        }
+
+        private void FadeIn()
+        {
+            _playerCamera.StartFadeIn();
+        }
+
+        private void SpawnPlayer()
+        {
+            _playerCamera.StartFadeOut();
+            DesactivateAllFases();
+            ConfigurePhase();
+            MovePlayerToStartPoint();
+            SantaIn();
+            Invoke(nameof(ActivatePlayerMovement), 3f);
         }
 
         private void DesactivateAllFases()
@@ -213,6 +239,16 @@ namespace System
             {
                 configuracionFases[faseActual].nextFaseObject.SetActive(true);
             }
+        }
+        
+        public int GetTotalPhaseObjectives()
+        {
+            return configuracionFases[faseActual].objectives;
+        }
+        
+        public int GetCurrentPhaseObjectives()
+        {
+            return _currentPhaseObjectives;
         }
         
         private void SantaIn()

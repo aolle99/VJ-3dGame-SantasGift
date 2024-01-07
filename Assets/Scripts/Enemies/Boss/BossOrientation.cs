@@ -38,5 +38,11 @@ namespace Enemies.Boss
                     transform.Rotate(Vector3.up, 180.0f);
             }
         }
+        
+        public int GetDirection()
+        {
+            if(bossMovement.ViewDirection) return 1;
+            return -1;
+        }
     }
 }

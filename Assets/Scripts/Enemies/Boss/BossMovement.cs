@@ -1,4 +1,6 @@
 ﻿using System;
+using Enemies.Snowman;
+using Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,12 +16,23 @@ namespace Enemies.Boss
         private float _timer = 0f;
         private bool _laughed = false;
         private bool _throwed = false;
+        private bool _left = false;
+        private bool _objectDetected = false;
         private int _animNum = -1;
         private float _timeBetweenAnim = 5.0f;
+        private float _timeBetweenActions = 0.0f;
         public GameObject ballPrefab;
         private static readonly int Laugh = Animator.StringToHash("laugh");
         private static readonly int Throw = Animator.StringToHash("throw_ball");
-
+        
+        [SerializeField] private PlayerController playerController;
+        [SerializeField]private float damageCaused = 10f;
+        [SerializeField]private BossOrientation bossOrientation;
+        
+        public Transform centerPoint; // Center point for the circular raycast
+        public LayerMask layerMask; // Layers to include in the raycast
+        public int numberOfRays = 36; // Number of rays to cast
+        public float maxRayLength = 5f;
         public bool ViewDirection { get; private set; }
         
         void Start()
@@ -38,9 +51,53 @@ namespace Enemies.Boss
             _timer += Time.deltaTime;
         }
         
+        void DetectObjecteNearBy()
+        {
+            var bossPosition = transform.position;
+            float radius = Mathf.Sqrt(bossPosition.x * bossPosition.x + bossPosition.z * bossPosition.z);
+            
+            for (int i = 0; i < numberOfRays; i++)
+            {
+                float angle = (i * 90f / numberOfRays) - (90f / 2f); // Calculate angle in degrees
+                Vector3 direction = Quaternion.Euler(0f, angle, 0f) * transform.forward; // Create direction vector
+
+                // Calculate ray origin and direction
+                Vector3 rayOrigin = centerPoint.position;
+                Vector3 rayDirection = direction * radius;
+
+                RaycastHit hit;
+                if (Physics.Raycast(rayOrigin, rayDirection, out hit, maxRayLength, layerMask) && _timeBetweenActions == 0.0f)
+                {
+                    if (hit.collider.gameObject.CompareTag("Obstacle"))
+                    {
+                        _left = !_left;
+                        ViewDirection = !ViewDirection;
+                        _objectDetected = true;
+                        _timeBetweenActions += Time.deltaTime;
+                    }
+                    
+                    if(hit.collider.gameObject.CompareTag("Santa"))
+                    {
+                        playerController.damagePlayer(damageCaused);
+                        _objectDetected = true;
+                        _timeBetweenActions += Time.deltaTime;
+                    }
+                }
+            }
+            
+            if (_objectDetected) _timeBetweenActions += Time.deltaTime;
+            if (Math.Abs(_timeBetweenActions - 1.0f) < 0.05)
+            {
+                _timeBetweenActions = 0.0f;
+                _objectDetected = false;
+            }
+        }
+
+        
         void FixedUpdate()
         {
             ManageMovement();
+            DetectObjecteNearBy();
             if (Math.Abs(_timer - _timeBetweenAnim) < 0.05) ManageAnimations();
         }
         
@@ -50,6 +107,8 @@ namespace Enemies.Boss
             {
                 var position = transform.position;
                 _angle = movementSpeed * Time.deltaTime;
+                if (_left) _angle *= -1;
+                
                 var direction = position - transform.parent.position;
                 direction = Quaternion.AngleAxis(_angle, Vector3.up) * direction;
                 if (_charControl.Move(direction - position) == CollisionFlags.Sides)
@@ -83,7 +142,7 @@ namespace Enemies.Boss
                 Vector3 ballPosition = new Vector3(position.x + 3, position.y + 4, position.z);
                 GameObject bosBall = Instantiate(ballPrefab, ballPosition, Quaternion.identity);
                 
-                bosBall.GetComponent<BossBallController>().direction = -1;
+                bosBall.GetComponent<SnowmanBallController>().direction = bossOrientation.GetDirection();;
                 _timeBetweenAnim = 1.0f;
             }
             else if(_animNum == 3){

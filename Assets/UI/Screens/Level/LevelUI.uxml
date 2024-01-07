@@ -2,9 +2,14 @@
     <Style src="project://database/Assets/UI/Screens/Level/LevelStylesheet.uss?fileID=7433441132597879392&amp;guid=37acc0777a78a214c819958e613087ff&amp;type=3#LevelStylesheet" />
     <ui:VisualElement name="Container" style="flex-grow: 1; max-width: none; max-height: none; width: 100%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%;">
         <ui:VisualElement name="ProgressBar" class="progress-bar" style="flex-direction: row; max-height: none; height: 90px; align-self: center; align-items: center; justify-content: flex-start;">
-            <ui:VisualElement name="LifeIcon" class="life-icon" style="margin-right: 4px; margin-bottom: 4px; background-image: url(&apos;project://database/Assets/UI/Images/image-removebg-preview.png?fileID=2800000&amp;guid=81ae8ce1b0694bd499cf8f794561c60d&amp;type=3#image-removebg-preview&apos;); max-width: 80px; max-height: none; width: 80px; height: 80px;" />
-            <ui:ProgressBar value="22" focusable="false" usage-hints="None" name="Bar" class="bar" style="margin-left: 4px; width: auto; max-width: 400px; -unity-background-image-tint-color: rgba(56, 56, 56, 0); height: auto; background-image: none; -unity-background-scale-mode: stretch-to-fill;" />
-            <ui:Label tabindex="-1" text="100" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GiftsLeft" class="label-text" style="font-size: 50px;" />
+            <ui:VisualElement style="flex-grow: 1; width: 50%; height: 100%; flex-direction: row; align-self: auto; align-items: center;">
+                <ui:VisualElement name="LifeIcon" class="life-icon" style="margin-right: 4px; margin-bottom: 4px; background-image: url(&apos;project://database/Assets/UI/Images/image-removebg-preview.png?fileID=2800000&amp;guid=81ae8ce1b0694bd499cf8f794561c60d&amp;type=3#image-removebg-preview&apos;); max-width: 80px; max-height: none; width: 80px; height: 80px;" />
+                <ui:ProgressBar value="22" focusable="false" usage-hints="None" name="Bar" class="bar" style="margin-left: 4px; width: auto; max-width: 400px; -unity-background-image-tint-color: rgba(56, 56, 56, 0); height: auto; background-image: none; -unity-background-scale-mode: stretch-to-fill;" />
+                <ui:Label tabindex="-1" text="100" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GiftsLeft" class="label-text" style="font-size: 50px;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1; width: 50%; height: 100%; justify-content: center; align-self: auto; align-items: flex-end; margin-right: 20px;">
+                <ui:Label tabindex="-1" text="Objectives: 1/1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Objectives" class="label-text" />
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Ammunition" style="flex-grow: 1; flex-direction: row; max-height: 160px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 8px;">
             <ui:VisualElement name="Ammunition1" style="flex-grow: 1; border-left-color: rgb(74, 101, 132); border-right-color: rgb(74, 101, 132); border-top-color: rgb(74, 101, 132); border-bottom-color: rgb(74, 101, 132); border-top-width: 8px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; width: auto; max-width: 120px; margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 4px; align-self: center; align-items: stretch; justify-content: flex-start; height: 150px; background-color: rgb(74, 101, 132); -unity-background-image-tint-color: rgba(255, 255, 255, 0); -unity-background-scale-mode: stretch-to-fill; background-image: none;">
@@ -23,9 +28,6 @@
                     <ui:Label tabindex="-1" text="34" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NumAmmunition2" class="label-text" />
                 </ui:VisualElement>
             </ui:VisualElement>
-        </ui:VisualElement>
-        <ui:VisualElement style="flex-grow: 1; position: absolute; width: 60px; height: 40px; top: 18px; left: 1733px;">
-            <ui:Label tabindex="-1" text="FPS: 501" parse-escape-sequences="true" display-tooltip-when-elided="true" name="FPS" class="label-text" style="height: 38px; width: 71px;" />
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="PauseMenu" style="flex-grow: 1; width: 100%; height: 100%; overflow: visible; position: absolute; align-items: center; justify-content: center; display: none; background-color: rgba(0, 0, 0, 0.4);">

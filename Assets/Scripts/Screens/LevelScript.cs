@@ -8,7 +8,10 @@ namespace Screens
     {
         private VisualElement root;
         private GiftStateManager _giftStateManager;
+        private MapManager _mapManager;
         private float deltaTime = 0.0f;
+        private int _totalObjectives;
+        private int _currentObjectives = 0;
         
         private void Start()
         {
@@ -26,6 +29,11 @@ namespace Screens
             ProgressBar progressBar = root.Q<ProgressBar>("Bar");
             progressBar.value = _giftStateManager.GetTotalGifts();
             progressBar.highValue = _giftStateManager.GetMaxBlueGifts() + _giftStateManager.GetMaxRedGifts();
+            
+            _mapManager = MapManager.Instance;
+            _totalObjectives = _mapManager.GetTotalPhaseObjectives();
+            Label objectives = root.Q<Label>("Objectives");
+            objectives.text = "Objectives: " + _currentObjectives.ToString() + " / " + _totalObjectives.ToString();
         }
 
         private void Update()
@@ -38,7 +46,6 @@ namespace Screens
                 pauseMenu.style.display = DisplayStyle.Flex;
                 Time.timeScale = 0;
             }
-            
             
             VisualElement ammunition1 = root.Q<VisualElement>("Ammunition1");
             VisualElement ammunition2 = root.Q<VisualElement>("Ammunition2");
@@ -72,18 +79,12 @@ namespace Screens
             Label label = root.Q<Label>("GiftsLeft");
             label.text = progressBar.value.ToString();
             
+            _currentObjectives = _mapManager.GetCurrentPhaseObjectives();
+            _totalObjectives = _mapManager.GetTotalPhaseObjectives();
+            Label objectives = root.Q<Label>("Objectives");
+            objectives.text = "Objectives: " + _currentObjectives.ToString() + " / " + _totalObjectives.ToString();
+            
             ManageMainMenu();
-            
-            DisplayFPS();
-        }
-        
-        void DisplayFPS()
-        {
-            int fps = Mathf.RoundToInt(1.0f / deltaTime);
-            string text = $"FPS: {fps}";
-            
-            Label label = root.Q<Label>("FPS");
-            label.text = text;
         }
 
         private void ManageMainMenu()

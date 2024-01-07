@@ -53,6 +53,10 @@ namespace Enemies.Kid
                 _currentHealth -= 5f;
                 healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

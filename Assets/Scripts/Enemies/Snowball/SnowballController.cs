@@ -56,8 +56,6 @@ namespace Enemies.Snowball
                 healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
                 var actualSize = transform.localScale;
                 var reduceSize = 0.1f ;
-                print("actualSize: " + actualSize);
-                print("reduceSize: " + reduceSize);
                 transform.localScale = new Vector3(actualSize.x - reduceSize, actualSize.y - reduceSize, actualSize.z - reduceSize);
             }
             else

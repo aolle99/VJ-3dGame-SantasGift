@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7758005345492544323}
   - component: {fileID: 6813175961307027881}
   - component: {fileID: 3145921742528280869}
-  - component: {fileID: -1099105387440761190}
+  - component: {fileID: -7963676306075616900}
   m_Layer: 0
   m_Name: BossSnowballThrow
   m_TagString: Untagged
@@ -92,7 +92,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-1099105387440761190
+--- !u!114 &-7963676306075616900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,12 +101,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5755172351946641741}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94fcaf6e02ce4536985090d5406190a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 681d72b7a9dfb834688341a6b45d5160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1
+  lifeTimeType: 1
+  bulletDuration: 2
+  bulletAngleDistance: 360
+  damageCaused: 5
+  playerController: {fileID: 0}
   direction: 1
-  speed: 2
-  ballDuration: 2
 --- !u!1001 &2345569954948735958
 PrefabInstance:
   m_ObjectHideFlags: 0
