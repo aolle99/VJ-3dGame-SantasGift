@@ -94,6 +94,8 @@ namespace System
                 Destroy(gameObject);
             }
             
+            _currentPhaseObjectives = 0;
+            
             _santaModel = player.transform.Find("Santa").gameObject;
             
             MapZoneInner = false;
@@ -175,7 +177,6 @@ namespace System
         {
             playerMovement.enabled = false;
             player.transform.position = configuracionFases[faseActual].startPoint;
-            //teleport_particles.Play();
         }
 
         private void MovePlayerBetweenRadius()
