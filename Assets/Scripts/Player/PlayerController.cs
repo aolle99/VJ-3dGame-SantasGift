@@ -93,7 +93,7 @@ namespace Player
             }
             
             AudioManager.instance.PlaySound("Damage");
-            _isDead = _giftStateManager.removeRandomGift((int) damage);
+            _isDead = !_giftStateManager.removeRandomGift((int) damage);
             
             _damageBlueParticles.Play();
             _damageRedParticles.Play();
