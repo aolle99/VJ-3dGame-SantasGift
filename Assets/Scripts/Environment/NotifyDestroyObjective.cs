@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Environment.InteractionSystem
+namespace Environment
 {
     public class NotifyDestroyObjective : MonoBehaviour
     {

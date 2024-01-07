@@ -7,46 +7,46 @@ namespace Environment
         [SerializeField] private float fadeSpeed = 1.0f;
         [SerializeField] private float alpha = 0.3f;
         [SerializeField] private float fadeTime = 0.5f;
-        
+
         private Shader[] _shaders;
         private Color[] _colors;
         private bool _fading;
-        
+
         private float _alphaValue;
-        
+
         private Renderer _renderer;
-        
+
         private Coroutine _coroutine;
 
         private float _timer;
-        
+
         private Shader _transparentShader;
         private bool _isRendererNotNull;
 
         private void Start()
         {
             _renderer = GetComponent<Renderer>();
-            _isRendererNotNull = _renderer !=null;
+            _isRendererNotNull = _renderer != null;
             var materials = _renderer.materials;
             _shaders = new Shader[materials.Length];
             _colors = new Color[materials.Length];
-            
+
             for (int i = 0; i < _renderer.materials.Length; i++)
             {
                 _shaders[i] = _renderer.materials[i].shader;
             }
-            
+
             for (int i = 0; i < _renderer.materials.Length; i++)
             {
                 _colors[i] = _renderer.materials[i].color;
             }
-            
+
             _fading = false;
             _timer = 0.0f;
-            
+
             _transparentShader = Shader.Find("TransparentDiffuse");
         }
-        
+
         private void Update()
         {
             if (_fading)
@@ -56,7 +56,6 @@ namespace Environment
                 if (_timer >= fadeTime)
                 {
                     _fading = false;
-
                 }
             }
 
@@ -67,16 +66,14 @@ namespace Environment
                     FadeOut();
                 }
             }
-                
         }
-        
+
         private void FadeIn()
         {
-
-            _alphaValue = Mathf.Lerp(_alphaValue,alpha, fadeSpeed * Time.deltaTime);
+            _alphaValue = Mathf.Lerp(_alphaValue, alpha, fadeSpeed * Time.deltaTime);
             UpdateAlpha();
         }
-        
+
         private void FadeOut()
         {
             _alphaValue = Mathf.Lerp(_alphaValue, 1.0f, fadeSpeed * Time.deltaTime);
@@ -88,7 +85,6 @@ namespace Environment
             {
                 Reset();
             }
-            
         }
 
         private void UpdateAlpha()
@@ -101,7 +97,7 @@ namespace Environment
                 materials[i].color = color;
             }
         }
-        
+
         private void Reset()
         {
             _timer = 0.0f;
@@ -110,26 +106,28 @@ namespace Environment
             {
                 _renderer.materials[i].shader = _shaders[i];
             }
+
             for (int i = 0; i < _renderer.materials.Length; i++)
             {
-                _renderer.materials[i].color=_colors[i];
+                _renderer.materials[i].color = _colors[i];
             }
         }
-        
+
         public void SetFade()
         {
             if (!_fading)
             {
-
                 if (_isRendererNotNull && _renderer.materials.Length > 0)
                 {
                     for (int i = 0; i < _renderer.materials.Length; i++)
                     {
                         _renderer.materials[i].shader = _transparentShader;
                     }
+
                     _fading = true;
                 }
             }
+
             _timer = 0.0f;
         }
     }

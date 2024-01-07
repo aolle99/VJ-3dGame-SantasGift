@@ -7,13 +7,13 @@ namespace Environment.InteractionSystem
     public class Bridge : MonoBehaviour, IInteractable
     {
         [SerializeField] private string prompt;
-        
+
         private MapManager _mapManager;
-        
+
         public string InteractionPrompt => prompt;
-        
+
         [SerializeField] private InteractionPromptUI _interactionPromptUI;
-        
+
         public InteractionPromptUI InteractionPromptUI
         {
             get => _interactionPromptUI;

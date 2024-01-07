@@ -1,4 +1,3 @@
-using System;
 using Player;
 using UnityEngine;
 
@@ -9,16 +8,16 @@ namespace Enemies.Snowman
         Time,
         Distance
     }
+
     public class SnowmanBallController : MonoBehaviour
     {
-        [SerializeField]private float speed = 20.0f;
+        [SerializeField] private float speed = 20.0f;
         [SerializeField] private LifeTimeType lifeTimeType = LifeTimeType.Time;
         [SerializeField] private float bulletDuration = 1f;
         [SerializeField] private int bulletAngleDistance = 180;
         [SerializeField] private float damageCaused = 3f;
-        //[SerializeField] private GameObject hitEffect;
         [SerializeField] private PlayerController playerController;
-        
+
         private float lifeTime = 0f;
         public float direction = 1f;
         private float _angle = 0f;
@@ -27,23 +26,23 @@ namespace Enemies.Snowman
         private Vector2 centerPosition;
         private float startAngle;
         private float radius;
-        
+
         Rigidbody rb;
-        
+
         void Start()
         {
             var position = transform.position;
             _angle = Mathf.Atan2(position.z, position.x);
-            
+
             rb = GetComponent<Rigidbody>();
-            
+
             startPosition = new Vector2(position.x, position.z);
-            
+
             startAngle = calculateAngle();
-            
+
             playerController = GameObject.FindWithTag("Santa").GetComponent<PlayerController>();
         }
-        
+
         private void Update()
         {
             if (lifeTimeType == LifeTimeType.Distance)
@@ -51,11 +50,9 @@ namespace Enemies.Snowman
                 float newAngle = calculateAngle();
                 acumulatedAngle += Mathf.Abs(newAngle - startAngle) * Mathf.Rad2Deg;
                 startAngle = newAngle;
-                
-                // Verificar si el ángulo supera el umbral
-                if (acumulatedAngle  > bulletAngleDistance)
+
+                if (acumulatedAngle > bulletAngleDistance)
                 {
-                    callParticleExplosion();
                     Destroy(gameObject);
                 }
             }
@@ -63,15 +60,15 @@ namespace Enemies.Snowman
 
         void FixedUpdate()
         {
-            // move bullet in a circle
             _angle += speed * Time.deltaTime * direction;
-            radius = Mathf.Sqrt(transform.position.x * transform.position.x + transform.position.z * transform.position.z);
+            radius = Mathf.Sqrt(transform.position.x * transform.position.x +
+                                transform.position.z * transform.position.z);
 
             float x = Mathf.Cos(_angle) * radius;
             float z = Mathf.Sin(_angle) * radius;
 
             rb.position = new Vector3(x, transform.position.y, z);
-            
+
             rb.angularVelocity = new Vector3(0, 5f, 0);
 
             if (lifeTimeType == LifeTimeType.Time)
@@ -80,42 +77,33 @@ namespace Enemies.Snowman
 
                 if (lifeTime > bulletDuration)
                 {
-                    callParticleExplosion();
                     Destroy(gameObject);
                 }
             }
         }
-        
+
         private float calculateAngle()
         {
-            // Calcular el ángulo acumulado
             var currentPosition = new Vector2(transform.position.x, transform.position.z);
             float ladoC = Vector2.Distance(startPosition, currentPosition);
             float ladoA = Vector2.Distance(startPosition, centerPosition);
             float ladoB = Vector2.Distance(currentPosition, centerPosition);
-                
+
             return Mathf.Acos((Mathf.Pow(ladoA, 2) + Mathf.Pow(ladoB, 2) - Mathf.Pow(ladoC, 2)) / (2 * ladoA * ladoB));
         }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Santa"))
             {
-                print("santa");
                 playerController.damagePlayer(damageCaused);
                 Destroy(gameObject);
-                callParticleExplosion();
             }
+
             if (other.gameObject.CompareTag("Obstacle"))
             {
-                callParticleExplosion();
                 Destroy(gameObject);
             }
-        }
-        
-        private void callParticleExplosion()
-        {
-            //var particle = Instantiate(hitEffect, transform.position, Quaternion.identity);
-            //Destroy(particle, 1f);
         }
     }
 }

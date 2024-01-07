@@ -6,25 +6,23 @@ namespace Enemies.Snowman
 {
     public class SnowmanController : MonoBehaviour
     {
-        // Start is called before the first frame update
-
         public GameObject ballPrefab;
         private float _timer = 0f;
         [SerializeField] private float ballSpeed = 2f;
         private Animator _anim;
         [SerializeField] private bool throwed;
         private static readonly int Throw = Animator.StringToHash("throw_ball");
-        
+
         private float _currentHealth;
         private float _maxHealth;
         private float _currentShield;
         private float _maxShield;
         private float _radius;
-        [SerializeField]private HealthBar healthBar;
-        [SerializeField]private Shield shield;
+        [SerializeField] private HealthBar healthBar;
+        [SerializeField] private Shield shield;
         private SnowmanOrientation snowmanOrientation;
         private GiftStateManager _giftStateManager;
-        
+
         void Start()
         {
             _anim = GetComponentInChildren<Animator>();
@@ -40,12 +38,10 @@ namespace Enemies.Snowman
             snowmanOrientation = GetComponentInChildren<SnowmanOrientation>();
         }
 
-        // Update is called once per frame
         void Update()
         {
             transform.rotation = Quaternion.Euler(0, -90, 0);
             _timer += Time.deltaTime;
-            // execute the following code every 2 seconds
             if (Math.Abs(_timer - ballSpeed) < 0.05)
             {
                 _anim.SetBool(Throw, true);
@@ -62,14 +58,14 @@ namespace Enemies.Snowman
                     throwed = true;
                 }
             }
-            else if(Math.Abs(_timer - (ballSpeed + 1.46f)) < 0.1)
+            else if (Math.Abs(_timer - (ballSpeed + 1.46f)) < 0.1)
             {
                 _anim.SetBool(Throw, false);
                 _timer = 0f;
                 throwed = false;
             }
         }
-        
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Gift"))
@@ -82,7 +78,7 @@ namespace Enemies.Snowman
         {
             GiftType amunitionSelected = _giftStateManager.GetAmmunitionSelected();
             GiftType shieldColor = shield.GetShieldColor();
-            
+
             if (_currentShield > 0f)
             {
                 if (amunitionSelected == shieldColor)

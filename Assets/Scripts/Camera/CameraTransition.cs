@@ -11,8 +11,9 @@ namespace Camera
         [SerializeField] private bool startFadeOut = true;
         private bool inTransition = false;
         private float alpha = 0f;
-        
+
         private static CameraTransition _instance;
+
         public static CameraTransition Instance
         {
             get
@@ -21,7 +22,7 @@ namespace Camera
                 {
                     _instance = FindObjectOfType<CameraTransition>();
                 }
-    
+
                 return _instance;
             }
         }
@@ -34,14 +35,12 @@ namespace Camera
 
         private void Start()
         {
-            
-            
             if (startFadeOut)
             {
                 StartFadeOut();
             }
         }
-        
+
         public void StartFadeOut()
         {
             if (!inTransition)
@@ -49,7 +48,7 @@ namespace Camera
                 StartCoroutine(FadeOut());
             }
         }
-        
+
         public void StartFadeIn()
         {
             if (!inTransition)

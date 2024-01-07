@@ -24,17 +24,17 @@ namespace Enemies.Boss
         public GameObject ballPrefab;
         private static readonly int Laugh = Animator.StringToHash("laugh");
         private static readonly int Throw = Animator.StringToHash("throw_ball");
-        
+
         [SerializeField] private PlayerController playerController;
-        [SerializeField]private float damageCaused = 10f;
-        [SerializeField]private BossOrientation bossOrientation;
-        
-        public Transform centerPoint; // Center point for the circular raycast
-        public LayerMask layerMask; // Layers to include in the raycast
-        public int numberOfRays = 36; // Number of rays to cast
+        [SerializeField] private float damageCaused = 10f;
+        [SerializeField] private BossOrientation bossOrientation;
+
+        public Transform centerPoint;
+        public LayerMask layerMask;
+        public int numberOfRays = 36;
         public float maxRayLength = 5f;
         public bool ViewDirection { get; private set; }
-        
+
         void Start()
         {
             _charControl = GetComponent<CharacterController>();
@@ -42,31 +42,31 @@ namespace Enemies.Boss
             var parent = playerTransform.parent;
             _startDirection = playerTransform.position - parent.position;
             ViewDirection = false;
-            
+
             _anim = GetComponentInChildren<Animator>();
         }
-        
+
         void Update()
         {
             _timer += Time.deltaTime;
         }
-        
+
         void DetectObjecteNearBy()
         {
             var bossPosition = transform.position;
             float radius = Mathf.Sqrt(bossPosition.x * bossPosition.x + bossPosition.z * bossPosition.z);
-            
+
             for (int i = 0; i < numberOfRays; i++)
             {
-                float angle = (i * 90f / numberOfRays) - (90f / 2f); // Calculate angle in degrees
-                Vector3 direction = Quaternion.Euler(0f, angle, 0f) * transform.forward; // Create direction vector
+                float angle = (i * 90f / numberOfRays) - (90f / 2f);
+                Vector3 direction = Quaternion.Euler(0f, angle, 0f) * transform.forward;
 
-                // Calculate ray origin and direction
                 Vector3 rayOrigin = centerPoint.position;
                 Vector3 rayDirection = direction * radius;
 
                 RaycastHit hit;
-                if (Physics.Raycast(rayOrigin, rayDirection, out hit, maxRayLength, layerMask) && _timeBetweenActions == 0.0f)
+                if (Physics.Raycast(rayOrigin, rayDirection, out hit, maxRayLength, layerMask) &&
+                    _timeBetweenActions == 0.0f)
                 {
                     if (hit.collider.gameObject.CompareTag("Obstacle"))
                     {
@@ -75,8 +75,8 @@ namespace Enemies.Boss
                         _objectDetected = true;
                         _timeBetweenActions += Time.deltaTime;
                     }
-                    
-                    if(hit.collider.gameObject.CompareTag("Santa"))
+
+                    if (hit.collider.gameObject.CompareTag("Santa"))
                     {
                         playerController.damagePlayer(damageCaused);
                         _objectDetected = true;
@@ -84,7 +84,7 @@ namespace Enemies.Boss
                     }
                 }
             }
-            
+
             if (_objectDetected) _timeBetweenActions += Time.deltaTime;
             if (Math.Abs(_timeBetweenActions - 1.0f) < 0.05)
             {
@@ -93,14 +93,14 @@ namespace Enemies.Boss
             }
         }
 
-        
+
         void FixedUpdate()
         {
             ManageMovement();
             DetectObjecteNearBy();
             if (Math.Abs(_timer - _timeBetweenAnim) < 0.05) ManageAnimations();
         }
-        
+
         void ManageMovement()
         {
             if (!_laughed && !_throwed)
@@ -108,7 +108,7 @@ namespace Enemies.Boss
                 var position = transform.position;
                 _angle = movementSpeed * Time.deltaTime;
                 if (_left) _angle *= -1;
-                
+
                 var direction = position - transform.parent.position;
                 direction = Quaternion.AngleAxis(_angle, Vector3.up) * direction;
                 if (_charControl.Move(direction - position) == CollisionFlags.Sides)
@@ -117,9 +117,8 @@ namespace Enemies.Boss
                     Physics.SyncTransforms();
                 }
             }
-            
         }
-        
+
         private void ManageAnimations()
         {
             _animNum++;
@@ -128,7 +127,7 @@ namespace Enemies.Boss
                 _anim.SetBool(Laugh, true);
                 AudioManager.instance.PlaySound("EvilLaugh");
                 _laughed = true;
-            } 
+            }
             else if (_animNum == 1)
             {
                 _anim.SetBool(Throw, true);
@@ -137,22 +136,23 @@ namespace Enemies.Boss
                 _laughed = false;
                 _timeBetweenAnim = 0.8f;
             }
-            else if(_animNum == 2)
+            else if (_animNum == 2)
             {
                 Vector3 position = transform.position;
                 Vector3 ballPosition = new Vector3(position.x + 3, position.y + 4, position.z);
                 GameObject bosBall = Instantiate(ballPrefab, ballPosition, Quaternion.identity);
-                
-                bosBall.GetComponent<SnowmanBallController>().direction = bossOrientation.GetDirection();;
+
+                bosBall.GetComponent<SnowmanBallController>().direction = bossOrientation.GetDirection();
                 _timeBetweenAnim = 1.0f;
             }
-            else if(_animNum == 3){
+            else if (_animNum == 3)
+            {
                 _throwed = false;
                 _anim.SetBool(Throw, false);
                 _timeBetweenAnim = 5.0f;
                 _animNum = -1;
             }
-            
+
             _timer = 0f;
         }
     }

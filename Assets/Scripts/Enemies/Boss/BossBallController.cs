@@ -10,7 +10,7 @@ namespace Enemies.Boss
         float _angle = 0f;
         public float ballDuration = 1f;
         float _lifeTime = 0f;
-        
+
         void Start()
         {
             _angle = Mathf.Atan2(transform.position.z, transform.position.x);
@@ -18,7 +18,6 @@ namespace Enemies.Boss
 
         void FixedUpdate()
         {
-            // move bullet in a circle
             _angle += speed * Time.deltaTime * direction;
 
             float radius = 25f;
@@ -42,17 +41,11 @@ namespace Enemies.Boss
             {
                 Destroy(gameObject);
             }
+
             if (other.gameObject.CompareTag("Ground"))
             {
                 Destroy(gameObject);
             }
-        }
-
-
-        // Update is called once per frame
-        void Update()
-        {
-        
         }
     }
 }

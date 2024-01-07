@@ -54,7 +54,6 @@ namespace Player
                 
                 _canThrow = false;
                 
-                // If there is ammunition, the player can shoot
                 StartCoroutine(ThrowGiftCoroutine(prefab, ammunitionSelected));
             }
         }

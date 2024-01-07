@@ -16,14 +16,12 @@ namespace Screens
             Button playAgain = root.Q<Button>("PlayAgain");
             playAgain.clicked += () =>
             {
-                print("clicked");
                 UnityEngine.SceneManagement.SceneManager.LoadScene("FirstLevel");
             };
             
             Button mainMenu = root.Q<Button>("MainMenu");
             mainMenu.clicked += () =>
             {
-                print("clicked");
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
             };
 

@@ -10,7 +10,6 @@ namespace Player.GiftBullet
     }
     public class GiftController : MonoBehaviour
     {
-        // Start is called before the first frame update
         
         [SerializeField]private float speed = 5.0f;
 
@@ -21,7 +20,6 @@ namespace Player.GiftBullet
         [SerializeField] private GameObject hitEffect;
         
         private float lifeTime = 0f;
-        private float _startAngle;
         private float direction = 1f;
         private float angle = 0f;
         private float acumulatedAngle = 0f;
@@ -36,7 +34,6 @@ namespace Player.GiftBullet
             var position = transform.position;
             angle = Mathf.Atan2(position.z, position.x);
             rb = GetComponent<Rigidbody>();
-            _startAngle = angle * Mathf.Rad2Deg;
             
             startPosition = new Vector2(position.x, position.z);
             
@@ -53,7 +50,6 @@ namespace Player.GiftBullet
                 acumulatedAngle += Mathf.Abs(newAngle - startAngle) * Mathf.Rad2Deg;
                 startAngle = newAngle;
                 
-                // Verificar si el ángulo supera el umbral
                 if (acumulatedAngle  > bulletAngleDistance)
                 {
                     callParticleExplosion();
@@ -63,10 +59,8 @@ namespace Player.GiftBullet
 
         }
 
-        // Update is called once per frame
         void FixedUpdate()
         {
-            // move bullet in a circle
             angle += speed * Time.deltaTime * direction;
             radius = MapManager.instance.GetCurrentFaseRadius();
             
@@ -93,7 +87,6 @@ namespace Player.GiftBullet
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                // Call the enemy hit method
                 Destroy(gameObject);
             }
             if (collision.gameObject.CompareTag("Obstacle"))
@@ -107,7 +100,6 @@ namespace Player.GiftBullet
             if (other.gameObject.CompareTag("Enemy"))
             {
                 callParticleExplosion();
-                // Call the enemy hit method
                 Destroy(gameObject);
             }
             if (other.gameObject.CompareTag("Obstacle"))
@@ -124,7 +116,6 @@ namespace Player.GiftBullet
 
         private float calculateAngle()
         {
-            // Calcular el ángulo acumulado
             var currentPosition = new Vector2(transform.position.x, transform.position.z);
             float ladoC = Vector2.Distance(startPosition, currentPosition);
             float ladoA = Vector2.Distance(startPosition, centerPosition);

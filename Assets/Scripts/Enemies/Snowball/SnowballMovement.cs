@@ -12,18 +12,15 @@ namespace Enemies.Snowball
         private Rigidbody _rb;
         private float initialSnowballRadius;
         [SerializeField] private PlayerController playerController;
-        [SerializeField]private float damageCaused = 3f;
+        [SerializeField] private float damageCaused = 3f;
 
-        // Start is called before the first frame update
         void Start()
         {
             var position = transform.position;
             initialSnowballRadius = Mathf.Sqrt(position.z * position.z + position.x * position.x);
-            print(initialSnowballRadius);
             _rb = GetComponent<Rigidbody>();
         }
 
-        // Update is called once per frame
         void FixedUpdate()
         {
             ManageMovement();
@@ -39,7 +36,7 @@ namespace Enemies.Snowball
             {
                 var newX = snowballPos.x * initialSnowballRadius / snowballRadius;
                 var newZ = snowballPos.z * initialSnowballRadius / snowballRadius;
-                
+
                 var targetPos = new Vector3(newX, snowballPos.y, newZ);
                 transform.position = targetPos;
             }
@@ -47,12 +44,12 @@ namespace Enemies.Snowball
 
         private void OnCollisionEnter(Collision collision)
         {
-
             if (collision.gameObject.CompareTag("Obstacle"))
             {
                 _left = !_left;
             }
-            if(collision.gameObject.CompareTag("Santa"))
+
+            if (collision.gameObject.CompareTag("Santa"))
             {
                 _left = !_left;
                 playerController.damagePlayer(damageCaused);
@@ -65,18 +62,16 @@ namespace Enemies.Snowball
             Vector3 direction = position - transform.parent.position;
             _angle = movementSpeed * Time.deltaTime;
             if (_left) _angle *= -1;
-            
+
             Quaternion rotation = Quaternion.AngleAxis(_angle, Vector3.up);
             Vector3 target = transform.parent.position + rotation * direction;
-            
+
             float rotationY = Mathf.Atan2(target.z, target.x) * Mathf.Rad2Deg;
             float rotationX = Mathf.Atan2(target.z, target.x) * Mathf.Rad2Deg * rotationSpeed;
 
-            // Aplicar la rotación en ambos ejes
             rotation = Quaternion.Euler(rotationX, -rotationY, 0f);
-            
+
             _rb.Move(target, rotation);
-            
         }
     }
 }
