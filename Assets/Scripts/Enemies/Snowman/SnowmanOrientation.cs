@@ -6,12 +6,12 @@ namespace Enemies.Snowman
 {
     public class SnowmanOrientation : MonoBehaviour
     {
-        [SerializeField] private PlayerController playerController;
+        [SerializeField] private GameObject player;
         private Vector3 _initialPosition;
+        private Vector2 centerPosition;
         
         public void Start()
         {
-            playerController = FindObjectOfType<PlayerController>();
             _initialPosition = transform.position;
             Orientate();
         }
@@ -48,12 +48,13 @@ namespace Enemies.Snowman
 
         private Boolean CheckPositionPlayer()
         {
+            //print(calculateAngle());
+            //return true;
+
             Vector3 positionA = _initialPosition;
-            print("positionA: " + positionA);
-            Vector3 positionB = playerController.transform.position;
-            print("positionB: " + positionB);
+            Vector3 positionB = player.transform.position;
             var radius = Mathf.Sqrt(positionA.x * positionA.x + positionA.z * positionA.z);
-            
+            /*
             float angleClockwise = Mathf.Atan2(positionB.z - positionA.z, positionB.x - positionA.x) * Mathf.Rad2Deg;
             if (angleClockwise < 0)
                 angleClockwise += 360f;
@@ -67,7 +68,8 @@ namespace Enemies.Snowman
             print("Distance Clockwise: " + arcLengthClockwise);
             print("Distance AntiClockwise: " + arcLengthAntiClockwise);
             return true;
-            /*
+            */
+
             // Calculate the angle between the objects
             Vector3 directionToPlayer = positionA - positionB;
             //print("angle: " + angle);
@@ -77,8 +79,20 @@ namespace Enemies.Snowman
             // Calculate the distances in both directions
             float distanceClockwise = CalculateDistance(angle, radius);
             float distanceAntiClockwise = CalculateDistance(360f - angle, radius);
-            print("distanceClockwise: " + distanceClockwise + ", distanceAntiClockwise: " + distanceAntiClockwise);
-            return distanceAntiClockwise > distanceClockwise;*/
+            //print("distanceClockwise: " + distanceClockwise + ", distanceAntiClockwise: " + distanceAntiClockwise);
+            return distanceAntiClockwise > distanceClockwise;
+        }
+        
+        private float calculateAngle()
+        {
+            var playerPos = player.transform.position;
+            // Calcular el ángulo acumulado
+            var currentPosition = new Vector2(transform.position.x, transform.position.z);
+            float ladoC = Vector2.Distance(playerPos, currentPosition);
+            float ladoA = Vector2.Distance(playerPos, centerPosition);
+            float ladoB = Vector2.Distance(currentPosition, centerPosition);
+                
+            return Mathf.Acos((Mathf.Pow(ladoA, 2) + Mathf.Pow(ladoB, 2) - Mathf.Pow(ladoC, 2)) / (2 * ladoA * ladoB));
         }
         
         private float CalculateDistance(float angle, float radius)
