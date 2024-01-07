@@ -9,6 +9,7 @@ namespace Enemies.Snowman
         [SerializeField] private PlayerController playerController;
         public void Start()
         {
+            playerController = FindObjectOfType<PlayerController>();
             Orientate();
         }
 

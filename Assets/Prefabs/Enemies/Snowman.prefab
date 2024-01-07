@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 359718479692319911}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 4, y: 4, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7724609906790881610}
@@ -274,7 +274,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.2, y: 1.8}
+  m_AnchoredPosition: {x: 0.9, y: 1.8}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5173303099236998310
@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 930743665675725650}
   - component: {fileID: 4024358458284697339}
   - component: {fileID: 4929164809763775844}
+  - component: {fileID: 6237322228601572404}
   m_Layer: 3
   m_Name: Snowman
   m_TagString: Enemy
@@ -482,6 +483,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
+--- !u!114 &6237322228601572404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3309497722299948761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb54b4beb7249efbbae5e0cae4aa4ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5003689346928738661
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +597,7 @@ RectTransform:
   m_GameObject: {fileID: 5994165889013659784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 10, z: 1}
+  m_LocalScale: {x: 6, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6846137732721976458}
