@@ -52,7 +52,7 @@ namespace System
         
         public void AddRedGift(int numGifts)
         {
-            redGifts = Mathf.Min(maxRedGifts,redGifts + numGifts);
+            redGifts += Mathf.Min(maxRedGifts,redGifts + numGifts);
         }
         
         public void AddBlueGift(int numGifts)
