@@ -4989,7 +4989,7 @@ MonoBehaviour:
   lifeTimeType: 1
   bulletDuration: 1
   bulletAngleDistance: 360
-  damage: 2
+  damage: 5
   hitEffect: {fileID: 3807181364044203235, guid: 8c6695e028537ec438b38165c7b0d316, type: 3}
 --- !u!1001 &2660929115525846362
 PrefabInstance:

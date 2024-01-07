@@ -22,7 +22,7 @@ namespace Enemies.Snowball
             shield = GetComponentInChildren<Shield>();
             _maxHealth = 50f;
             _currentHealth = _maxHealth;
-            _maxShield = 30f;
+            _maxShield = 20f;
             _currentShield = _maxShield;
             healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             shield.UpdateShield(_maxShield, _currentShield);

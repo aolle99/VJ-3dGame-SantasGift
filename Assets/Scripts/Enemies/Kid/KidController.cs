@@ -18,9 +18,9 @@ namespace Enemies.Kid
         {
             healthBar = GetComponentInChildren<HealthBar>();
             shield = GetComponentInChildren<Shield>();
-            _maxHealth = 50f;
+            _maxHealth = 40f;
             _currentHealth = _maxHealth;
-            _maxShield = 30f;
+            _maxShield = 15f;
             _currentShield = _maxShield;
             healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             shield.UpdateShield(_maxShield, _currentShield);

@@ -30,9 +30,9 @@ namespace Enemies.Snowman
             _anim = GetComponentInChildren<Animator>();
             healthBar = GetComponentInChildren<HealthBar>();
             shield = GetComponentInChildren<Shield>();
-            _maxHealth = 100f;
+            _maxHealth = 70f;
             _currentHealth = _maxHealth;
-            _maxShield = 50f;
+            _maxShield = 30f;
             _currentShield = _maxShield;
             healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             shield.UpdateShield(_maxShield, _currentShield);

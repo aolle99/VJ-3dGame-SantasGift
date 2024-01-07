@@ -4962,7 +4962,7 @@ MonoBehaviour:
   lifeTimeType: 1
   bulletDuration: 1
   bulletAngleDistance: 180
-  damage: 1
+  damage: 2
   hitEffect: {fileID: 3807181364044203235, guid: 8c6695e028537ec438b38165c7b0d316, type: 3}
 --- !u!54 &6967883178174339729
 Rigidbody:

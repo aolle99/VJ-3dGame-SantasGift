@@ -12,7 +12,7 @@ namespace Enemies.Snowball
         private Rigidbody _rb;
         private float initialSnowballRadius;
         [SerializeField] private PlayerController playerController;
-        [SerializeField]private float damageCaused = 5f;
+        [SerializeField]private float damageCaused = 3f;
 
         // Start is called before the first frame update
         void Start()

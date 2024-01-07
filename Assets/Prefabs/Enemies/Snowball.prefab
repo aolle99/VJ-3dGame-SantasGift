@@ -395,6 +395,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 5
   movementSpeed: 30
+  playerController: {fileID: 0}
+  damageCaused: 3
 --- !u!33 &5504840650098081646
 MeshFilter:
   m_ObjectHideFlags: 0
