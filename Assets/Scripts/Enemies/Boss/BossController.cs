@@ -32,6 +32,7 @@ namespace Enemies.Boss
             if (other.CompareTag("Gift"))
             {
                 UpdateLifeBar();
+                shield.ChangeRandomColor();
             }
         }
 
