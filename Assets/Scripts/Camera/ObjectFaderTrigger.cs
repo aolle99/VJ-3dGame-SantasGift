@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Environment;
-using UnityEditor;
 using UnityEngine;
 
 namespace Camera
