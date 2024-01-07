@@ -6,7 +6,6 @@ namespace Screens
 {
     public class EndLevel : MonoBehaviour
     {
-        private float _timeLoading = 0f;
         VisualElement root;
         private Boolean _isLoaded = false;
         
@@ -28,15 +27,6 @@ namespace Screens
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
             };
 
-        }
-        
-        private void Update()
-        {
-            if(!_isLoaded) _timeLoading += Time.deltaTime;
-            if(_timeLoading > 4f)
-            {
-                root.visible = false;
-            }
         }
     }
 }
