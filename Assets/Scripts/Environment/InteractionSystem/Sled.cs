@@ -27,13 +27,14 @@ namespace Environment.InteractionSystem
             {
                 cameraTransition.StartFadeIn();
             }
-            Invoke(nameof(LoadNextScene), 1.5f);
+            Invoke(nameof(LoadNextScene), 1.6f);
             
             return true;
         }
         
         public void LoadNextScene()
         {
+            print("load next scene: " + nextScene);
             SceneManager.LoadScene(nextScene);
         }
     }

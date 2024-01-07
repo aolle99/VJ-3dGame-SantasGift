@@ -22,7 +22,7 @@ namespace Enemies.Snowman
         private float _radius;
         [SerializeField]private HealthBar healthBar;
         [SerializeField]private Shield shield;
-        [SerializeField]private SnowmanOrientation snowmanOrientation;
+        private SnowmanOrientation snowmanOrientation;
         private GiftStateManager _giftStateManager;
         
         void Start()
@@ -37,6 +37,7 @@ namespace Enemies.Snowman
             healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             shield.UpdateShield(_maxShield, _currentShield);
             _giftStateManager = GiftStateManager.Instance;
+            snowmanOrientation = GetComponentInChildren<SnowmanOrientation>();
         }
 
         // Update is called once per frame

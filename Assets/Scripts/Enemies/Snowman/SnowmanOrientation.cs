@@ -13,6 +13,7 @@ namespace Enemies.Snowman
         public void Start()
         {
             _initialPosition = transform.position;
+            player = GetComponentInParent<PlayerController>().gameObject;
             Orientate();
         }
 

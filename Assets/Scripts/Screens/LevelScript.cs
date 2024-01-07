@@ -1,5 +1,7 @@
 ﻿using System;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace Screens
@@ -12,6 +14,7 @@ namespace Screens
         private float deltaTime = 0.0f;
         private int _totalObjectives;
         private int _currentObjectives = 0;
+        private Boolean _clicked = false;
         
         private void Start()
         {
@@ -92,8 +95,10 @@ namespace Screens
             Button button = root.Q<Button>("Quit");
             button.clicked += () =>
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+                if(_clicked) return;
+                SceneManager.LoadScene("MainMenu");
                 Time.timeScale = 1;
+                _clicked = true;
             };
             
             Button resumeButton = root.Q<Button>("Resume");
@@ -107,8 +112,10 @@ namespace Screens
             Button restartButton = root.Q<Button>("Restart");
             restartButton.clicked += () =>
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("FirstLevel");
+                if(_clicked) return;
+                SceneManager.LoadScene("FirstLevel");
                 Time.timeScale = 1;
+                _clicked = true;
             };
         }
 
