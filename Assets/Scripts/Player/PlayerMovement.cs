@@ -223,6 +223,7 @@ namespace Player
                 Physics.SyncTransforms();
                 _moveAcceleration = 0.0f;
             }
+            ValidateRadius();
             var animMoveAcceleration = _moveAcceleration;
             if (_isSlow)
             {
@@ -230,6 +231,21 @@ namespace Player
             }
             anim.SetFloat(AnimSpeed, Mathf.Abs(animMoveAcceleration/5));
             
+        }
+        
+        private void ValidateRadius()
+        {
+            var pos = transform.position;
+            var snowballRadius = Mathf.Sqrt(pos.z * pos.z + pos.x * pos.x);
+            var currentRadius = MapManager.instance.GetCurrentFaseRadius();
+            if (Math.Abs(MapManager.instance.GetCurrentFaseRadius() - snowballRadius) > 0.005)
+            {
+                var newX = pos.x * currentRadius / snowballRadius;
+                var newZ = pos.z * currentRadius / snowballRadius;
+                
+                var targetPos = new Vector3(newX, pos.y, newZ);
+                transform.position = targetPos;
+            }
         }
 
 

@@ -229,7 +229,7 @@ namespace System
         
         public float GetCurrentFaseRadius()
         {
-            return MapZoneInner ? configuracionFases[faseActual].innerRadious : configuracionFases[faseActual].radious;
+            return Radius;
         }
         
         public void AddObjective()
