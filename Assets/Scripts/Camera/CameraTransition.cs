@@ -11,6 +11,20 @@ namespace Camera
         [SerializeField] private bool startFadeOut = true;
         private bool inTransition = false;
         private float alpha = 0f;
+        
+        private static CameraTransition _instance;
+        public static CameraTransition Instance
+        {
+            get
+            {
+                if (_instance is null)
+                {
+                    _instance = FindObjectOfType<CameraTransition>();
+                }
+    
+                return _instance;
+            }
+        }
 
         private void OnGUI()
         {
@@ -20,6 +34,8 @@ namespace Camera
 
         private void Start()
         {
+            
+            
             if (startFadeOut)
             {
                 StartFadeOut();
