@@ -152,6 +152,7 @@ namespace System
         {
             if (faseActual < numeroDeFases - 1)
             {
+                _currentPhaseObjectives = 0;
                 faseActual++;
                 DesactivatePlayerMovement();
                 ConfigurePhase();
