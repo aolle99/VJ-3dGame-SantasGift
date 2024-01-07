@@ -24,9 +24,6 @@ namespace Player
         [SerializeField] private float dashDuration = 0.2f;
         
         [SerializeField] private float dashSpeedMultiplier = 3f;
-
-        [Header("Objects")] 
-        //[SerializeField] private GameObject animatorObject;
         
         [SerializeField] private InputActionAsset playerActions;
         
@@ -69,10 +66,9 @@ namespace Player
 
         public bool ViewDirection { get; private set; } = true;
 
-        // Start is called before the first frame update
+
         private void Start()
         {
-            // Store starting direction of the player with respect to the axis of the level
             _charControl = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
             
@@ -92,7 +88,7 @@ namespace Player
 
             ViewDirection = true; // true = right, false = left
 
-            _dashTimer = dashDelay + dashDuration; // To allow first dash
+            _dashTimer = dashDelay + dashDuration; 
 
             anim = GetComponentInChildren<Animator>();
             
@@ -117,7 +113,6 @@ namespace Player
             
         }
 
-        // Update is called once per frame
         private void FixedUpdate()
         {
             ManageMovement();
@@ -251,9 +246,7 @@ namespace Player
 
         private void ManageJump()
         {
-            var position =
-                // Apply up-down movement
-                transform.position;
+            var position = transform.position;
             if (_charControl.Move(_speedY * Time.deltaTime * Vector3.up) != CollisionFlags.None)
             {
                 transform.position = position;

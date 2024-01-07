@@ -9,12 +9,12 @@ namespace Enemies.Kid
     {
         public float movementSpeed;
         public float gravityScale, jumpForce;
-        public Transform centerPoint; // Center point for the circular raycast
-        public LayerMask layerMask; // Layers to include in the raycast
-        public int numberOfRays = 36; // Number of rays to cast
+        public Transform centerPoint;
+        public LayerMask layerMask;
+        public int numberOfRays = 36;
         public float maxRayLength = 5f;
         public bool ViewDirection { get; private set; }
-        
+
         private float _angle = 0f;
         private Animator _anim;
         private Boolean _jumping = false;
@@ -28,11 +28,11 @@ namespace Enemies.Kid
         private KidController _kidController;
         [SerializeField] private int damageCaused = 3;
         [SerializeField] private PlayerController playerController;
-        
+
         private static readonly int Jump = Animator.StringToHash("jump");
         private static readonly int Steal = Animator.StringToHash("steal");
         private static readonly int Walk = Animator.StringToHash("walk");
-        
+
         // Start is called before the first frame update
         void Start()
         {
@@ -42,7 +42,7 @@ namespace Enemies.Kid
             _startDirection = kidTransform.position - parent.position;
             ViewDirection = false;
             _speedY = 0;
-            
+
             _anim = GetComponentInChildren<Animator>();
             _giftStateManager = GiftStateManager.Instance;
             _kidController = GetComponent<KidController>();
@@ -51,19 +51,19 @@ namespace Enemies.Kid
         void FixedUpdate()
         {
             ManageMovement();
-            ManageJump(); 
+            ManageJump();
             DetectObjecteNearBy();
             ManageStealAnimation();
         }
-        
+
         void ManageStealAnimation()
         {
-            if(_anim.GetBool(Steal))
+            if (_anim.GetBool(Steal))
             {
-                if(!_steal) _steal = true;
+                if (!_steal) _steal = true;
                 else _timerRunAway += Time.deltaTime;
                 movementSpeed = 0f;
-            } 
+            }
 
             if (_timerRunAway > 1f)
             {
@@ -72,14 +72,14 @@ namespace Enemies.Kid
                     ViewDirection = !ViewDirection;
                     _anim.SetBool(Steal, false);
                     movementSpeed = 12f;
-                    //ManageGiftsCount();
                     _kidController.UpdateLifeBar(2f);
                 }
                 else
-                {   
+                {
                     _timerRunAway += Time.deltaTime;
                 }
-            } 
+            }
+
             if (_timerRunAway > 3f)
             {
                 movementSpeed = 8f;
@@ -106,13 +106,12 @@ namespace Enemies.Kid
         {
             var kidPosition = transform.position;
             float radius = Mathf.Sqrt(kidPosition.x * kidPosition.x + kidPosition.z * kidPosition.z);
-            
+
             for (int i = 0; i < numberOfRays; i++)
             {
-                float angle = (i * 90f / numberOfRays) - (90f / 2f); // Calculate angle in degrees
-                Vector3 direction = Quaternion.Euler(0f, angle, 0f) * transform.forward; // Create direction vector
+                float angle = (i * 90f / numberOfRays) - (90f / 2f);
+                Vector3 direction = Quaternion.Euler(0f, angle, 0f) * transform.forward;
 
-                // Calculate ray origin and direction
                 Vector3 rayOrigin = centerPoint.position;
                 Vector3 rayDirection = direction * radius;
 
@@ -123,8 +122,8 @@ namespace Enemies.Kid
                     {
                         _jumping = true;
                     }
-                    
-                    if(hit.collider.gameObject.CompareTag("Santa") && !_anim.GetBool(Steal))
+
+                    if (hit.collider.gameObject.CompareTag("Santa") && !_anim.GetBool(Steal))
                     {
                         _anim.SetBool(Steal, true);
                         playerController.damagePlayer(damageCaused);
@@ -132,11 +131,11 @@ namespace Enemies.Kid
                 }
             }
         }
-        
+
         void ManageMovement()
         {
             var position = transform.position;
-            
+
             var actualRadius = Mathf.Sqrt(position.x * position.x + position.z * position.z);
             var wantedRadius = 25.0f;
             if (ViewDirection)
@@ -147,6 +146,7 @@ namespace Enemies.Kid
             {
                 _angle = movementSpeed * Time.deltaTime * wantedRadius / actualRadius;
             }
+
             var direction = position - transform.parent.position;
             direction = Quaternion.AngleAxis(_angle, Vector3.up) * direction;
             if (_charControl.Move(direction - position) == CollisionFlags.Sides)
@@ -155,52 +155,42 @@ namespace Enemies.Kid
                 Physics.SyncTransforms();
             }
         }
-        
+
         void ManageJump()
         {
             var position = transform.position;
-            //print(position);
-            Vector3 verticalMovement = new Vector3(0, _speedY, 0) * Time.deltaTime;
-            //print("verticalMovement: " + verticalMovement);
-            //print(_speedY);
 
-            // Apply the movement to the CharacterController
+            Vector3 verticalMovement = new Vector3(0, _speedY, 0) * Time.deltaTime;
+
+
             var collisions = _charControl.Move(verticalMovement);
-            if (collisions != CollisionFlags.None) 
+            if (collisions != CollisionFlags.None)
             {
-                if (collisions == CollisionFlags.Above) // If the character hits the ceiling or the floor don't jump
+                if (collisions == CollisionFlags.Above)
                 {
                     transform.position = position;
                     Physics.SyncTransforms();
                 }
             }
-            RaycastHit hit;
-            //bool isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, 0.5f);
-            
-            //print(isGrounded  + ", " + _charControl.isGrounded);
-            
+
+
             if (_charControl.isGrounded)
             {
                 _anim.SetBool(Jump, false);
                 _canJump = true;
                 if (_speedY < 0.0f) _speedY = 0.0f;
-                if(_canJump && _jumping)
+                if (_canJump && _jumping)
                 {
-                    print("jump");
                     _speedY = jumpForce;
                     _canJump = false;
                     _jumping = false;
                     _anim.SetBool(Jump, true);
-                    
                 }
-                //print("grounded");
             }
             else
             {
                 _speedY -= gravityScale * Time.deltaTime;
                 _jumping = false;
-                //print("not grounded");
-                
             }
         }
     }

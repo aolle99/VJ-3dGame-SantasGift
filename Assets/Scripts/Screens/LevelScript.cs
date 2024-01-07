@@ -117,10 +117,5 @@ namespace Screens
                 _clicked = true;
             };
         }
-
-        public void UpdateNumGifts()
-        {
-            
-        }
     }
 }

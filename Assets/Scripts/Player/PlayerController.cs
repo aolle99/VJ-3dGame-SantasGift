@@ -19,7 +19,7 @@ namespace Player
         private ParticleSystem _damageRedParticles;
 
         private CameraTransition _cameraTransition;
-        
+
         private void Start()
         {
             _isDead = false;
@@ -30,9 +30,8 @@ namespace Player
             _damageBlueParticles = transform.Find("DamageBlueEffect").GetComponent<ParticleSystem>();
             _damageRedParticles = transform.Find("DamageRedEffect").GetComponent<ParticleSystem>();
             _cameraTransition = CameraTransition.Instance;
-            
         }
-        
+
         public void OnImortal(InputAction.CallbackContext context)
         {
             if (context.started)
@@ -50,11 +49,11 @@ namespace Player
                 }
             }
         }
-        
+
         public void SetImortal(bool isImortal)
         {
-            if(_godMode) return;
-            
+            if (_godMode) return;
+
             _isInvincible = isImortal;
             if (_isInvincible)
             {
@@ -65,7 +64,7 @@ namespace Player
                 _inmortalParticles.Stop();
             }
         }
-        
+
         public void OnRefillAmmo(InputAction.CallbackContext context)
         {
             if (context.started)
@@ -91,15 +90,15 @@ namespace Player
             {
                 return false;
             }
-            
+
             AudioManager.instance.PlaySound("Damage");
-            _isDead = !_giftStateManager.removeRandomGift((int) damage);
-            
+            _isDead = !_giftStateManager.removeRandomGift((int)damage);
+
             _damageBlueParticles.Play();
             _damageRedParticles.Play();
-            
-            if(_isDead) playerdead();
-            
+
+            if (_isDead) playerdead();
+
             return true;
         }
 
@@ -109,13 +108,13 @@ namespace Player
             {
                 _cameraTransition.StartFadeIn();
             }
+
             Invoke(nameof(LoadNextScene), 1.5f);
         }
-        
+
         public void LoadNextScene()
         {
             SceneManager.LoadScene("GameOver");
         }
-
     }
 }

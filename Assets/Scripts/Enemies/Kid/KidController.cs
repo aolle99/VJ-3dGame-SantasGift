@@ -10,10 +10,10 @@ namespace Enemies.Kid
         private float _maxHealth;
         private float _currentShield;
         private float _maxShield;
-        [SerializeField]private HealthBar healthBar;
-        [SerializeField]private Shield shield;
+        [SerializeField] private HealthBar healthBar;
+        [SerializeField] private Shield shield;
         private GiftStateManager _giftStateManager;
-        
+
         void Start()
         {
             healthBar = GetComponentInChildren<HealthBar>();
@@ -39,7 +39,7 @@ namespace Enemies.Kid
         {
             GiftType amunitionSelected = _giftStateManager.GetAmmunitionSelected();
             GiftType shieldColor = shield.GetShieldColor();
-            
+
             if (_currentShield > 0f)
             {
                 if (amunitionSelected == shieldColor)

@@ -10,12 +10,12 @@ namespace Enemies.Snowball
         private float _maxHealth;
         private float _currentShield;
         private float _maxShield;
-        [SerializeField]private HealthBar healthBar;
-        [SerializeField]private Shield shield;
-        [SerializeField]private float damageCaused = 5f;
+        [SerializeField] private HealthBar healthBar;
+        [SerializeField] private Shield shield;
+        [SerializeField] private float damageCaused = 5f;
         private GiftStateManager _giftStateManager;
-        
-        
+
+
         void Start()
         {
             healthBar = GetComponentInChildren<HealthBar>();
@@ -41,7 +41,7 @@ namespace Enemies.Snowball
         {
             GiftType amunitionSelected = _giftStateManager.GetAmmunitionSelected();
             GiftType shieldColor = shield.GetShieldColor();
-            
+
             if (_currentShield > 0f)
             {
                 if (amunitionSelected == shieldColor)
@@ -55,8 +55,9 @@ namespace Enemies.Snowball
                 _currentHealth -= damageCaused;
                 healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
                 var actualSize = transform.localScale;
-                var reduceSize = 0.1f ;
-                transform.localScale = new Vector3(actualSize.x - reduceSize, actualSize.y - reduceSize, actualSize.z - reduceSize);
+                var reduceSize = 0.1f;
+                transform.localScale = new Vector3(actualSize.x - reduceSize, actualSize.y - reduceSize,
+                    actualSize.z - reduceSize);
             }
             else
             {

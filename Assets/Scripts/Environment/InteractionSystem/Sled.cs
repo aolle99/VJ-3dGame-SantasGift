@@ -8,13 +8,13 @@ namespace Environment.InteractionSystem
     {
         [SerializeField] private string prompt;
         [SerializeField] private string nextScene;
-        
+
         [SerializeField] private CameraTransition cameraTransition;
-        
+
         public string InteractionPrompt => prompt;
-        
+
         [SerializeField] private InteractionPromptUI _interactionPromptUI;
-        
+
         public InteractionPromptUI InteractionPromptUI
         {
             get => _interactionPromptUI;
@@ -27,14 +27,14 @@ namespace Environment.InteractionSystem
             {
                 cameraTransition.StartFadeIn();
             }
+
             Invoke(nameof(LoadNextScene), 1.6f);
-            
+
             return true;
         }
-        
+
         public void LoadNextScene()
         {
-            print("load next scene: " + nextScene);
             SceneManager.LoadScene(nextScene);
         }
     }

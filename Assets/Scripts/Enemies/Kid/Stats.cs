@@ -7,7 +7,7 @@ namespace Enemies.Kid
         public bool shield;
         public int gifts = 0;
         public int giftsNeeded = 3;
-        // Start is called before the first frame update
+
         void Start()
         {
             shield = true;
@@ -17,10 +17,9 @@ namespace Enemies.Kid
         {
             if (collision.gameObject.CompareTag("Gift"))
             {
-                if(shield)
+                if (shield)
                 {
                     shield = false;
-                    print("Shield Lost");
                 }
                 else
                 {
@@ -31,12 +30,6 @@ namespace Enemies.Kid
                     }
                 }
             }
-        }
-    
-        // Update is called once per frame
-        void Update()
-        {
-     
         }
     }
 }

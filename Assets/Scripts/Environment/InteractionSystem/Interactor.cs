@@ -7,20 +7,17 @@ namespace Environment.InteractionSystem
 {
     public class Interactor : MonoBehaviour
     {
-        [SerializeField]
-        private Transform interactionPoint;
-        
-        [SerializeField]
-        private float interactionRadius = 1f;
-        
-        [SerializeField]
-        private LayerMask interactableMask;
-        
+        [SerializeField] private Transform interactionPoint;
+
+        [SerializeField] private float interactionRadius = 1f;
+
+        [SerializeField] private LayerMask interactableMask;
+
         private readonly Collider[] _colliders = new Collider[3];
 
         private int numFound;
-        
-        
+
+
         private IInteractable _interactable = null;
 
         public void OnInteract(InputAction.CallbackContext context)
@@ -39,16 +36,17 @@ namespace Environment.InteractionSystem
 
         private void Update()
         {
-            numFound = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionRadius, _colliders, interactableMask);
+            numFound = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionRadius, _colliders,
+                interactableMask);
 
             if (numFound > 0)
             {
                 _interactable = _colliders[0].GetComponent<IInteractable>();
-                
+
                 if (_interactable != null)
                 {
                     var interactionPromptUI = _interactable.InteractionPromptUI;
-                    if(!interactionPromptUI.IsDisplayed)
+                    if (!interactionPromptUI.IsDisplayed)
                         interactionPromptUI.SetUp(_interactable.InteractionPrompt);
                 }
             }
