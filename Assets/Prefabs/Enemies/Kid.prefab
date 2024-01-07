@@ -405,7 +405,7 @@ GameObject:
   - component: {fileID: 687669124172497992}
   - component: {fileID: 4911267270482318792}
   - component: {fileID: 4621866947377372261}
-  - component: {fileID: 5973187825429269154}
+  - component: {fileID: 8971770058094872123}
   m_Layer: 3
   m_Name: Kid
   m_TagString: Enemy
@@ -500,7 +500,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   numberOfRays: 36
-  maxRayLength: 5
+  maxRayLength: 2
   damageCaused: 3
   playerController: {fileID: 0}
 --- !u!143 &687669124172497992
@@ -555,7 +555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 6551555191350883782}
   shield: {fileID: 866880873288651742}
---- !u!114 &5973187825429269154
+--- !u!114 &8971770058094872123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

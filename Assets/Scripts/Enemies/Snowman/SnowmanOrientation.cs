@@ -7,9 +7,12 @@ namespace Enemies.Snowman
     public class SnowmanOrientation : MonoBehaviour
     {
         [SerializeField] private PlayerController playerController;
+        private Vector3 _initialPosition;
+        
         public void Start()
         {
             playerController = FindObjectOfType<PlayerController>();
+            _initialPosition = transform.position;
             Orientate();
         }
 
@@ -45,10 +48,26 @@ namespace Enemies.Snowman
 
         private Boolean CheckPositionPlayer()
         {
-            Vector3 positionA = transform.position;
+            Vector3 positionA = _initialPosition;
+            print("positionA: " + positionA);
             Vector3 positionB = playerController.transform.position;
+            print("positionB: " + positionB);
             var radius = Mathf.Sqrt(positionA.x * positionA.x + positionA.z * positionA.z);
             
+            float angleClockwise = Mathf.Atan2(positionB.z - positionA.z, positionB.x - positionA.x) * Mathf.Rad2Deg;
+            if (angleClockwise < 0)
+                angleClockwise += 360f;
+
+            float angleAntiClockwise = 360f - angleClockwise;
+
+            // Calculate arc lengths
+            float arcLengthClockwise = (angleClockwise / 360f) * 2 * Mathf.PI * radius;
+            float arcLengthAntiClockwise = (angleAntiClockwise / 360f) * 2 * Mathf.PI * radius;
+
+            print("Distance Clockwise: " + arcLengthClockwise);
+            print("Distance AntiClockwise: " + arcLengthAntiClockwise);
+            return true;
+            /*
             // Calculate the angle between the objects
             Vector3 directionToPlayer = positionA - positionB;
             //print("angle: " + angle);
@@ -56,9 +75,10 @@ namespace Enemies.Snowman
             angle = (angle + 360f) % 360f;
 
             // Calculate the distances in both directions
-            float distanceClockwise = CalculateDistance(angle, radius) % 80;
-            float distanceAntiClockwise = CalculateDistance(360f - angle, radius) % 80;
-            return distanceAntiClockwise > distanceClockwise;
+            float distanceClockwise = CalculateDistance(angle, radius);
+            float distanceAntiClockwise = CalculateDistance(360f - angle, radius);
+            print("distanceClockwise: " + distanceClockwise + ", distanceAntiClockwise: " + distanceAntiClockwise);
+            return distanceAntiClockwise > distanceClockwise;*/
         }
         
         private float CalculateDistance(float angle, float radius)

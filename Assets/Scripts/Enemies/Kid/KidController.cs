@@ -31,11 +31,11 @@ namespace Enemies.Kid
         {
             if (other.CompareTag("Gift"))
             {
-                UpdateLifeBar();
+                UpdateLifeBar(5f);
             }
         }
 
-        public void UpdateLifeBar()
+        public void UpdateLifeBar(float damage)
         {
             GiftType amunitionSelected = _giftStateManager.GetAmmunitionSelected();
             GiftType shieldColor = shield.GetShieldColor();
@@ -44,13 +44,13 @@ namespace Enemies.Kid
             {
                 if (amunitionSelected == shieldColor)
                 {
-                    _currentShield -= 5f;
+                    _currentShield -= damage;
                     shield.UpdateShield(_maxShield, _currentShield);
                 }
             }
             else if (_currentHealth > 0f)
             {
-                _currentHealth -= 5f;
+                _currentHealth -= damage;
                 healthBar.UpdateHealthBar(_maxHealth, _currentHealth);
             }
             else

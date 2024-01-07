@@ -62,6 +62,7 @@ namespace Enemies.Kid
             {
                 if(!_steal) _steal = true;
                 else _timerRunAway += Time.deltaTime;
+                movementSpeed = 0f;
             } 
 
             if (_timerRunAway > 1f)
@@ -71,11 +72,11 @@ namespace Enemies.Kid
                     ViewDirection = !ViewDirection;
                     _anim.SetBool(Steal, false);
                     movementSpeed = 12f;
-                    ManageGiftsCount();
-                    _kidController.UpdateLifeBar();
+                    //ManageGiftsCount();
+                    _kidController.UpdateLifeBar(2f);
                 }
                 else
-                {
+                {   
                     _timerRunAway += Time.deltaTime;
                 }
             } 
@@ -120,13 +121,11 @@ namespace Enemies.Kid
                 {
                     if (hit.collider.gameObject.CompareTag("Obstacle") && !_jumping)
                     {
-                        //print("obstacle detected");
                         _jumping = true;
                     }
                     
                     if(hit.collider.gameObject.CompareTag("Santa") && !_anim.GetBool(Steal))
                     {
-                        print("santa detected");
                         _anim.SetBool(Steal, true);
                         playerController.damagePlayer(damageCaused);
                     }
@@ -137,14 +136,16 @@ namespace Enemies.Kid
         void ManageMovement()
         {
             var position = transform.position;
-            _angle = movementSpeed * Time.deltaTime;
+            
+            var actualRadius = Mathf.Sqrt(position.x * position.x + position.z * position.z);
+            var wantedRadius = 25.0f;
             if (ViewDirection)
             {
-                _angle = -movementSpeed * Time.deltaTime;
+                _angle = -movementSpeed * Time.deltaTime * wantedRadius / actualRadius;
             }
             else
             {
-                _angle = movementSpeed * Time.deltaTime;
+                _angle = movementSpeed * Time.deltaTime * wantedRadius / actualRadius;
             }
             var direction = position - transform.parent.position;
             direction = Quaternion.AngleAxis(_angle, Vector3.up) * direction;
