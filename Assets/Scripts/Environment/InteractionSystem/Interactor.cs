@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 namespace Environment.InteractionSystem
@@ -7,24 +8,38 @@ namespace Environment.InteractionSystem
     public class Interactor : MonoBehaviour
     {
         [SerializeField]
-        private Transform _interactionPoint;
+        private Transform interactionPoint;
         
         [SerializeField]
-        private float _interactionRadius = 1f;
+        private float interactionRadius = 1f;
         
         [SerializeField]
         private LayerMask interactableMask;
         
         private readonly Collider[] _colliders = new Collider[3];
 
-        [SerializeField] private int numFound;
+        private int numFound;
         
         
         private IInteractable _interactable = null;
 
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                if (_interactable != null)
+                {
+                    if (_interactable.Interact(this))
+                    {
+                        _interactable = null;
+                    }
+                }
+            }
+        }
+
         private void Update()
         {
-            numFound = Physics.OverlapSphereNonAlloc(_interactionPoint.position, _interactionRadius, _colliders, interactableMask);
+            numFound = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionRadius, _colliders, interactableMask);
 
             if (numFound > 0)
             {
@@ -35,14 +50,6 @@ namespace Environment.InteractionSystem
                     var interactionPromptUI = _interactable.InteractionPromptUI;
                     if(!interactionPromptUI.IsDisplayed)
                         interactionPromptUI.SetUp(_interactable.InteractionPrompt);
-                    
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        if (_interactable.Interact(this))
-                        {
-                            _interactable = null;
-                        }
-                    }
                 }
             }
             else
@@ -56,12 +63,6 @@ namespace Environment.InteractionSystem
                     }
                 }
             }
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(_interactionPoint.position, _interactionRadius);
         }
     }
 }
