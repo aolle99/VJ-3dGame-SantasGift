@@ -10,6 +10,8 @@ Projecte per a l'assignatura Videojocs (**VJ**) de la Facultat d'Informàtica de
 
 **Temàtica**: Joc basat en el videojoc d'steam [Orbital Bullet](https://store.steampowered.com/app/1167680/Orbital_Bullet__The_360_Roguelite/)
 
+**Nota obtinguda**: 10
+
 ## Descripció
 El projecte consisteix en realitzar les mecàniques bàsiques del joc 3D Orbital Bullet amb finalitats didàctiques i educatives. El joc consisteix en un personatge que es mou per un mapa circular i ha d'acabar amb tots els enemics que hi ha en el mapa. El joc es basa en la física de la gravetat i la inèrcia, per tant, el personatge es mou en una trajectòria circular i ha d'apuntar als enemics per a poder-los matar. 
 
